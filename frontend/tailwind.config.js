@@ -1,12 +1,9 @@
-// tailwind.config.js
+const withMT = require("@material-tailwind/react/utils/withMT");
 
-module.exports = {
-  content: [
-    './src/**/*.{js,jsx,ts,tsx}', // Include files where Tailwind should look for classes
-    './public/index.html', // Include your main HTML file
-  ],
+module.exports = withMT({
+  content: [],
   theme: {
-    extend: {}, // Optional: Extend Tailwind's default theme
+    extend: {},
   },
-  plugins: [], // Optional: Add any additional Tailwind plugins
-};
+  plugins: [],
+});
