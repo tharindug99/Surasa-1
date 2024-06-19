@@ -8,15 +8,12 @@ import PaymentSuccess from './Cart/Payment/successful';
 import PaymentCancel from './Cart/Payment/cancel';
 import Product from './Product';
 import Category from './Category';
-import { Button } from "@material-tailwind/react";
+
 
 const Views = () => {
   return (
       <>
         <Header/>
-
-          <Button>Button</Button>;
-
       </>
   );
 }
