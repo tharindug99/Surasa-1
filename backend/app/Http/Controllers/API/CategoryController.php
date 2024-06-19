@@ -29,7 +29,7 @@ class CategoryController extends Controller
 
         $category = new Category();
         $category->name = $validated['name'];
-        $category->description = $validated['description'];
+
 
         if ($request->hasFile('avatar')) {
             $avatar = $request->file('avatar');
@@ -54,7 +54,6 @@ class CategoryController extends Controller
 
         $category = Category::findOrFail($id);
         $category->name = $validated['name'];
-        $category->description = $validated['description'];
 
         if ($request->hasFile('avatar')) {
             $avatar = $request->file('avatar');

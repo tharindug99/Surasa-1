@@ -29,7 +29,6 @@ class CategoryRequest extends FormRequest
     {
         return [
             'name' => 'required|unique:categories,name,' . $this->id,
-            'description' => 'required',
             'avatar' => 'nullable|image|max:2048',
         ];
     }
@@ -39,7 +38,6 @@ class CategoryRequest extends FormRequest
         return [
             'name.required' => 'The category name is required.',
             'name.unique' => 'The category name has already been taken.',
-            'description.required' => 'The category description is required.',
             'avatar.image' => 'The category avatar must be an image file.',
             'avatar.max' => 'The category avatar may not be greater than 2MB.',
         ];

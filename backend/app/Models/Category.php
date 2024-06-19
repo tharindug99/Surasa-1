@@ -13,6 +13,8 @@ class Category extends Model
         return $avatar ? asset("/storage/categories/".$avatar) : null;
     }
 
+
+//    protected $fillable = ['name', 'avatar'];
     public function products(){
         return $this->hasMany(Product::class);
     }
