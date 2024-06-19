@@ -11,42 +11,14 @@ import Category from './Category';
 
 const Views = () => {
   return (
-    <>
-      <Header />
-      <div className="container my-5">
-        <Routes>
-          <Route
-            path="/"
-            element={<Landing title="Landing Page"/>}
-          />
-          <Route
-            path="/cart"
-            element={<Chat title="Your Cart"/>}
-          />
-          <Route
-            path="/product/:id"
-            element={<Product title="Product Details"/>}
-          />
-          <Route
-            path="/category/:id"
-            element={<Category title="Category Details"/>}
-          />
-          <Route
-            path="/payment/success"
-            element={<PaymentSuccess title="Payment was successful"/>}
-          />
-          <Route
-            path="/payment/cancel"
-            element={<PaymentCancel title="Payment was canceled"/>}
-          />
-          <Route 
-            path="*" 
-            element={<NotFound title="Page not found" />} 
-          />
-        </Routes>
-      </div>
+      <>
+        <Header/>
 
-    </>
+        <h1 className="text-3xl font-bold underline">
+          Hello world!
+        </h1>
+
+      </>
   );
 }
 

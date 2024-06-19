@@ -20,7 +20,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "postcss src/index.css -o build/index.css && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
