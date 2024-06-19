@@ -33,7 +33,7 @@ const ProductCard = props => {
       <div className="card-body">
         <h5 className="card-title">{product?.name}</h5>
         <p className="card-text">{product?.description}</p>
-        <p className="card-text"><strong>Price: ${product?.price.toFixed(2)}</strong></p>
+        <p className="card-text"><strong>Price: ${product?.price}</strong></p>
         <div className="d-grid gap-2">
           <button 
             className="btn btn-primary" 

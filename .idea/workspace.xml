@@ -4,11 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d937de62-ec1a-4c84-8794-a3b0c9f8362f" name="Changes" comment="03 Material UI 01">
+    <list default="true" id="d937de62-ec1a-4c84-8794-a3b0c9f8362f" name="Changes" comment="04 Category">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Models/Category.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/Category.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Models/Product.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/Product.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/database/factories/ProductFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/factories/ProductFactory.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/database/migrations/2023_04_18_115548_create_categories_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/migrations/2023_04_18_115548_create_categories_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/database/migrations/2023_04_18_115604_create_products_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/migrations/2023_04_18_115604_create_products_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/product/productCard.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/product/productCard.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/shared/header.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/shared/header.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/data/CategoryDefaultProps.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/data/CategoryDefaultProps.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/Landing/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/Landing/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -239,7 +245,7 @@
       <workItem from="1718783390720" duration="1343000" />
       <workItem from="1718788091404" duration="1802000" />
       <workItem from="1718789976839" duration="3420000" />
-      <workItem from="1718814037600" duration="1674000" />
+      <workItem from="1718814037600" duration="4753000" />
     </task>
     <task id="LOCAL-00001" summary="01 Run">
       <option name="closed" value="true" />
@@ -289,7 +295,15 @@
       <option name="project" value="LOCAL" />
       <updated>1718815135482</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="04 Category">
+      <option name="closed" value="true" />
+      <created>1718816123758</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1718816123758</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -312,6 +326,7 @@
     <MESSAGE value="02 Tailwind" />
     <MESSAGE value="03 Material UI" />
     <MESSAGE value="03 Material UI 01" />
-    <option name="LAST_COMMIT_MESSAGE" value="03 Material UI 01" />
+    <MESSAGE value="04 Category" />
+    <option name="LAST_COMMIT_MESSAGE" value="04 Category" />
   </component>
 </project>

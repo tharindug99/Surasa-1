@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id(); // id INT AUTO_INCREMENT PRIMARY KEY
             $table->string('name'); // name VARCHAR(255) NOT NULL
-            $table->string('image')->nullable(); // image VARCHAR(255) NULL
+            $table->string('avatar')->nullable(); // image VARCHAR(255) NULL
             $table->timestamps(); // created_at and updated_at timestamps
         });
     }
