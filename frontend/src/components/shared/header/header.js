@@ -8,6 +8,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import Button from '@mui/material/Button';
+import { deepYellow, yellow, white } from '@mui/material/colors';
 import {APP_NAME} from 'configs/AppConfig';
 
 const Header = props => {
@@ -111,11 +112,35 @@ const Header = props => {
           </div>
         ) : (
           <div className="hidden lg:flex md:flex space-x-4">
-                    <Button 
+                    <Button
+                        disableElevation 
                         variant="contained" 
-                        className="bg-yellow-800 !important hover:bg-yellow-700 !important"
-                        onClick={() => navigate('/register')}> Register</Button>
-                    <Button variant="outlined" onClick={() => navigate('/login')}> Login</Button>
+                        onClick={() => navigate('/register')}
+                        sx={{
+                            bgcolor:yellow[700],
+                            '&:hover': {
+                            bgcolor: 'transparent',
+                            borderWidth:2,
+                            borderColor: yellow[800], 
+                            color: yellow[800], 
+                            }
+                        }}> Register</Button>
+                    <Button
+                        disableElevation 
+                        variant="outlined"
+                        sx={{
+                            borderColor: yellow[700], 
+                            color: yellow[700], 
+                            '&:hover': {
+                            borderColor: yellow[800], 
+                            color: 'white',
+                            bgcolor: yellow[700], 
+                            }
+                        }} 
+                        onClick={() => navigate('/login')}
+                        >
+                        Login
+                        </Button>
           </div>
         )}
         {/* Hamburger Menu for Small Screens */}
