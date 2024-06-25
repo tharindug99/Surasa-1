@@ -5,16 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d937de62-ec1a-4c84-8794-a3b0c9f8362f" name="Changes" comment="04 Category">
+      <change afterPath="$PROJECT_DIR$/backend/.env.example" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/views/Home/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/phpunit.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/phpunit.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Models/Product.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/Product.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/factories/ProductFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/factories/ProductFactory.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/migrations/2023_04_18_115548_create_categories_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/migrations/2023_04_18_115548_create_categories_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/migrations/2023_04_18_115604_create_products_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/migrations/2023_04_18_115604_create_products_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/product/productCard.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/product/productCard.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/backend/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/public/favicon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/public/favicon.ico" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/public/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/shared/header.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/shared/header.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/data/CategoryDefaultProps.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/data/CategoryDefaultProps.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/Landing/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/Landing/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/configs/AppConfig.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/configs/AppConfig.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/views/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -194,22 +198,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/online-shopping/backend&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/online-shopping/backend",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "yarn",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="ReactDesignerToolWindowState">
     <option name="myId2Visible">
       <map>
@@ -246,6 +251,7 @@
       <workItem from="1718788091404" duration="1802000" />
       <workItem from="1718789976839" duration="3420000" />
       <workItem from="1718814037600" duration="4753000" />
+      <workItem from="1719293444079" duration="2024000" />
     </task>
     <task id="LOCAL-00001" summary="01 Run">
       <option name="closed" value="true" />
