@@ -4,6 +4,11 @@
     transition: color 0.3s ease; /* Smooth transition for color change */
 }
 
+.nav-link:hover{
+    color: #F0C903;
+    cursor: pointer;
+}
+
 .nav-link:hover,
 .dropdown-link:hover {
     color: #F0C903;

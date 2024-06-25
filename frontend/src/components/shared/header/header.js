@@ -58,7 +58,7 @@ const Header = props => {
           <li>
           
             <Link
-              className="nav-link"
+              className="dropdown-link"
               activeClass="active"
               to="/"
               spy={true}
@@ -71,7 +71,7 @@ const Header = props => {
           </li>
           <li>
             <Link
-              className="nav-link"
+              className="dropdown-link"
               activeClass="active"
               to="aboutus"
               spy={true}
@@ -84,7 +84,7 @@ const Header = props => {
           </li>
           <li>
             <Link
-              className="nav-link"
+              className="dropdown-link"
               activeClass="active"
               to="contact"
               spy={true}
