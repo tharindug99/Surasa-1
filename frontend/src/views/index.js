@@ -3,6 +3,7 @@ import {Route, Routes} from "react-router-dom";
 import Landing from './Landing';
 import NotFound from './Error/404';
 import Header from 'components/shared/header/header';
+import Footer from 'components/shared/footer';
 import Chat from './Cart';
 import PaymentSuccess from './Cart/Payment/successful';
 import PaymentCancel from './Cart/Payment/cancel';
@@ -21,8 +22,17 @@ const Views = () => {
                         path="/"
                         element={<Landing title="Landing Page"/>}
                     />
+                    <Route
+                        path="/register"
+                        element={<Landing title="Landing Page"/>}
+                    />
+                    <Route
+                        path="/login"
+                        element={<Landing title="Landing Page"/>}
+                    />
                 </Routes>
             </div>
+            <Footer/>
         </>
     );
 }
