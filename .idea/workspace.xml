@@ -4,9 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d937de62-ec1a-4c84-8794-a3b0c9f8362f" name="Changes" comment="Changes Names">
+    <list default="true" id="d937de62-ec1a-4c84-8794-a3b0c9f8362f" name="Changes" comment="Nav Add">
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/Component 01/component01.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/Component 02/component02.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/shared/header.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/shared/header.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/Home/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/Home/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -193,7 +198,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/online-shopping/backend",
+    "last_opened_file_path": "E:/Surasa/frontend/src/components",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -211,6 +216,11 @@
         <entry key="com.intellij.reactbuddy.storybook" value="false" />
       </map>
     </option>
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\Surasa\frontend\src\components" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration name="Main" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
@@ -239,7 +249,7 @@
       <workItem from="1718788091404" duration="1802000" />
       <workItem from="1718789976839" duration="3420000" />
       <workItem from="1718814037600" duration="4753000" />
-      <workItem from="1719293444079" duration="3575000" />
+      <workItem from="1719293444079" duration="4799000" />
     </task>
     <task id="LOCAL-00001" summary="01 Run">
       <option name="closed" value="true" />
@@ -305,7 +315,15 @@
       <option name="project" value="LOCAL" />
       <updated>1719295801899</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Nav Add">
+      <option name="closed" value="true" />
+      <created>1719297435194</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1719297435194</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -330,6 +348,7 @@
     <MESSAGE value="03 Material UI 01" />
     <MESSAGE value="04 Category" />
     <MESSAGE value="Changes Names" />
-    <option name="LAST_COMMIT_MESSAGE" value="Changes Names" />
+    <MESSAGE value="Nav Add" />
+    <option name="LAST_COMMIT_MESSAGE" value="Nav Add" />
   </component>
 </project>
