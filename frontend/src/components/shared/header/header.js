@@ -7,6 +7,7 @@ import {faShoppingCart} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
+import Button from '@mui/material/Button';
 import {APP_NAME} from 'configs/AppConfig';
 
 const Header = props => {
@@ -54,6 +55,7 @@ const Header = props => {
         {/* Navigation Links */}
         <ul className="hidden lg:flex ml-24 space-x-4">
           <li>
+          
             <Link
               className="nav-link"
               activeClass="active"
@@ -109,8 +111,11 @@ const Header = props => {
           </div>
         ) : (
           <div className="hidden lg:flex md:flex space-x-4">
-            <button className="register-button" onClick={() => navigate('/register')}>Register</button>
-            <button className="login-button" onClick={() => navigate('/login')}>Login</button>
+                    <Button 
+                        variant="contained" 
+                        className="bg-yellow-800 !important hover:bg-yellow-700 !important"
+                        onClick={() => navigate('/register')}> Register</Button>
+                    <Button variant="outlined" onClick={() => navigate('/login')}> Login</Button>
           </div>
         )}
         {/* Hamburger Menu for Small Screens */}
