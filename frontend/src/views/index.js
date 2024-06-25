@@ -2,7 +2,10 @@ import React from 'react';
 import {Route, Routes} from "react-router-dom";
 import Landing from './Landing';
 import NotFound from './Error/404';
-import Header from 'components/shared/header';
+import Header from 'components/shared/header/header';
+import Footer from 'components/shared/footer';
+import Login from './Login/login';
+import Register from './Register/register';
 import Chat from './Cart';
 import PaymentSuccess from './Cart/Payment/successful';
 import PaymentCancel from './Cart/Payment/cancel';
@@ -21,8 +24,17 @@ const Views = () => {
                         path="/"
                         element={<Landing title="Landing Page"/>}
                     />
+                    <Route
+                        path="/register"
+                        element={<Register/>}
+                    />
+                    <Route
+                        path="/login"
+                        element={<Login/>}
+                    />
                 </Routes>
             </div>
+            <Footer/>
         </>
     );
 }
