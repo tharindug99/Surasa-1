@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,10 @@ class DailyMenuItemFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'product_id' => Product::factory(), // Creates a new product and assigns its id
+            'description' => $this->faker->paragraph, // Generates a random paragraph for the description
+            'image' => 'https://placehold.co/300x200', // Placeholder image URL
+            'date' => $this->faker->date() // Generates a random date
         ];
     }
 }

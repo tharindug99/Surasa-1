@@ -9,6 +9,8 @@ class Product extends Model
 {
     use HasFactory;
 
+
+
     public function getAvatarAttribute($avatar){
         return $avatar ? asset("/storage/products/".$avatar) : null;
     }

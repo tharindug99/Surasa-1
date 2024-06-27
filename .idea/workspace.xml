@@ -4,16 +4,27 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d937de62-ec1a-4c84-8794-a3b0c9f8362f" name="Changes" comment="Add Models">
+    <list default="true" id="d937de62-ec1a-4c84-8794-a3b0c9f8362f" name="Changes" comment="Add Migrations">
+      <change afterPath="$PROJECT_DIR$/backend/database/seeders/UserSeeder.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/migrations/2014_10_12_000000_create_users_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/migrations/2014_10_12_000000_create_users_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/migrations/2024_06_27_092030_create_daily_menu_items_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/migrations/2024_06_27_092030_create_daily_menu_items_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/migrations/2024_06_27_092104_create_orders_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/migrations/2024_06_27_092104_create_orders_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/migrations/2024_06_27_092113_create_order_items_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/migrations/2024_06_27_092113_create_order_items_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/migrations/2024_06_27_092123_create_reviews_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/migrations/2024_06_27_092123_create_reviews_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/migrations/2024_06_27_092127_create_contact_us_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/migrations/2024_06_27_092127_create_contact_us_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/migrations/2024_06_27_092133_create_admins_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/migrations/2024_06_27_092133_create_admins_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/migrations/2024_06_27_092158_create_booking_requests_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/migrations/2024_06_27_092158_create_booking_requests_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Models/Category.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/Category.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Models/Product.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/Product.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/database/factories/AdminFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/factories/AdminFactory.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/database/factories/BookingRequestFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/factories/BookingRequestFactory.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/database/factories/ContactUsFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/factories/ContactUsFactory.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/database/factories/DailyMenuItemFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/factories/DailyMenuItemFactory.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/database/factories/OrderFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/factories/OrderFactory.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/database/factories/OrderItemFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/factories/OrderItemFactory.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/database/factories/ReviewFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/factories/ReviewFactory.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/database/factories/UserFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/factories/UserFactory.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/database/seeders/AdminSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/seeders/AdminSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/database/seeders/BookingRequestSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/seeders/BookingRequestSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/database/seeders/ContactUsSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/seeders/ContactUsSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/database/seeders/DailyMenuItemSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/seeders/DailyMenuItemSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/database/seeders/DatabaseSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/seeders/DatabaseSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/database/seeders/OrderItemSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/seeders/OrderItemSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/database/seeders/OrderSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/seeders/OrderSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/database/seeders/ReviewSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/seeders/ReviewSeeder.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -265,7 +276,7 @@
       <workItem from="1719312169503" duration="94000" />
       <workItem from="1719475983141" duration="121000" />
       <workItem from="1719476282452" duration="112000" />
-      <workItem from="1719476912634" duration="2433000" />
+      <workItem from="1719476912634" duration="4015000" />
     </task>
     <task id="LOCAL-00001" summary="01 Run">
       <option name="closed" value="true" />
@@ -363,7 +374,15 @@
       <option name="project" value="LOCAL" />
       <updated>1719480157437</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Add Migrations">
+      <option name="closed" value="true" />
+      <created>1719480930356</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1719480930356</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -392,6 +411,7 @@
     <MESSAGE value="Add Component Animation" />
     <MESSAGE value="Checked" />
     <MESSAGE value="Add Models" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add Models" />
+    <MESSAGE value="Add Migrations" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add Migrations" />
   </component>
 </project>

@@ -17,7 +17,11 @@ class AdminFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => $this->faker->name, // Generates a random name
+            'phone_num' => $this->faker->phoneNumber, // Generates a random phone number
+            'password' => bcrypt('password'), // Default password
+            'created_at' => now(),
+            'updated_at' => now()
         ];
     }
 }
