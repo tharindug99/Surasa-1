@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -12,8 +13,19 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->id(); // id INT AUTO_INCREMENT PRIMARY KEY
+            $table->unsignedBigInteger('user_id'); // user_id INT NOT NULL
+            $table->string('full_name'); // full_name VARCHAR(255) NOT NULL
+            $table->string('mobile_number', 20); // mobile_number VARCHAR(20) NOT NULL
+            $table->timestamp('order_time')->default(DB::raw('CURRENT_TIMESTAMP')); // order_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+            $table->text('address'); // address TEXT NOT NULL
+            $table->timestamps(); // created_at and updated_at timestamps
+
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade') // Cascade on delete
+                ->onUpdate('cascade'); // Cascade on update
         });
     }
 

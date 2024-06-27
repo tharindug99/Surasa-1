@@ -12,8 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('contact_us', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->id(); // id INT AUTO_INCREMENT PRIMARY KEY
+            $table->string('name'); // name VARCHAR(255) NOT NULL
+            $table->string('email'); // email VARCHAR(255) NOT NULL
+            $table->text('message'); // message TEXT NOT NULL
+            $table->timestamps(); // created_at and updated_at timestamps
         });
     }
 

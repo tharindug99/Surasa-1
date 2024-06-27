@@ -12,8 +12,25 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('order_items', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->id(); // id INT AUTO_INCREMENT PRIMARY KEY
+            $table->unsignedBigInteger('order_id'); // order_id INT NOT NULL
+            $table->unsignedBigInteger('product_id'); // product_id INT NOT NULL
+            $table->decimal('price', 10, 2); // price DECIMAL(10,2) NOT NULL
+            $table->integer('quantity'); // quantity INT NOT NULL
+            $table->decimal('total_cost', 10, 2); // total_cost DECIMAL(10,2) NOT NULL
+            $table->timestamps(); // created_at and updated_at timestamps
+
+            $table->foreign('order_id')
+                ->references('id')
+                ->on('orders')
+                ->onDelete('cascade') // Cascade on delete
+                ->onUpdate('cascade'); // Cascade on update
+
+            $table->foreign('product_id')
+                ->references('id')
+                ->on('products')
+                ->onDelete('cascade') // Cascade on delete
+                ->onUpdate('cascade'); // Cascade on update
         });
     }
 

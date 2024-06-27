@@ -4,10 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d937de62-ec1a-4c84-8794-a3b0c9f8362f" name="Changes" comment="Checked">
+    <list default="true" id="d937de62-ec1a-4c84-8794-a3b0c9f8362f" name="Changes" comment="Add Models">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Models/Category.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/Category.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/migrations/2019_08_19_000000_create_failed_jobs_table.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/database/migrations/2014_10_12_000000_create_users_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/migrations/2014_10_12_000000_create_users_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/database/migrations/2024_06_27_092030_create_daily_menu_items_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/migrations/2024_06_27_092030_create_daily_menu_items_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/database/migrations/2024_06_27_092104_create_orders_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/migrations/2024_06_27_092104_create_orders_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/database/migrations/2024_06_27_092113_create_order_items_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/migrations/2024_06_27_092113_create_order_items_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/database/migrations/2024_06_27_092123_create_reviews_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/migrations/2024_06_27_092123_create_reviews_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/database/migrations/2024_06_27_092127_create_contact_us_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/migrations/2024_06_27_092127_create_contact_us_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/database/migrations/2024_06_27_092133_create_admins_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/migrations/2024_06_27_092133_create_admins_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/database/migrations/2024_06_27_092158_create_booking_requests_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/migrations/2024_06_27_092158_create_booking_requests_table.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -259,7 +265,7 @@
       <workItem from="1719312169503" duration="94000" />
       <workItem from="1719475983141" duration="121000" />
       <workItem from="1719476282452" duration="112000" />
-      <workItem from="1719476912634" duration="1437000" />
+      <workItem from="1719476912634" duration="2433000" />
     </task>
     <task id="LOCAL-00001" summary="01 Run">
       <option name="closed" value="true" />
@@ -349,7 +355,15 @@
       <option name="project" value="LOCAL" />
       <updated>1719477363590</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Add Models">
+      <option name="closed" value="true" />
+      <created>1719480157437</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1719480157437</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -377,6 +391,7 @@
     <MESSAGE value="Nav Add" />
     <MESSAGE value="Add Component Animation" />
     <MESSAGE value="Checked" />
-    <option name="LAST_COMMIT_MESSAGE" value="Checked" />
+    <MESSAGE value="Add Models" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add Models" />
   </component>
 </project>
