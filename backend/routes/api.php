@@ -2,11 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\API\{
-    CategoryController,
-    PaymentController,
-    ProductController
-};
+use App\Http\Controllers\API\{AdminController, CategoryController, PaymentController, ProductController};
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -25,8 +21,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::group(['prefix' => 'payment'], function() {
 
     Route::post('/', [PaymentController::class, 'makePayment']);
-    
+
 });
 
 Route::apiResource('categories', CategoryController::class);
 Route::apiResource('products', ProductController::class);
+Route::apiResource('admins', AdminController::class);

@@ -14,7 +14,7 @@ class CategoryController extends Controller
         return response()->json($categories);
     }
 
-    public function show($id)
+    public function show($id): \Illuminate\Http\JsonResponse
     {
         $category = Category::with('products')->find($id);
         if (!$category) {

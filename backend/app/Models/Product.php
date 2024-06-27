@@ -15,7 +15,7 @@ class Product extends Model
         return $avatar ? asset("/storage/products/".$avatar) : null;
     }
 
-//    protected $fillable = ['category_id', 'name', 'price', 'description', 'avatar'];
+    protected $fillable = ['category_id', 'name', 'price', 'description', 'avatar'];
 
     public function category(){
         return $this->belongsTo(Category::class);

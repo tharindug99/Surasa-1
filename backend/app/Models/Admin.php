@@ -9,10 +9,10 @@ class Admin extends Model
 {
     use HasFactory;
 
-  /*  protected $fillable = [
+    protected $fillable = [
         'name',
         'phone_num',
         'password'
-    ];*/
+    ];
 
 }
