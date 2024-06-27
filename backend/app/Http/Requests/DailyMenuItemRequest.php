@@ -3,6 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Contracts\Validation\Validator;
+
 
 class DailyMenuItemRequest extends FormRequest
 {
@@ -11,7 +14,11 @@ class DailyMenuItemRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
+    }
+
+    protected function failedValidation(Validator $validator) {
+        throw new HttpResponseException(response()->json($validator->errors()->getMessages(), 422));
     }
 
     /**
@@ -22,7 +29,25 @@ class DailyMenuItemRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'product_id' => 'required|exists:products,id',
+            'description' => 'required|string',
+            'image' => 'required|string|max:255',
+            'date' => 'required|date',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'product_id.required' => 'The product ID is required.',
+            'product_id.exists' => 'The selected product ID is invalid.',
+            'description.required' => 'The description is required.',
+            'description.string' => 'The description must be a string.',
+            'image.required' => 'The image is required.',
+            'image.string' => 'The image must be a string.',
+            'image.max' => 'The image may not be greater than 255 characters.',
+            'date.required' => 'The date is required.',
+            'date.date' => 'The date must be a valid date.',
         ];
     }
 }
