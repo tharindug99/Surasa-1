@@ -4,27 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d937de62-ec1a-4c84-8794-a3b0c9f8362f" name="Changes" comment="Add Migrations">
-      <change afterPath="$PROJECT_DIR$/backend/database/seeders/UserSeeder.php" afterDir="false" />
+    <list default="true" id="d937de62-ec1a-4c84-8794-a3b0c9f8362f" name="Changes" comment="Add Seeders">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Models/Category.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/Category.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Models/Admin.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/Admin.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Models/BookingRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/BookingRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Models/ContactUs.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/ContactUs.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Models/DailyMenuItem.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/DailyMenuItem.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Models/Order.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/Order.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Models/OrderItem.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/OrderItem.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/app/Models/Product.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/Product.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/factories/AdminFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/factories/AdminFactory.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/factories/BookingRequestFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/factories/BookingRequestFactory.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/factories/ContactUsFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/factories/ContactUsFactory.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/factories/DailyMenuItemFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/factories/DailyMenuItemFactory.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/factories/OrderFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/factories/OrderFactory.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/factories/OrderItemFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/factories/OrderItemFactory.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/factories/ReviewFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/factories/ReviewFactory.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/factories/UserFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/factories/UserFactory.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/seeders/AdminSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/seeders/AdminSeeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/seeders/BookingRequestSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/seeders/BookingRequestSeeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/seeders/ContactUsSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/seeders/ContactUsSeeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/seeders/DailyMenuItemSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/seeders/DailyMenuItemSeeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/seeders/DatabaseSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/seeders/DatabaseSeeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/seeders/OrderItemSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/seeders/OrderItemSeeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/seeders/OrderSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/seeders/OrderSeeder.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/seeders/ReviewSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/seeders/ReviewSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Models/Review.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/Review.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/User.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,10 +65,10 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/frontend/src/components/shared/header.js" root0="FORCE_HIGHLIGHTING" />
   </component>
-  <component name="KubernetesApiPersistence"><![CDATA[{}]]></component>
-  <component name="KubernetesApiProvider"><![CDATA[{
-  "isMigrated": true
-}]]></component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
   <component name="PhpWorkspaceProjectConfiguration" interpreter_name="C:\php-8.3.8\php.exe">
     <include_path>
       <path value="$PROJECT_DIR$/backend/vendor/psr/event-dispatcher" />
@@ -208,29 +199,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/WEB/Surasa DEV Work",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "yarn",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/WEB/Surasa DEV Work&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="ReactDesignerToolWindowState">
     <option name="myId2Visible">
       <map>
@@ -276,7 +267,9 @@
       <workItem from="1719312169503" duration="94000" />
       <workItem from="1719475983141" duration="121000" />
       <workItem from="1719476282452" duration="112000" />
-      <workItem from="1719476912634" duration="4015000" />
+      <workItem from="1719476912634" duration="4209000" />
+      <workItem from="1719491312782" duration="5673000" />
+      <workItem from="1719500681740" duration="497000" />
     </task>
     <task id="LOCAL-00001" summary="01 Run">
       <option name="closed" value="true" />
@@ -382,7 +375,15 @@
       <option name="project" value="LOCAL" />
       <updated>1719480930356</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Add Seeders">
+      <option name="closed" value="true" />
+      <created>1719482505379</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1719482505379</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -412,6 +413,7 @@
     <MESSAGE value="Checked" />
     <MESSAGE value="Add Models" />
     <MESSAGE value="Add Migrations" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add Migrations" />
+    <MESSAGE value="Add Seeders" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add Seeders" />
   </component>
 </project>

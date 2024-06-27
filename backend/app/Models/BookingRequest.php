@@ -8,4 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class BookingRequest extends Model
 {
     use HasFactory;
+
+    /*protected $fillable = [
+        'name',
+        'phone_num',
+        'email',
+        'facility',
+        'start_time',
+        'end_time',
+        'event_name'
+    ];*/
+
 }
