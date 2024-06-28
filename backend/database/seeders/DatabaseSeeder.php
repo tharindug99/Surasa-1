@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
                 ReviewSeeder::class,
                 ContactUsSeeder::class,
                 AdminSeeder::class,
-                BookingRequestSeeder::class,
+                BookingSeeder::class,
             ]
         );
 

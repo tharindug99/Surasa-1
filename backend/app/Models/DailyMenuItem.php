@@ -9,12 +9,12 @@ class DailyMenuItem extends Model
 {
     use HasFactory;
 
-    /* protected $fillable = [
+    protected $fillable = [
          'product_id',
          'description',
          'image',
          'date'
-     ];*/
+     ];
 
     public function product()
     {

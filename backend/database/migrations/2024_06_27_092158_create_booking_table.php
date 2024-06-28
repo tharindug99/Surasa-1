@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('booking_requests', function (Blueprint $table) {
+        Schema::create('bookings', function (Blueprint $table) {
             $table->id(); // id INT AUTO_INCREMENT PRIMARY KEY
             $table->string('name'); // name VARCHAR(255) NOT NULL
             $table->string('phone_num', 20); // phone_num VARCHAR(20) NOT NULL
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('booking_requests');
+        Schema::dropIfExists('bookings');
     }
 };

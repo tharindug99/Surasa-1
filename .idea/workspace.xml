@@ -4,13 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d937de62-ec1a-4c84-8794-a3b0c9f8362f" name="Changes" comment="Add Requests">
+    <list default="true" id="d937de62-ec1a-4c84-8794-a3b0c9f8362f" name="Changes" comment="Admin CRUD Success">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/API/AdminController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/API/AdminController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/API/CategoryController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/API/CategoryController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Models/Admin.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/Admin.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Models/Category.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/Category.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Models/Product.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/Product.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/API/BookingRequestController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/API/BookingController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/API/ContactUsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/API/ContactUsController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/API/DailyMenuItemController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/API/DailyMenuItemController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Models/BookingRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/Booking.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Models/ContactUs.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/ContactUs.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Models/DailyMenuItem.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/DailyMenuItem.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Models/Order.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/Order.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/database/factories/BookingRequestFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/factories/BookingFactory.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/database/migrations/2024_06_27_092158_create_booking_requests_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/migrations/2024_06_27_092158_create_booking_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/database/seeders/BookingRequestSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/seeders/BookingSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/database/seeders/DatabaseSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/seeders/DatabaseSeeder.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -42,12 +49,12 @@
               <option name="branches">
                 <list>
                   <RecentBranch>
-                    <option name="branchName" value="master" />
-                    <option name="lastUsedInstant" value="1718789008" />
+                    <option name="branchName" value="APIs" />
+                    <option name="lastUsedInstant" value="1719541041" />
                   </RecentBranch>
                   <RecentBranch>
-                    <option name="branchName" value="main" />
-                    <option name="lastUsedInstant" value="1718789007" />
+                    <option name="branchName" value="master" />
+                    <option name="lastUsedInstant" value="1718789008" />
                   </RecentBranch>
                 </list>
               </option>
@@ -195,29 +202,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/WEB/Surasa DEV Work&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "APIs",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/WEB/Surasa DEV Work",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "yarn",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;mysql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
     ]
   }
-}</component>
+}]]></component>
   <component name="ReactDesignerToolWindowState">
     <option name="myId2Visible">
       <map>
@@ -265,7 +272,8 @@
       <workItem from="1719476282452" duration="112000" />
       <workItem from="1719476912634" duration="4209000" />
       <workItem from="1719491312782" duration="5673000" />
-      <workItem from="1719500681740" duration="8667000" />
+      <workItem from="1719500681740" duration="8821000" />
+      <workItem from="1719540941484" duration="4275000" />
     </task>
     <task id="LOCAL-00001" summary="01 Run">
       <option name="closed" value="true" />
@@ -403,7 +411,15 @@
       <option name="project" value="LOCAL" />
       <updated>1719509561964</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Admin CRUD Success">
+      <option name="closed" value="true" />
+      <created>1719512830943</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1719512830943</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -436,6 +452,7 @@
     <MESSAGE value="Add Models" />
     <MESSAGE value="Add Requests and Controllers" />
     <MESSAGE value="Add Requests" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add Requests" />
+    <MESSAGE value="Admin CRUD Success" />
+    <option name="LAST_COMMIT_MESSAGE" value="Admin CRUD Success" />
   </component>
 </project>
