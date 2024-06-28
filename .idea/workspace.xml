@@ -4,13 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d937de62-ec1a-4c84-8794-a3b0c9f8362f" name="Changes" comment="Completed APIs Basics need change according to the requirements">
+    <list default="true" id="d937de62-ec1a-4c84-8794-a3b0c9f8362f" name="Changes" comment="front">
+      <change afterPath="$PROJECT_DIR$/frontend/src/data/AdminDefaultProps.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/data/BookingDefaultProps.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/data/ContactUsDefaultProps.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/data/DailyMenuItemDefaultProps.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/data/OrderDefaultProps.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/data/OrderItemDefaultProps.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/data/ReviewDefaultProps.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/data/UserDefaultProps.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/shared/header.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/shared/header/header.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/shared/header/header.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/Landing/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/Landing/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/Product/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/Product/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,6 +44,10 @@
             <RecentBranchesForRepo>
               <option name="branches">
                 <list>
+                  <RecentBranch>
+                    <option name="branchName" value="FetchData" />
+                    <option name="lastUsedInstant" value="1719594539" />
+                  </RecentBranch>
                   <RecentBranch>
                     <option name="branchName" value="APIs" />
                     <option name="lastUsedInstant" value="1719541041" />
@@ -199,10 +207,10 @@
     "ASKED_ADD_EXTERNAL_FILES": "true",
     "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "APIs",
+    "git-widget-placeholder": "FetchData",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "E:/Surasa/frontend",
+    "last_opened_file_path": "E:/Surasa/frontend/src/data",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -229,6 +237,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\Surasa\frontend\src\data" />
       <recent name="E:\Surasa\frontend" />
       <recent name="E:\Surasa\frontend\src\components" />
     </key>
@@ -267,7 +276,9 @@
       <workItem from="1719476912634" duration="4209000" />
       <workItem from="1719491312782" duration="5673000" />
       <workItem from="1719500681740" duration="8821000" />
-      <workItem from="1719540941484" duration="13771000" />
+      <workItem from="1719540941484" duration="14602000" />
+      <workItem from="1719593799064" duration="98000" />
+      <workItem from="1719594272104" duration="1702000" />
     </task>
     <task id="LOCAL-00001" summary="01 Run">
       <option name="closed" value="true" />
@@ -445,7 +456,15 @@
       <option name="project" value="LOCAL" />
       <updated>1719554410240</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="front">
+      <option name="closed" value="true" />
+      <created>1719560571906</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1719560571906</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -483,6 +502,7 @@
     <MESSAGE value="Up To Order Item Controllers" />
     <MESSAGE value="ADD Review Controllers" />
     <MESSAGE value="Completed APIs Basics need change according to the requirements" />
-    <option name="LAST_COMMIT_MESSAGE" value="Completed APIs Basics need change according to the requirements" />
+    <MESSAGE value="front" />
+    <option name="LAST_COMMIT_MESSAGE" value="front" />
   </component>
 </project>
