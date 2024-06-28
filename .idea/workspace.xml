@@ -4,11 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d937de62-ec1a-4c84-8794-a3b0c9f8362f" name="Changes" comment="ADD Review Controllers">
+    <list default="true" id="d937de62-ec1a-4c84-8794-a3b0c9f8362f" name="Changes" comment="Completed APIs Basics need change according to the requirements">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/API/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/API/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/api.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/shared/header.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/shared/header/header.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/shared/header/header.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/Landing/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/Landing/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/Product/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/Product/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -200,13 +202,14 @@
     "git-widget-placeholder": "APIs",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/WEB/Surasa DEV Work",
+    "last_opened_file_path": "E:/Surasa/frontend",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "yarn",
     "settings.editor.selected.configurable": "preferences.pluginManager",
+    "ts.external.directory.path": "C:\\Users\\imesh\\AppData\\Local\\Programs\\PhpStorm\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -226,6 +229,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\Surasa\frontend" />
       <recent name="E:\Surasa\frontend\src\components" />
     </key>
   </component>
@@ -263,7 +267,7 @@
       <workItem from="1719476912634" duration="4209000" />
       <workItem from="1719491312782" duration="5673000" />
       <workItem from="1719500681740" duration="8821000" />
-      <workItem from="1719540941484" duration="9811000" />
+      <workItem from="1719540941484" duration="13771000" />
     </task>
     <task id="LOCAL-00001" summary="01 Run">
       <option name="closed" value="true" />
@@ -433,7 +437,15 @@
       <option name="project" value="LOCAL" />
       <updated>1719553491575</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="Completed APIs Basics need change according to the requirements">
+      <option name="closed" value="true" />
+      <created>1719554410240</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1719554410240</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -470,6 +482,7 @@
     <MESSAGE value="Up To Order Controllers add APIS" />
     <MESSAGE value="Up To Order Item Controllers" />
     <MESSAGE value="ADD Review Controllers" />
-    <option name="LAST_COMMIT_MESSAGE" value="ADD Review Controllers" />
+    <MESSAGE value="Completed APIs Basics need change according to the requirements" />
+    <option name="LAST_COMMIT_MESSAGE" value="Completed APIs Basics need change according to the requirements" />
   </component>
 </project>

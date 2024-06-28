@@ -17,6 +17,7 @@ const Landing = props => {
     try {
       const products = await withLoading(CategoryRequest.getAllCategories());
       setCategories(products?.data);
+      console.log(products?.data);
     } catch (error) {
       console.log(error?.message);
       console.error(error);
