@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d937de62-ec1a-4c84-8794-a3b0c9f8362f" name="Changes" comment="Up To Order Item Controllers">
+    <list default="true" id="d937de62-ec1a-4c84-8794-a3b0c9f8362f" name="Changes" comment="ADD Review Controllers">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/API/ReviewController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/API/ReviewController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Models/Review.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/Review.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/API/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/API/UserController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/User.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -263,7 +263,7 @@
       <workItem from="1719476912634" duration="4209000" />
       <workItem from="1719491312782" duration="5673000" />
       <workItem from="1719500681740" duration="8821000" />
-      <workItem from="1719540941484" duration="8660000" />
+      <workItem from="1719540941484" duration="9811000" />
     </task>
     <task id="LOCAL-00001" summary="01 Run">
       <option name="closed" value="true" />
@@ -425,7 +425,15 @@
       <option name="project" value="LOCAL" />
       <updated>1719552263336</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="ADD Review Controllers">
+      <option name="closed" value="true" />
+      <created>1719553491575</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1719553491575</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -461,6 +469,7 @@
     <MESSAGE value="Admin CRUD Success" />
     <MESSAGE value="Up To Order Controllers add APIS" />
     <MESSAGE value="Up To Order Item Controllers" />
-    <option name="LAST_COMMIT_MESSAGE" value="Up To Order Item Controllers" />
+    <MESSAGE value="ADD Review Controllers" />
+    <option name="LAST_COMMIT_MESSAGE" value="ADD Review Controllers" />
   </component>
 </project>

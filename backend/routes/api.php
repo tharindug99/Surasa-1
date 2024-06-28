@@ -11,7 +11,8 @@ use App\Http\Controllers\API\{AdminController,
     OrderItemController,
     PaymentController,
     ProductController,
-    ReviewController};
+    ReviewController,
+    UserController};
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -42,3 +43,4 @@ Route::apiResource('dailymenuitems', DailyMenuItemController::class);
 Route::apiResource('orders', OrderController::class);
 Route::apiResource('orderItems', OrderItemController::class);
 Route::apiResource('reviews', ReviewController::class);
+Route::apiResource('users', UserController::class);
