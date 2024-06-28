@@ -7,6 +7,8 @@ use App\Http\Controllers\API\{AdminController,
     CategoryController,
     ContactUsController,
     DailyMenuItemController,
+    OrderController,
+    OrderItemController,
     PaymentController,
     ProductController};
 /*
@@ -36,3 +38,5 @@ Route::apiResource('admins', AdminController::class);
 Route::apiResource('bookings', BookingController::class);
 Route::apiResource('contactus', ContactUsController::class);
 Route::apiResource('dailymenuitems', DailyMenuItemController::class);
+Route::apiResource('orders', OrderController::class);
+Route::apiResource('orderItems', OrderItemController::class);
