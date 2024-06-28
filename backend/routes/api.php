@@ -10,7 +10,8 @@ use App\Http\Controllers\API\{AdminController,
     OrderController,
     OrderItemController,
     PaymentController,
-    ProductController};
+    ProductController,
+    ReviewController};
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -40,3 +41,4 @@ Route::apiResource('contactus', ContactUsController::class);
 Route::apiResource('dailymenuitems', DailyMenuItemController::class);
 Route::apiResource('orders', OrderController::class);
 Route::apiResource('orderItems', OrderItemController::class);
+Route::apiResource('reviews', ReviewController::class);
