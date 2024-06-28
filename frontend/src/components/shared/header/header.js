@@ -59,7 +59,7 @@ const Header = props => {
           
             <Link
               className="dropdown-link"
-              activeClass="active"
+              activeclass="active"
               to="/"
               spy={true}
               smooth={true}
@@ -72,7 +72,7 @@ const Header = props => {
           <li>
             <Link
               className="dropdown-link"
-              activeClass="active"
+              activeclass="active"
               to="aboutus"
               spy={true}
               smooth={true}
@@ -85,7 +85,7 @@ const Header = props => {
           <li>
             <Link
               className="dropdown-link"
-              activeClass="active"
+              activeclass="active"
               to="contact"
               spy={true}
               smooth={true}
@@ -168,7 +168,7 @@ const Header = props => {
                 <li>
                   <Link
                     className="dropdown-link"
-                    activeClass="active"
+                    activeclass="active"
                     to="/"
                     spy={true}
                     smooth={true}
@@ -181,7 +181,7 @@ const Header = props => {
                 <li>
                   <Link
                     className="dropdown-link"
-                    activeClass="active"
+                    activeclass="active"
                     to="aboutus"
                     spy={true}
                     smooth={true}
@@ -194,7 +194,7 @@ const Header = props => {
                 <li>
                   <Link
                     className="dropdown-link"
-                    activeClass="active"
+                    activeclass="active"
                     to="contact"
                     spy={true}
                     smooth={true}

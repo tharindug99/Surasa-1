@@ -33,6 +33,18 @@ const Views = () => {
                         path="/login"
                         element={<Login/>}
                     />
+                    <Route
+                        path="/product/:id"
+                        element={<Product/>}
+                    />
+                    <Route
+                        path="/category/:id"
+                        element={<Category/>}
+                    />
+                    <Route
+                        path="/landing"
+                        element={<Landing/>}
+                    />
                 </Routes>
             </div>
             <Footer/>

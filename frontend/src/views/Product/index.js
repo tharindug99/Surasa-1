@@ -24,7 +24,7 @@ const ProductDetail = props => {
   const HandleGetAProduct = async () => {
     try {
       const product = await withLoading(ProductRequest.getAProduct(id));
-      setCurrentProduct(product?.data);
+      setCurrentProduct(product?.data)
       const item = items?.filter(item => item?.id === product?.data?.id);
       if(item[0]){
         setItemIsInCart(!itemIsInCart);
