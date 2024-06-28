@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class BookingRequest extends Model
+class Booking extends Model
 {
     use HasFactory;
 
-    /*protected $fillable = [
+    protected $fillable = [
         'name',
         'phone_num',
         'email',
@@ -17,6 +17,6 @@ class BookingRequest extends Model
         'start_time',
         'end_time',
         'event_name'
-    ];*/
+    ];
 
 }

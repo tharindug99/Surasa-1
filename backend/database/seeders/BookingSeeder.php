@@ -2,17 +2,17 @@
 
 namespace Database\Seeders;
 
-use App\Models\BookingRequest;
+use App\Models\Booking;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class BookingRequestSeeder extends Seeder
+class BookingSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        BookingRequest::factory()->count(10)->create();
+        Booking::factory()->count(10)->create();
     }
 }

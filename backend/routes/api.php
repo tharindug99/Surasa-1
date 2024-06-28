@@ -2,7 +2,17 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\API\{AdminController, CategoryController, PaymentController, ProductController};
+use App\Http\Controllers\API\{AdminController,
+    BookingController,
+    CategoryController,
+    ContactUsController,
+    DailyMenuItemController,
+    OrderController,
+    OrderItemController,
+    PaymentController,
+    ProductController,
+    ReviewController,
+    UserController};
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -27,3 +37,10 @@ Route::group(['prefix' => 'payment'], function() {
 Route::apiResource('categories', CategoryController::class);
 Route::apiResource('products', ProductController::class);
 Route::apiResource('admins', AdminController::class);
+Route::apiResource('bookings', BookingController::class);
+Route::apiResource('contactus', ContactUsController::class);
+Route::apiResource('dailymenuitems', DailyMenuItemController::class);
+Route::apiResource('orders', OrderController::class);
+Route::apiResource('orderItems', OrderItemController::class);
+Route::apiResource('reviews', ReviewController::class);
+Route::apiResource('users', UserController::class);
