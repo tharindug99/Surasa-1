@@ -1,4 +1,4 @@
-import { ADD_ITEM, REMOVE_ITEM } from "redux/constants/Cart";
+import { ADD_ITEM, REMOVE_ITEM, UPDATE_ITEM, READ_ITEMS } from "redux/constants/Cart";
 
 export const addItem = (payload) => {
   return {
@@ -13,3 +13,12 @@ export const removeItem = (payload) => {
     payload,
   };
 };
+
+export const updateItem = (payload) => {
+  return {
+    type: UPDATE_ITEM,
+    payload,
+  };
+};
+
+

@@ -1,0 +1,5 @@
+export const SAVE_BOOKING = "SAVE_BOOKING";
+export const SAVE_BOOKINGS = "SAVE_BOOKINGS";
+export const ADD_BOOKING = "ADD_BOOKING";
+export const UPDATE_BOOKING = "UPDATE_BOOKING";
+export const REMOVE_BOOKING = "REMOVE_BOOKING";
