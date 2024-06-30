@@ -11,7 +11,7 @@ DailyMenuItemRequest.addADailyMenuItem = (data) => {
   });
 };
 
-DailyMenuItemRequest.getAllDailyMenuItems = (params) => {
+DailyMenuItemRequest.getAllDailyMenuItem = (params) => {
   return fetch({
     url: dailymenuitem,
     method: "get",

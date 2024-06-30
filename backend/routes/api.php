@@ -41,6 +41,6 @@ Route::apiResource('bookings', BookingController::class);
 Route::apiResource('contactus', ContactUsController::class);
 Route::apiResource('dailymenuitems', DailyMenuItemController::class);
 Route::apiResource('orders', OrderController::class);
-Route::apiResource('orderItems', OrderItemController::class);
+Route::apiResource('orderitems', OrderItemController::class);
 Route::apiResource('reviews', ReviewController::class);
 Route::apiResource('users', UserController::class);
