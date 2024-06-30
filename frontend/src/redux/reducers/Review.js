@@ -1,4 +1,5 @@
-import { SAVE_REVIEW, ADD_REVIEW, UPDATE_REVIEW, REMOVE_REVIEW } from "redux/constants/Review";
+import {SAVE_REVIEW, ADD_REVIEW, UPDATE_REVIEW, REMOVE_REVIEW, SAVE_REVIEWS} from "redux/constants/Review";
+
 
 const initState = {
   reviews: [],
@@ -8,6 +9,11 @@ const initState = {
 const Review = (state = initState, action) => {
   switch (action.type) {
     case SAVE_REVIEW:
+      return {
+        ...state,
+        reviews: action.payload,
+      };
+      case SAVE_REVIEWS:
       return {
         ...state,
         reviews: action.payload,

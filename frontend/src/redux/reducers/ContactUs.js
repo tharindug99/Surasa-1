@@ -1,4 +1,10 @@
-import { SAVE_CONTACT_US, ADD_CONTACT_US, UPDATE_CONTACT_US, REMOVE_CONTACT_US } from "redux/constants/ContactUs";
+import {
+  SAVE_CONTACT_US,
+  ADD_CONTACT_US,
+  UPDATE_CONTACT_US,
+  REMOVE_CONTACT_US,
+  SAVE_CONTACT_USS
+} from "redux/constants/ContactUs";
 
 const initState = {
   contactUsMessages: [],
@@ -8,6 +14,11 @@ const initState = {
 const ContactUs = (state = initState, action) => {
   switch (action.type) {
     case SAVE_CONTACT_US:
+      return {
+        ...state,
+        contactUsMessages: action.payload,
+      };
+      case SAVE_CONTACT_USS:
       return {
         ...state,
         contactUsMessages: action.payload,
