@@ -5,7 +5,7 @@ import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { deepYellow, yellow, white } from '@mui/material/colors';
 
-const Register = () => {
+const Index = () => {
   const [formData, setFormData] = useState({
     full_name: '',
     email: '',
@@ -92,7 +92,7 @@ const Register = () => {
                             color: yellow[800], 
                             }
                         }}> Submit</Button>
-              {/* <button type="submit" className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Register</button> */}
+              {/* <button type="submit" className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Index</button> */}
             </div>
           </form>
         </div>
@@ -101,4 +101,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default Index;

@@ -1,4 +1,10 @@
-import { SAVE_DAILY_MENU_ITEM, ADD_DAILY_MENU_ITEM, UPDATE_DAILY_MENU_ITEM, REMOVE_DAILY_MENU_ITEM } from "redux/constants/DailyMenuItem";
+import {
+  SAVE_DAILY_MENU_ITEM,
+  ADD_DAILY_MENU_ITEM,
+  UPDATE_DAILY_MENU_ITEM,
+  REMOVE_DAILY_MENU_ITEM,
+  SAVE_DAILY_MENU_ITEMS
+} from "redux/constants/DailyMenuItem";
 
 const initState = {
   dailyMenuItems: [],
@@ -8,6 +14,11 @@ const initState = {
 const DailyMenuItem = (state = initState, action) => {
   switch (action.type) {
     case SAVE_DAILY_MENU_ITEM:
+      return {
+        ...state,
+        dailyMenuItems: action.payload,
+      };
+      case SAVE_DAILY_MENU_ITEMS:
       return {
         ...state,
         dailyMenuItems: action.payload,

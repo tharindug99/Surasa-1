@@ -18,7 +18,7 @@ const CategoryDetail = props => {
   const HandleGetACategory = async () => {
     try {
       const category = await withLoading(CategoryRequest.getACategory(id));
-      setCurrentCategory(category?.data);
+      setCurrentCategory(category?.data)
     } catch (error) {
       console.log(error);
     }

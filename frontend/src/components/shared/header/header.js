@@ -96,7 +96,7 @@ const Header = props => {
             </Link>
           </li>
         </ul>
-        {/* Register and Login Buttons */}
+        {/* Index and Login Buttons */}
         {userInfo ? (
           <div className="hidden lg:flex md:flex items-center space-x-4">
             <span>Welcome back, {userInfo.full_name}</span>

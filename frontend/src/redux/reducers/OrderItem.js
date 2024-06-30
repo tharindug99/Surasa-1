@@ -1,4 +1,10 @@
-import { SAVE_ORDER_ITEM, ADD_ORDER_ITEM, UPDATE_ORDER_ITEM, REMOVE_ORDER_ITEM } from "redux/constants/OrderItem";
+import {
+  SAVE_ORDER_ITEM,
+  ADD_ORDER_ITEM,
+  UPDATE_ORDER_ITEM,
+  REMOVE_ORDER_ITEM,
+  SAVE_ORDER_ITEMS
+} from "redux/constants/OrderItem";
 
 const initState = {
   orderItems: [],
@@ -8,6 +14,11 @@ const initState = {
 const OrderItem = (state = initState, action) => {
   switch (action.type) {
     case SAVE_ORDER_ITEM:
+      return {
+        ...state,
+        orderItems: action.payload,
+      };
+      case SAVE_ORDER_ITEMS:
       return {
         ...state,
         orderItems: action.payload,

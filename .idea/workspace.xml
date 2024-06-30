@@ -4,34 +4,31 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d937de62-ec1a-4c84-8794-a3b0c9f8362f" name="Changes" comment="Add Default Data Props">
-      <change afterPath="$PROJECT_DIR$/frontend/src/redux/constants/Admin.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/redux/constants/Booking.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/redux/constants/ContactUs.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/redux/constants/DailyMenuItem.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/redux/constants/Order.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/redux/constants/OrderItem.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/redux/constants/Review.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/redux/constants/User.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/redux/reducers/Admin.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/redux/reducers/Booking.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/redux/reducers/ContactUs.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/redux/reducers/DailyMenuItem.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/redux/reducers/Order.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/redux/reducers/OrderItem.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/redux/reducers/Review.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/redux/reducers/User.js" afterDir="false" />
+    <list default="true" id="d937de62-ec1a-4c84-8794-a3b0c9f8362f" name="Changes" comment="Add Requests">
+      <change afterPath="$PROJECT_DIR$/frontend/src/views/Admin/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/views/Booking/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/views/ContactUs/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/views/DailyMenuItem/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/views/Order/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/views/OrderItem/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/views/Review/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/views/User/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/redux/actions/Cart.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/redux/actions/Cart.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/redux/actions/Category.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/redux/actions/Category.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/redux/actions/Product.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/redux/actions/Product.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/redux/constants/Cart.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/redux/constants/Cart.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/redux/constants/Category.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/redux/constants/Category.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/redux/constants/Product.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/redux/constants/Product.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/redux/reducers/Cart.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/redux/reducers/Cart.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/redux/reducers/Category.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/redux/reducers/Category.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/redux/reducers/Product.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/redux/reducers/Product.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/redux/reducers/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/redux/reducers/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Console/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Console/Kernel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Exceptions/Handler.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Exceptions/Handler.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Providers/AppServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Providers/AppServiceProvider.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Providers/AuthServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Providers/AuthServiceProvider.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Providers/EventServiceProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Providers/EventServiceProvider.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/artisan" beforeDir="false" afterPath="$PROJECT_DIR$/backend/artisan" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/public/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/public/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/resources/views/welcome.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/resources/views/welcome.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/api.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/shared/header/header.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/shared/header/header.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/services/Requests/DailyMenuItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/services/Requests/DailyMenuItem.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/Category/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/Category/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/Landing/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/Landing/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/Register/register.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/Register/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -208,6 +205,9 @@
       <path value="$PROJECT_DIR$/backend/vendor/phpoption/phpoption" />
     </include_path>
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
 }</component>
@@ -227,7 +227,7 @@
     "git-widget-placeholder": "FetchData",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "E:/Surasa/frontend/src/redux/reducers",
+    "last_opened_file_path": "E:/Surasa/frontend/src/views",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -254,11 +254,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\Surasa\frontend\src\views" />
+      <recent name="E:\Surasa\frontend\src\services\Requests" />
+      <recent name="E:\Surasa\frontend\src\redux\actions" />
       <recent name="E:\Surasa\frontend\src\redux\reducers" />
       <recent name="E:\Surasa\frontend\src\redux\constants" />
-      <recent name="E:\Surasa\frontend\src\redux\actions" />
-      <recent name="E:\Surasa\frontend\src\data" />
-      <recent name="E:\Surasa\frontend" />
     </key>
   </component>
   <component name="RunManager">
@@ -298,7 +298,8 @@
       <workItem from="1719540941484" duration="14602000" />
       <workItem from="1719593799064" duration="98000" />
       <workItem from="1719594272104" duration="3311000" />
-      <workItem from="1719663828856" duration="1920000" />
+      <workItem from="1719663828856" duration="2073000" />
+      <workItem from="1719728212711" duration="7494000" />
     </task>
     <task id="LOCAL-00001" summary="01 Run">
       <option name="closed" value="true" />
@@ -492,7 +493,47 @@
       <option name="project" value="LOCAL" />
       <updated>1719596053658</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="Add Reducers without get all">
+      <option name="closed" value="true" />
+      <created>1719665838284</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1719665838284</updated>
+    </task>
+    <task id="LOCAL-00026" summary="Finished Reducers">
+      <option name="closed" value="true" />
+      <created>1719729467103</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1719729467103</updated>
+    </task>
+    <task id="LOCAL-00027" summary="Add Actions">
+      <option name="closed" value="true" />
+      <created>1719730113582</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1719730113582</updated>
+    </task>
+    <task id="LOCAL-00028" summary="Finished Redux">
+      <option name="closed" value="true" />
+      <created>1719730338851</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1719730338851</updated>
+    </task>
+    <task id="LOCAL-00029" summary="Add Requests">
+      <option name="closed" value="true" />
+      <created>1719730868281</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1719730868281</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -524,7 +565,6 @@
     <MESSAGE value="Add Seeders" />
     <MESSAGE value="Add Models" />
     <MESSAGE value="Add Requests and Controllers" />
-    <MESSAGE value="Add Requests" />
     <MESSAGE value="Admin CRUD Success" />
     <MESSAGE value="Up To Order Controllers add APIS" />
     <MESSAGE value="Up To Order Item Controllers" />
@@ -532,6 +572,11 @@
     <MESSAGE value="Completed APIs Basics need change according to the requirements" />
     <MESSAGE value="front" />
     <MESSAGE value="Add Default Data Props" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add Default Data Props" />
+    <MESSAGE value="Add Reducers without get all" />
+    <MESSAGE value="Finished Reducers" />
+    <MESSAGE value="Add Actions" />
+    <MESSAGE value="Finished Redux" />
+    <MESSAGE value="Add Requests" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add Requests" />
   </component>
 </project>
