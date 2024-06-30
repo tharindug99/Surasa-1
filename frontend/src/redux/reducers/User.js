@@ -1,4 +1,4 @@
-import { SAVE_USER, ADD_USER, UPDATE_USER, REMOVE_USER } from "redux/constants/User";
+import {SAVE_USER, ADD_USER, UPDATE_USER, REMOVE_USER, SAVE_USERS} from "redux/constants/User";
 
 const initState = {
   users: [],
@@ -8,6 +8,11 @@ const initState = {
 const User = (state = initState, action) => {
   switch (action.type) {
     case SAVE_USER:
+      return {
+        ...state,
+        users: action.payload,
+      };
+      case SAVE_USERS:
       return {
         ...state,
         users: action.payload,

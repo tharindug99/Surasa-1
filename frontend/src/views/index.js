@@ -5,13 +5,18 @@ import NotFound from './Error/404';
 import Header from 'components/shared/header/header';
 import Footer from 'components/shared/footer';
 import Login from './Login/login';
-import Register from './Register/register';
-import Chat from './Cart';
-import PaymentSuccess from './Cart/Payment/successful';
-import PaymentCancel from './Cart/Payment/cancel';
+import Index from './Register';
 import Product from './Product';
 import Category from './Category';
 import Home from './Home';
+import Admin from "./Admin";
+import Booking from "./Booking";
+import ContactUs from "./ContactUs";
+import DailyMenuItem from "./DailyMenuItem";
+import Order from "./Order";
+import Review from "./Review";
+import User from "./User";
+import OrderItem from "./OrderItem";
 
 
 const Views = () => {
@@ -27,7 +32,7 @@ const Views = () => {
                     />
                     <Route
                         path="/register"
-                        element={<Register/>}
+                        element={<Index/>}
                     />
                     <Route
                         path="/login"
@@ -44,6 +49,38 @@ const Views = () => {
                     <Route
                         path="/landing"
                         element={<Landing/>}
+                    />
+                    <Route
+                        path="/admin"
+                        element={<Admin/>}
+                    />
+                    <Route
+                        path="/booking"
+                        element={<Booking/>}
+                    />
+                    <Route
+                        path="/contactUs"
+                        element={<ContactUs/>}
+                    />
+                    <Route
+                        path="/dailyMenuItem"
+                        element={<DailyMenuItem/>}
+                    />
+                    <Route
+                        path="/order"
+                        element={<Order/>}
+                    />
+                    <Route
+                        path="/review"
+                        element={<Review/>}
+                    />
+                    <Route
+                        path="/user"
+                        element={<User/>}
+                    />
+                    <Route
+                        path="/orderItem"
+                        element={<OrderItem/>}
                     />
                 </Routes>
             </div>
