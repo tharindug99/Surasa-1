@@ -5,6 +5,7 @@ import {useDocumentTitle} from 'hooks/useDocumentTitle';
 import styled from 'styled-components';
 import Component01 from 'components/Component 01/component01';
 import Component02 from 'components/Component 02/component02';
+import Component03 from 'components/Component 03/component03';
 
 const Container = styled.div`
     height: 100vh;
@@ -31,6 +32,7 @@ const Home = props => {
         <Container>
             <Component01/>
             <Component02/>
+            <Component03/>
         </Container>
     )
 }
