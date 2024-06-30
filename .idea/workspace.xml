@@ -4,18 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d937de62-ec1a-4c84-8794-a3b0c9f8362f" name="Changes" comment="Add Reducers without get all">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/redux/constants/ContactUs.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/redux/constants/ContactUs.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/redux/constants/DailyMenuItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/redux/constants/DailyMenuItem.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/redux/constants/Order.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/redux/constants/Order.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/redux/constants/OrderItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/redux/constants/OrderItem.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/redux/constants/Review.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/redux/constants/Review.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/redux/constants/User.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/redux/constants/User.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/redux/reducers/Order.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/redux/reducers/Order.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/redux/reducers/OrderItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/redux/reducers/OrderItem.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/redux/reducers/Review.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/redux/reducers/Review.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/redux/reducers/User.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/redux/reducers/User.js" afterDir="false" />
+    <list default="true" id="d937de62-ec1a-4c84-8794-a3b0c9f8362f" name="Changes" comment="Add Actions">
+      <change beforePath="$PROJECT_DIR$/frontend/src/redux/actions/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/redux/actions/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -206,30 +196,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;FetchData&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;E:/Surasa/frontend/src/redux/reducers&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\imesh\\AppData\\Local\\Programs\\PhpStorm\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "FetchData",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "E:/Surasa/frontend/src/redux/actions",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "yarn",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "ts.external.directory.path": "C:\\Users\\imesh\\AppData\\Local\\Programs\\PhpStorm\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;mysql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
     ]
   }
-}</component>
+}]]></component>
   <component name="ReactDesignerToolWindowState">
     <option name="myId2Visible">
       <map>
@@ -241,9 +231,9 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\Surasa\frontend\src\redux\actions" />
       <recent name="E:\Surasa\frontend\src\redux\reducers" />
       <recent name="E:\Surasa\frontend\src\redux\constants" />
-      <recent name="E:\Surasa\frontend\src\redux\actions" />
       <recent name="E:\Surasa\frontend\src\data" />
       <recent name="E:\Surasa\frontend" />
     </key>
@@ -286,7 +276,7 @@
       <workItem from="1719593799064" duration="98000" />
       <workItem from="1719594272104" duration="3311000" />
       <workItem from="1719663828856" duration="2073000" />
-      <workItem from="1719728212711" duration="1156000" />
+      <workItem from="1719728212711" duration="2048000" />
     </task>
     <task id="LOCAL-00001" summary="01 Run">
       <option name="closed" value="true" />
@@ -488,7 +478,23 @@
       <option name="project" value="LOCAL" />
       <updated>1719665838284</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="Finished Reducers">
+      <option name="closed" value="true" />
+      <created>1719729467103</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1719729467103</updated>
+    </task>
+    <task id="LOCAL-00027" summary="Add Actions">
+      <option name="closed" value="true" />
+      <created>1719730113582</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1719730113582</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -529,6 +535,8 @@
     <MESSAGE value="front" />
     <MESSAGE value="Add Default Data Props" />
     <MESSAGE value="Add Reducers without get all" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add Reducers without get all" />
+    <MESSAGE value="Finished Reducers" />
+    <MESSAGE value="Add Actions" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add Actions" />
   </component>
 </project>
