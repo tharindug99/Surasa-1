@@ -1,25 +1,4 @@
-// import React from 'react';
-// import styled from 'styled-components';
 
-// const Section = styled.div`
-//     height: 100vh;
-//     background: #c51d1d;
-//     scroll-snap-align: center;
-// `
-
-// const Component01 = () => {
-//     return (
-//         <Section>
-//             <h1>Component 01</h1>
-//         </Section>
-//     )
-// }
-
-
-
-// export default Component01
-
-// eslint-disable-next-line no-unused-vars
 import React, { useRef } from 'react';
 import styled from 'styled-components';
 import Lottie from 'lottie-react'; 
@@ -30,16 +9,12 @@ import FoodItem3 from '../../assets/images/fooditem5.jpg';
 import FoodItem4 from '../../assets/images/pasta.jpg';
 import { Link } from 'react-scroll';
 
-const Section = styled.div`
-    height: 100vh;
-    scroll-snap-align: center;
-`;
 
-const Component01 = () => {
+const Landing = () => {
   const foodAnimRef = useRef(null);
 
   return (
-    <Section>
+    <>
         <div id="home" className="container lg:px-10 md:px-6 sm:px-4">
       <div className="grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-2 gap-4 md:ml-14 sm:ml-10 mx-8">
         {/* Left Section */}
@@ -63,7 +38,7 @@ const Component01 = () => {
                   onComplete={() => {
                     foodAnimRef.current?.stop();
                   }}
-                  loop={true}
+                  loop={false}
                 />
               </div>
           </div>
@@ -120,9 +95,9 @@ const Component01 = () => {
         
       </div>
     </div>
-    </Section>
+    </>
   );
 };
 
-export default Component01;
+export default Landing;
 

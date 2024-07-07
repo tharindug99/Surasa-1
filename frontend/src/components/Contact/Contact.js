@@ -22,6 +22,7 @@
 import React from 'react';
 import backgroundImg from '../../assets/images/surasabg.jpg';
 import styled from 'styled-components';
+import ContactUs from 'redux/reducers/ContactUs';
 
 
 const Section = styled.div`
@@ -45,22 +46,10 @@ function ContactField({ label, id, type }) {
     );
 }
 
-const Component05 = () => {
+const Contact = () => {
     return (
         <Section>
-            <section
-            className="relative bg-cover bg-center h-screen"
-            style={{
-                backgroundImage: `url(${backgroundImg})`,
-            }}
-        >
-            {/* Dark background overlay */}
-            <div className="absolute inset-0 bg-black/70 z-0"></div>
-
-            {/* Contact Us heading */}
-            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 py-10 text-6xl max-md:text-4xl text-white z-10">
-                Contact Us
-            </div>
+            <section>
 
             {/* Container for form and image */}
             <div className="relative flex justify-center items-center h-full z-10">
@@ -134,6 +123,6 @@ const Component05 = () => {
     );
 };
 
-export default Component05;
+export default Contact;
 
 
