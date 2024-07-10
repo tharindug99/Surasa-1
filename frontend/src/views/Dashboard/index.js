@@ -50,7 +50,7 @@ function DashboardLayout() {
           OpenSidebar={OpenSidebar}
           setCurrentScreen={setCurrentScreen}
         />
-        <div className="flex-1 bg-blue-gray-900 text-white p-4 overflow-auto">
+        <div className="flex-1 bg-DeepBlue text-white p-4 overflow-auto">
           {renderScreen()}
         </div>
       </div>

@@ -1,7 +1,7 @@
 import fetch from "axiosConfig/FetchInterceptor";
 
 const UserRequest = {};
-const user = 'users';
+const user = "users";
 
 UserRequest.addAUser = (data) => {
   return fetch({
@@ -15,14 +15,14 @@ UserRequest.getAllUsers = (params) => {
   return fetch({
     url: user,
     method: "get",
-    params: params
+    params: params,
   });
 };
 
 UserRequest.getAUser = (id) => {
   return fetch({
     url: `${user}/${id}`,
-    method: "get"
+    method: "get",
   });
 };
 
@@ -30,7 +30,7 @@ UserRequest.updateAUser = (params) => {
   return fetch({
     url: user,
     method: "put",
-    params: params
+    params: params,
   });
 };
 
@@ -38,7 +38,24 @@ UserRequest.deleteAUser = (params) => {
   return fetch({
     url: user,
     method: "delete",
-    params: params
+    params: params,
+  });
+};
+
+// New methods for adding and deducting points ------------NEW--------------------------------
+UserRequest.addPoints = (userId, points) => {
+  return fetch({
+    url: `${user}/${userId}/add-points`,
+    method: "post",
+    data: { points },
+  });
+};
+
+UserRequest.deductPoints = (userId, points) => {
+  return fetch({
+    url: `${user}/${userId}/deduct-points`,
+    method: "post",
+    data: { points },
   });
 };
 

@@ -27,7 +27,7 @@ function LeftNavBar({ openSidebarToggle, OpenSidebar, setCurrentScreen }) {
 
   return (
     <aside
-      className={`h-full bg-gray-800 overflow-y-auto transition-all duration-500 text-white ${
+      className={`h-full bg-SurasaBrown overflow-y-auto transition-all duration-500 text-white ${
         openSidebarToggle ? "absolute z-20 w-64" : "hidden md:block md:w-64"
       }`}
     >

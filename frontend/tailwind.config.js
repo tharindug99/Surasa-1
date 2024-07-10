@@ -8,14 +8,15 @@ module.exports = withMT({
   theme: {
     extend: {
       backgroundColor: {
-        NavBarBG: '#f3f3f3',
-        SurasaYellow:'#F0C903',
-        SurasaBrown: '#291603'
+        NavBarBG: "#f3f3f3",
+        SurasaYellow: "#F0C903",
+        SurasaBrown: "#291603",
+        DeepBlue: "#0f172a",
       },
       fontSize: {
-        'body-lg': '3rem',
-        'body': '.875rem',
-      }
+        "body-lg": "3rem",
+        body: ".875rem",
+      },
     },
   },
   plugins: [],
