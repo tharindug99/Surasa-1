@@ -42,7 +42,7 @@ UserRequest.deleteAUser = (params) => {
   });
 };
 
-// New methods for adding and deducting points ------------NEW--------------------------------
+// New methods for adding and deducting points ------------ NEW--------------------------------
 UserRequest.addPoints = (userId, points) => {
   return fetch({
     url: `${user}/${userId}/add-points`,
