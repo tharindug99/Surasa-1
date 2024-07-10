@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { Link as ScrollLink } from "react-scroll";
 import logo from "../../../../src/assets/images/Surasa Logo.png";
 import { GiHamburgerMenu } from "react-icons/gi";
 import "./NavBar.css";
-import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import Button from "@mui/material/Button";
-import { deepYellow, yellow, white } from "@mui/material/colors";
-import { APP_NAME } from "configs/AppConfig";
+import { yellow } from "@mui/material/colors";
 
 const Header = (props) => {
   const { items } = props;
@@ -60,43 +58,43 @@ const Header = (props) => {
           {/* Navigation Links */}
           <ul className="hidden lg:flex ml-24 space-x-4">
             <li>
-              <Link
+              <ScrollLink
                 className="dropdown-link"
                 activeclass="active"
-                to="/"
-                spy="true"
-                smooth="true"
+                to="home"
+                spy={true}
+                smooth={true}
                 offset={-70}
                 duration={500}
               >
                 Home
-              </Link>
+              </ScrollLink>
             </li>
             <li>
-              <Link
+              <ScrollLink
                 className="dropdown-link"
                 activeclass="active"
-                to="aboutus"
-                spy="true"
-                smooth="true"
+                to="about"
+                spy={true}
+                smooth={true}
                 offset={-70}
                 duration={500}
               >
                 About Us
-              </Link>
+              </ScrollLink>
             </li>
             <li>
-              <Link
+              <ScrollLink
                 className="dropdown-link"
                 activeclass="active"
                 to="contact"
-                spy="true"
-                smooth="true"
+                spy={true}
+                smooth={true}
                 offset={-70}
                 duration={500}
               >
                 Contact Us
-              </Link>
+              </ScrollLink>
             </li>
           </ul>
           {/* Index and Login Buttons */}
@@ -173,43 +171,43 @@ const Header = (props) => {
                   )}
                   {/* Dropdown items with hover effect */}
                   <li>
-                    <Link
+                    <ScrollLink
                       className="dropdown-link"
                       activeclass="active"
-                      to="/"
-                      spy="true"
-                      smooth="true"
+                      to="home"
+                      spy={true}
+                      smooth={true}
                       offset={-70}
                       duration={500}
                     >
                       Home
-                    </Link>
+                    </ScrollLink>
                   </li>
                   <li>
-                    <Link
+                    <ScrollLink
                       className="dropdown-link"
                       activeclass="active"
-                      to="aboutus"
-                      spy="true"
-                      smooth="true"
+                      to="about"
+                      spy={true}
+                      smooth={true}
                       offset={-70}
                       duration={500}
                     >
                       About Us
-                    </Link>
+                    </ScrollLink>
                   </li>
                   <li>
-                    <Link
+                    <ScrollLink
                       className="dropdown-link"
                       activeclass="active"
                       to="contact"
-                      spy="true"
-                      smooth="true"
+                      spy={true}
+                      smooth={true}
                       offset={-70}
                       duration={500}
                     >
                       Contact Us
-                    </Link>
+                    </ScrollLink>
                   </li>
                   {!userInfo && (
                     <>

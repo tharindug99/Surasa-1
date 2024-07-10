@@ -7,6 +7,7 @@ import FoodItem1 from "../../assets/images/FoodItem1.jpg";
 import FoodItem2 from "../../assets/images/fooditem2.jpg";
 import FoodItem3 from "../../assets/images/fooditem5.jpg";
 import FoodItem4 from "../../assets/images/pasta.jpg";
+import EatAndDrinkImg from "../../assets/vectors/EatAndDrink.png";
 import { brown, yellow, white } from "@mui/material/colors";
 import { Link as ScrollLink } from "react-scroll";
 import { Button } from "@mui/material";
@@ -17,8 +18,8 @@ const Landing = () => {
 
   return (
     <>
-      <div id="home" className="container lg:px-10 md:px-6 sm:px-4">
-        <div className="grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-2 gap-4 md:ml-14 sm:ml-10 mx-8">
+      <div id="home" className="mx-auto md:px-6 sm:px-4">
+        <div className="container grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-2 gap-4 md:ml-14 sm:ml-10 mx-8">
           {/* Left Section */}
           <div
             data-aos="fade-up"
@@ -59,6 +60,9 @@ const Landing = () => {
                 variant="contained"
                 sx={{
                   bgcolor: brown[700],
+                  paddingTop: 2,
+                  paddingBottom: 2,
+                  paddingX: 4,
                   "&:hover": {
                     bgcolor: "transparent",
                     borderWidth: 2,
@@ -73,7 +77,7 @@ const Landing = () => {
           </div>
 
           {/* Images Section */}
-          <div className="grid grid-cols-1 gap-5 mb-20 lg:mt-[-100px]">
+          <div className="grid grid-cols-1 gap-5 px-5">
             <div className="grid grid-cols-2 gap-1">
               <div className="lg:mt-16 sm:mt-1">
                 <img
@@ -115,6 +119,17 @@ const Landing = () => {
               />
             </div>
           </div>
+        </div>
+        {/* Vectors Section */}
+        <div className="items-center justify-center h-20">
+          <img src={EatAndDrinkImg} />
+          <img src={EatAndDrinkImg} className="lg:hidden md:hidden" />
+          <img src={EatAndDrinkImg} className="lg:hidden md:hidden" />
+          <img src={EatAndDrinkImg} className="lg:hidden md:hidden" />
+          <img src={EatAndDrinkImg} className="lg:hidden md:hidden" />
+          <img src={EatAndDrinkImg} className="lg:hidden md:hidden" />
+          <img src={EatAndDrinkImg} className="lg:hidden md:hidden" />
+          <img src={EatAndDrinkImg} className="lg:hidden md:hidden" />
         </div>
       </div>
     </>

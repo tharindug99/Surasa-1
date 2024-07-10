@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Food from "./Food";
 import Beverages from "./Beverages";
+import { brown, yellow, white } from "@mui/material/colors";
+import { Button } from "@mui/material";
 
 const Section = styled.div`
   height: 100vh;
@@ -21,7 +23,7 @@ function Tabs() {
 
   return (
     <section>
-      <div className="container px-20" id="menu">
+      <div className="container px-20 lg:mb-20 md:mb-16" id="menu">
         <div
           data-aos="fade-up"
           data-aos-offset="200"
@@ -33,27 +35,70 @@ function Tabs() {
             </h2>
           </div>
         </div>
-        <div className="flex mb-4 justify-center">
-          <button
-            className={`py-2 px-4 mx-2 focus:outline-none ${
-              activeTab === "Food"
-                ? "bg-yellow-400 rounded-md font-semibold text-brown-600"
-                : "text-gray-500 hover:text-yellow-400"
-            }`}
+        <div
+          style={{
+            display: "flex",
+            marginBottom: "1rem",
+            justifyContent: "center",
+          }}
+        >
+          <Button
+            size="large"
+            disableElevation
+            variant={activeTab === "Food" ? "contained" : "contained"}
+            sx={{
+              paddingY: "0.5rem",
+              paddingX: "1rem",
+              marginX: "0.5rem",
+              outline: "none",
+              bgcolor: "transparent",
+              backgroundColor: activeTab === "Food" ? "#F0C903" : "transparent", // bg-yellow-400
+              borderRadius: "4px", // rounded-md
+              fontWeight: "bold", // font-semibold
+              color: "#291603", // text-brown-600
+              "&:hover": {
+                backgroundColor:
+                  activeTab === "Food" ? "#F0C903" : "transparent", // No change on hover
+                color: "#291603", // No change on hover
+                boxShadow: "none", // Remove box shadow
+              },
+              "&:focus": {
+                outline: "none", // Remove focus outline
+              },
+            }}
             onClick={() => setActiveTab("Food")}
           >
             Food
-          </button>
-          <button
-            className={`py-2 px-4 mx-2 focus:outline-none ${
-              activeTab === "Beverages"
-                ? "bg-yellow-400 rounded-md font-semibold text-brown-600"
-                : "text-gray-500 hover:text-yellow-400"
-            }`}
+          </Button>
+          <Button
+            size="large"
+            disableElevation
+            variant={activeTab === "Beverages" ? "contained" : "contained"}
+            sx={{
+              paddingY: "0.5rem",
+              paddingX: "1rem",
+              marginX: "0.5rem",
+              outline: "none",
+              bgcolor: "transparent",
+              backgroundColor:
+                activeTab === "Beverages" ? "#F0C903" : "transparent", // bg-yellow-400
+              borderRadius: "4px", // rounded-md
+              fontWeight: "bold", // font-semibold
+              color: "#291603", // text-brown-600
+              "&:hover": {
+                backgroundColor:
+                  activeTab === "Beverages" ? "#F0C903" : "transparent", // No change on hover
+                color: "#291603", // No change on hover
+                boxShadow: "none", // Remove box shadow
+              },
+              "&:focus": {
+                outline: "none", // Remove focus outline
+              },
+            }}
             onClick={() => setActiveTab("Beverages")}
           >
             Beverages
-          </button>
+          </Button>
         </div>
         <div className="mt-4">
           {activeTab === "Food" && <Food />}

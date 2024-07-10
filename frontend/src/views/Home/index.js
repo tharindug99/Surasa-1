@@ -19,7 +19,7 @@ const Home = (props) => {
       <OrderMenu />
       <About />
       {/* <Component02 /> */}
-      <ContactUs />
+      {/* <ContactUs /> */}
     </>
   );
 };
