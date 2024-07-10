@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import Landing from "./Landing";
 import NotFound from "./Error/404";
 import Header from "components/shared/header/header";
@@ -18,30 +18,36 @@ import Review from "./Review";
 import User from "./User";
 import OrderItem from "./OrderItem";
 import PlaceOrder from "../views/PlaceOrder/index";
+import DashBoard from "./Dashboard/index";
 
 const Views = () => {
+  const location = useLocation();
+
+  const shouldRenderHeader = !location.pathname.startsWith("/admin/dashboard");
+
   return (
     <>
-      <Header />
-      <div className="container my-5">
-        <Routes>
-          <Route path="/" element={<Home title="Home" />} />
-          <Route path="/register" element={<Index />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/place-order" element={<PlaceOrder />} />
-          <Route path="/product/:id" element={<Product />} />
-          <Route path="/category/:id" element={<Category />} />
-          <Route path="/landing" element={<Landing />} />
-          <Route path="/admin" element={<Admin />} />
-          <Route path="/booking" element={<Booking />} />
-          <Route path="/contactUs" element={<ContactUs />} />
-          <Route path="/dailyMenuItem" element={<DailyMenuItem />} />
-          <Route path="/order" element={<Order />} />
-          <Route path="/review" element={<Review />} />
-          <Route path="/user" element={<User />} />
-          <Route path="/orderItem" element={<OrderItem />} />
-        </Routes>
-      </div>
+      {shouldRenderHeader && <Header />}
+
+      <Routes>
+        <Route path="/" element={<Home title="Home" />} />
+        <Route path="/register" element={<Index />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/place-order" element={<PlaceOrder />} />
+        <Route path="/product/:id" element={<Product />} />
+        <Route path="/category/:id" element={<Category />} />
+        <Route path="/landing" element={<Landing />} />
+        <Route path="/admin" element={<Admin />} />
+        <Route path="/booking" element={<Booking />} />
+        <Route path="/contactUs" element={<ContactUs />} />
+        <Route path="/dailyMenuItem" element={<DailyMenuItem />} />
+        <Route path="/order" element={<Order />} />
+        <Route path="/review" element={<Review />} />
+        <Route path="/user" element={<User />} />
+        <Route path="/orderItem" element={<OrderItem />} />
+        <Route path="/admin/dashboard" element={<DashBoard />} />
+      </Routes>
+
       <Footer />
     </>
   );
