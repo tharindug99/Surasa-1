@@ -35,7 +35,7 @@ function About() {
     <div
       id="about"
       ref={aboutRef}
-      className="relative flex flex-col my-10 items-end px-16 py-20 text-white  max-md:px-5 bg-cover ] "
+      className="relative flex flex-col lg:my-16 my-10 items-end px-16 py-20 text-white  max-md:px-5 bg-cover ] "
     >
       <img
         src={aboutBgImage}

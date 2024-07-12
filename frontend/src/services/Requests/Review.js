@@ -1,7 +1,7 @@
 import fetch from "axiosConfig/FetchInterceptor";
 
 const ReviewRequest = {};
-const review = 'reviews';
+const review = "reviews";
 
 ReviewRequest.addAReview = (data) => {
   return fetch({
@@ -15,14 +15,14 @@ ReviewRequest.getAllReviews = (params) => {
   return fetch({
     url: review,
     method: "get",
-    params: params
+    params: params,
   });
 };
 
 ReviewRequest.getAReview = (id) => {
   return fetch({
     url: `${review}/${id}`,
-    method: "get"
+    method: "get",
   });
 };
 
@@ -30,7 +30,7 @@ ReviewRequest.updateAReview = (params) => {
   return fetch({
     url: review,
     method: "put",
-    params: params
+    params: params,
   });
 };
 
@@ -38,7 +38,7 @@ ReviewRequest.deleteAReview = (params) => {
   return fetch({
     url: review,
     method: "delete",
-    params: params
+    params: params,
   });
 };
 

@@ -24,6 +24,7 @@ const Views = () => {
   const location = useLocation();
 
   const shouldRenderHeader = !location.pathname.startsWith("/admin/dashboard");
+  const shouldRenderFooter = !location.pathname.startsWith("/admin/dashboard");
 
   return (
     <>
@@ -48,7 +49,7 @@ const Views = () => {
         <Route path="/admin/dashboard" element={<DashBoard />} />
       </Routes>
 
-      <Footer />
+      {shouldRenderFooter && <Footer />}
     </>
   );
 };

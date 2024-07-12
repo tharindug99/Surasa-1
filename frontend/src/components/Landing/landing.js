@@ -1,5 +1,4 @@
 import React, { useRef } from "react";
-import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import Lottie from "lottie-react";
 import foodAnim1 from "../../assets/animations/foodAnimation.json";

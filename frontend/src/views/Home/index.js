@@ -7,6 +7,8 @@ import Component02 from "components/Component 02/component02";
 import About from "components/About/About";
 import OrderMenu from "components/OrderMenu/OrderMenu";
 import ContactUs from "components/Contact/Contact";
+import Reviews from "components/Reviews/Reviews";
+import Booking from "components/Booking/Booking";
 
 const Home = (props) => {
   const { title } = props;
@@ -18,6 +20,8 @@ const Home = (props) => {
       <Landing />
       <OrderMenu />
       <About />
+      <Booking />
+      <Reviews />
       {/* <Component02 /> */}
       {/* <ContactUs /> */}
     </>
