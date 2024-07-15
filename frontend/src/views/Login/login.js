@@ -1,31 +1,48 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Logo from '../../../src/assets/images/Surasa Logo.png';
 import bg from '../../assets/images/login.gif';
-import {useNavigate} from 'react-router-dom';
-import {Button} from '@mui/material';
-import {yellow} from '@mui/material/colors';
-import {useDocumentTitle} from "../../hooks/useDocumentTitle";
-
-// Custom hook for form handling could be implemented here
-// function useFormInput(initialValue) {...}
+import { useNavigate } from 'react-router-dom';
+import { useDocumentTitle } from "../../hooks/useDocumentTitle";
+import UserRequest from '../../services/Requests/User'; // Adjust the import path as necessary
 
 const Login = (props) => {
     const navigate = useNavigate();
-    const {title} = props;
+    const { title } = props;
     useDocumentTitle(title);
 
+    // State to store login form data
+    const [formData, setFormData] = useState({
+        email: '',
+        password: '',
+    });
+
+    // Handle form field changes
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        setFormData(prevState => ({
+            ...prevState,
+            [name]: value,
+        }));
+    };
 
     // Handle form submission
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        // Implement login logic here
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
-        // On successful login, navigate to another route
-        // navigate('/dashboard');
+
+        try {
+            // Use the loginUser method from UserRequest
+            const response = await UserRequest.loginUser(formData.email, formData.password);
+
+            if (response.status === 200) { // Adjust according to your API's success response
+                const data = response.data;
+                console.log(data);
+                navigate('/', { state: { userId: data.userId } }); // Adjust as necessary based on your API response
+            } else {
+                console.error('Login failed.');
+            }
+        } catch (error) {
+            console.error('An error occurred:', error);
+        }
     };
 
     return (
@@ -43,43 +60,23 @@ const Login = (props) => {
                         <div>
                             <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
                             <input type="email" name="email" id="email" autoComplete="email" required
-                                   className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"/>
+                                   className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                                   value={formData.email} onChange={handleChange}/>
                         </div>
                         <div>
                             <label htmlFor="password"
                                    className="block text-sm font-medium text-gray-700">Password</label>
                             <input type="password" name="password" id="password" autoComplete="current-password"
                                    required
-                                   className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"/>
-                        </div>
-                        <div className="flex items-center justify-between">
-                            <div className="flex items-center">
-                                <input id="remember-me" name="remember-me" type="checkbox"
-                                       className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"/>
-                                <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">Remember
-                                    Me</label>
-                            </div>
-                            <div className="text-sm">
-                                <a href="#" className="font-medium text-yellow-800 hover:text-yellow-700">Forgot
-                                    Password?</a>
-                            </div>
+                                   className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+                                   value={formData.password} onChange={handleChange}/>
                         </div>
                         <div className="flex items-center justify-center">
-                            <Button
-                                disableElevation
-                                variant="contained"
-                                onClick={() => navigate('/register')}
-                                sx={{
-                                    bgcolor: yellow[700],
-                                    width: "30rem",
-                                    '&:hover': {
-                                        bgcolor: 'transparent',
-                                        borderWidth: 2,
-                                        borderColor: yellow[800],
-                                        color: yellow[800],
-                                    }
-                                }}
-                            > Login</Button>
+                            <button type="submit"
+                                    className="bg-yellow-700 text-white w-full h-10 border-1  hover:bg-yellow-900 hover:border-yellow-800 hover:border-2 hover:text-yellow-800 focus:outline-none disabled:opacity-50"
+                            >
+                                Login
+                            </button>
                         </div>
                     </form>
                     <div>

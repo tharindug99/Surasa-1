@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -97,4 +99,30 @@ class UserController extends Controller
 
         return response()->json(['message' => 'User deleted']);
     }
+
+
+    public function login(Request $request)
+    {
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        if (Auth::attempt($credentials)) {
+            $user = Auth::user();
+            return response()->json([
+                'success' => true,
+                'message' => 'Login successful.',
+                'userId' => $user->id,
+                // You can add more user details here if needed
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid credentials.',
+            ], 401);
+        }
+    }
+
+
 }

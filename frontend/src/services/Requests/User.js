@@ -59,4 +59,15 @@ UserRequest.deductPoints = (userId, points) => {
   });
 };
 
+UserRequest.loginUser = (email, password) => {
+  return fetch({
+    url: `${user}/login`,
+    method: "post",
+    data: { email, password },
+  });
+};
+
+
+
+
 export default UserRequest;

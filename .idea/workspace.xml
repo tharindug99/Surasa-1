@@ -4,16 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d937de62-ec1a-4c84-8794-a3b0c9f8362f" name="Changes" comment="Merge conflicts">
+    <list default="true" id="d937de62-ec1a-4c84-8794-a3b0c9f8362f" name="Changes" comment="User Registration with success Hash Password">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/API/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/API/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Models/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/migrations/2014_10_12_000000_create_users_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/migrations/2014_10_12_000000_create_users_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/hooks/useDocumentTitle.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/hooks/useDocumentTitle.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/api.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/redux/actions/User.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/redux/actions/User.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/redux/constants/User.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/redux/constants/User.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/redux/reducers/User.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/redux/reducers/User.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/services/Requests/User.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/services/Requests/User.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/views/Login/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/Login/login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/Register/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/Register/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -299,7 +298,7 @@
       <workItem from="1720588397390" duration="476000" />
       <workItem from="1720681048315" duration="590000" />
       <workItem from="1720948379976" duration="785000" />
-      <workItem from="1721021977657" duration="8608000" />
+      <workItem from="1721021977657" duration="10602000" />
     </task>
     <task id="LOCAL-00001" summary="01 Run">
       <option name="closed" value="true" />
@@ -549,7 +548,15 @@
       <option name="project" value="LOCAL" />
       <updated>1720622525502</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="User Registration with success Hash Password">
+      <option name="closed" value="true" />
+      <created>1721031259248</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1721031259248</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -568,7 +575,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="03 Material UI" />
     <MESSAGE value="03 Material UI 01" />
     <MESSAGE value="04 Category" />
     <MESSAGE value="Changes Names" />
@@ -593,6 +599,7 @@
     <MESSAGE value="Add Requests" />
     <MESSAGE value="Fetch all Tables Data" />
     <MESSAGE value="Merge conflicts" />
-    <option name="LAST_COMMIT_MESSAGE" value="Merge conflicts" />
+    <MESSAGE value="User Registration with success Hash Password" />
+    <option name="LAST_COMMIT_MESSAGE" value="User Registration with success Hash Password" />
   </component>
 </project>
