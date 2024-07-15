@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('phone_num', 20)->unique(); // phone_num VARCHAR(20) UNIQUE NOT NULL
             $table->string('image')->nullable(); // image VARCHAR(255) NULL
             $table->timestamp('email_verified_at')->nullable();
-            $table->integer('loyalty_points')->default(0); // loyalty_points INT DEFAULT 0
+            $table->integer('loyalty_points')->default(0)->nullable(); // loyalty_points INT DEFAULT 0
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();

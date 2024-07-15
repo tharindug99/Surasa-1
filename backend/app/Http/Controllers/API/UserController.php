@@ -5,6 +5,9 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -20,27 +23,26 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(UserRequest $request)
-    {
-        $validated = $request->validated();
-        $users = new User();
-        $users->first_name = $validated['first_name'];
-        $users->last_name = $validated['last_name'];
-        $users->phone_num = $validated['phone_num'];
-        $users->email = $validated['email'];
-        $users->image = $validated['image'];
-        $users->password = $validated['password'];
-        $users->loyalty_points = $validated['loyalty_points'];
+   public function store(UserRequest $request)
+{
+    $validated = $request->validated();
+    $user = new User();
+    $user->first_name = $validated['first_name'];
+    $user->last_name = $validated['last_name'];
+    $user->phone_num = $validated['phone_num'];
+    $user->email = $validated['email'];
+    $user->image = $request->has('image') ? $validated['image'] : 'https://placehold.co/40x40';
+    $user->password = Hash::make($validated['password']);
+    $user->loyalty_points = $validated['loyalty_points'] ?? 0;
 
+    $user->save();
 
-        $users->save();
-
-        return response()->json([
-            'success' => true,
-            'message' => 'User created successfully.',
-            'users' => $users
-        ], 201);
-    }
+    return response()->json([
+        'success' => true,
+        'message' => 'User created successfully.',
+        'user' => $user
+    ], 201);
+}
 
     /**
      * Display the specified resource.
@@ -59,25 +61,28 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UserRequest $request, string $id)
-    {
-        $users = User::find($id);
+   public function update(UserRequest $request, string $id)
+{
+    $user = User::find($id);
 
-        if (!$users) {
-            return response()->json(['error' => 'User not found'], 404);
-        }
-
-        $validated = $request->validated();
-
-
-        $users->update($validated);
-
-        return response()->json([
-            'success' => true,
-            'message' => 'User updated successfully.',
-            'users' => $users
-        ], 200);
+    if (!$user) {
+        return response()->json(['error' => 'User not found'], 404);
     }
+
+    $validated = $request->validated();
+
+    if (isset($validated['password'])) {
+        $validated['password'] = Hash::make($validated['password']);
+    }
+
+    $user->update($validated);
+
+    return response()->json([
+        'success' => true,
+        'message' => 'User updated successfully.',
+        'user' => $user
+    ], 200);
+}
 
     /**
      * Remove the specified resource from storage.
@@ -94,4 +99,30 @@ class UserController extends Controller
 
         return response()->json(['message' => 'User deleted']);
     }
+
+
+    public function login(Request $request)
+    {
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        if (Auth::attempt($credentials)) {
+            $user = Auth::user();
+            return response()->json([
+                'success' => true,
+                'message' => 'Login successful.',
+                'userId' => $user->id,
+                // You can add more user details here if needed
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid credentials.',
+            ], 401);
+        }
+    }
+
+
 }
