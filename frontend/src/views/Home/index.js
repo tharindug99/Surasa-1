@@ -22,8 +22,7 @@ const Home = (props) => {
       <About />
       <Booking />
       <Reviews />
-      {/* <Component02 /> */}
-      {/* <ContactUs /> */}
+      <ContactUs />
     </>
   );
 };

@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import eventImg from "../../assets/vectors/Events.png";
+import BookingRequest from "services/Requests/Booking";
 
 const localizer = momentLocalizer(moment);
 
-function Booking() {
+function Booking(props) {
+  const { bookings } = props;
+  console.log(bookings);
   const [fullName, setFullName] = useState("");
   const [contactNumber, setContactNumber] = useState("");
   const [email, setEmail] = useState("");
@@ -14,19 +17,32 @@ function Booking() {
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [confirmationMessage, setConfirmationMessage] = useState("");
   const [eventInfo, setEventInfo] = useState(null);
+  const [bookedEvents, setBookedEvents] = useState([]);
 
-  const sampleEvents = [
-    {
-      title: "Biriyani",
-      start: new Date(2024, 5, 7, 10, 0), // June 7, 2024, 10:00 AM
-      end: new Date(2024, 5, 7, 12, 0), // June 7, 2024, 12:00 PM
-    },
-    {
-      title: "Ice Coffee - by FAS",
-      start: new Date(2024, 5, 8, 14, 0), // June 8, 2024, 2:00 PM
-      end: new Date(2024, 5, 8, 16, 0), // June 8, 2024, 4:00 PM
-    },
-  ];
+  useEffect(() => {
+    async function fetchBookings() {
+      try {
+        const response = await BookingRequest.getAllBookings();
+        setBookedEvents(response.data);
+      } catch (error) {
+        console.error("Error fetching bookings:", error);
+      }
+    }
+
+    fetchBookings();
+  }, []);
+
+  console.log(bookedEvents);
+
+  // Format bookedEvents into the required format for react-big-calendar
+  const formattedEvents = bookedEvents.map((event) => ({
+    id: event.id, // Ensure each event has a unique ID
+    title: event.event_name,
+    start: new Date(event.start_time),
+    end: new Date(event.end_time),
+    faculty: event.faculty,
+    createdAt: moment(event.created_at).format("YYYY-MM-DD HH:mm:ss"),
+  }));
 
   const handleBooking = (e) => {
     e.preventDefault();
@@ -59,13 +75,23 @@ function Booking() {
     setEventInfo(event);
   };
 
+  const isSlotBooked = (start, end) => {
+    return bookedEvents.some(
+      (event) =>
+        (start >= new Date(event.start_time) &&
+          start < new Date(event.end_time)) ||
+        (end > new Date(event.start_time) && end <= new Date(event.end_time)) ||
+        (start <= new Date(event.start_time) && end >= new Date(event.end_time))
+    );
+  };
+
   return (
     <div
-      className="bg-cover bg-center min-h-screen"
+      className="bg-cover bg-center min-h-screen h-screen py-28"
       style={{ backgroundImage: `url(${eventImg})` }}
     >
-      <div className="text-center p-6 items-center justify-center ">
-        <h2 className="text-yellow-800 text-5xl  font-semibold">
+      <div className="text-center p-6 items-center justify-center pb-20">
+        <h2 className="text-yellow-800 text-5xl font-semibold">
           Need to Book Surasa?
         </h2>
         <p className="text-gray-700 text-lg">Birthday? Event? Fundraiser?</p>
@@ -73,26 +99,30 @@ function Booking() {
 
       <div
         id="booking"
-        className="booking-container px-10 flex flex-col md:flex-row items-center "
+        className="booking-container px-10 flex flex-col md:flex-row items-center pb-20"
       >
         <div className="w-full md:w-1/2 md:pr-4">
           <Calendar
             className="p-10 bg-white bg-opacity-75 border-2"
             localizer={localizer}
-            events={sampleEvents}
+            events={formattedEvents}
             selectable
             min={new Date().setHours(8, 0, 0)} // Set minimum time
             max={new Date().setHours(18, 0, 0)} // Set maximum time
             defaultView="week" // Set default view to week
             onSelectSlot={(slotInfo) => {
-              setSelectedSlot(slotInfo);
-              setConfirmationMessage(
-                "Confirm booking for " +
-                  moment(slotInfo.start).format("LT") +
-                  " - " +
-                  moment(slotInfo.end).format("LT") +
-                  "?"
-              );
+              if (!isSlotBooked(slotInfo.start, slotInfo.end)) {
+                setSelectedSlot(slotInfo);
+                setConfirmationMessage(
+                  "Confirm booking for " +
+                    moment(slotInfo.start).format("LT") +
+                    " - " +
+                    moment(slotInfo.end).format("LT") +
+                    "?"
+                );
+              } else {
+                setConfirmationMessage("This slot is already booked.");
+              }
             }}
             views={["week", "day"]} // Only show week and day views
             eventPropGetter={eventStyleGetter} // Apply custom styles to events

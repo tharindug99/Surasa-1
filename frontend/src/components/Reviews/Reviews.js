@@ -34,7 +34,7 @@ const Reviews = ({ reviews, setReviews }) => {
       setSlideIndex((prevIndex) =>
         prevIndex === (reviews?.length || 0) - 2 ? 0 : prevIndex + 1
       );
-    }, 1000); // Change interval time as needed (in milliseconds)
+    }, 1000);
 
     return () => clearInterval(interval);
   }, [reviews, setReviews]);
