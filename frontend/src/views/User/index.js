@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { setUsers } from "redux/actions"; // You need to create setUsers action
 import UserRequest from "services/Requests/User"; // You need to create UserRequest
 import useLoading from "hooks/useLoading";
-import CollapsibleTable from "./data";
+import CollapsibleTable from "./CustomerTableUI";
 import PointsModal from "./PointsModal"; // Import PointsModal component
 
 const User = (props) => {

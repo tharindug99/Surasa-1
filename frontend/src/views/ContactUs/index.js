@@ -1,52 +1,50 @@
-// frontend/src/views/ContactUsDetail/index.js
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
+import { setContactUss } from "redux/actions";
+import ContactUsRequest from "services/Requests/ContactUs";
+import useLoading from "hooks/useLoading";
+import StickyHeadTable from "./ContactUsTableUI"; // Import your table component
 
-import React from 'react';
-import { connect } from 'react-redux';
-import { setContactUss } from 'redux/actions';
-import ContactUsRequest from 'services/Requests/ContactUs';
-import { useEffect } from 'react';
-import useLoading from 'hooks/useLoading';
-
-const ContactUsDetail = props => {
-  const { setContactUss, contactUsMessages } = props; // Changed contactus to contactUsMessages
+const ContactUsDetail = (props) => {
+  const { setContactUss, contactUsMessages } = props;
   const [loading, withLoading] = useLoading();
 
-  const getAllContactUs = async () => { // New function for fetching all contact us data
+  const getAllContactUs = async () => {
     try {
-      const contactUsMessages = await withLoading(ContactUsRequest.getAllContactUs()); // Use getAllContactUsData function
-      setContactUss(contactUsMessages?.data);
-      console.log(contactUsMessages?.data); // Console log the contact us data
+      const contactUsResponse = await withLoading(
+        ContactUsRequest.getAllContactUs()
+      );
+      setContactUss(contactUsResponse?.data);
     } catch (error) {
       console.log(error?.message);
       console.error(error);
     }
-  }
+  };
 
   useEffect(() => {
-    if(contactUsMessages?.length < 1){ // Fetch contact us data if not already fetched
+    if (contactUsMessages?.length < 1) {
       getAllContactUs();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [contactUsMessages, getAllContactUs]);
 
   return (
     <>
-      {
-        loading
-          ? "Loading Contact Us Data"
-          : <h4>Check console for contact us data</h4>
-      }
+      {loading ? (
+        "Loading Contact Us Data"
+      ) : (
+        <StickyHeadTable rows={contactUsMessages} />
+      )}
     </>
-  )
+  );
 };
 
-const mapStateToProps = ({contactUs}) => { // Add contactUs to mapStateToProps
-  const { contactUsMessages } = contactUs; // Changed contactus to contactUsMessages
-  return { contactUsMessages }
-}
+const mapStateToProps = ({ contactUs }) => {
+  const { contactUsMessages } = contactUs;
+  return { contactUsMessages };
+};
 
 const mapDispatchToProps = {
-  setContactUss // You need to create setContactUss action
-}
+  setContactUss,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContactUsDetail);

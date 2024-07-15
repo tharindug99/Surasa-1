@@ -16,6 +16,7 @@ import DailyMenuItem from "./DailyMenuItem";
 import Order from "./Order";
 import Review from "./Review";
 import User from "./User";
+import UserDashboard from "./User/Dashboard/UserDashboard";
 import OrderItem from "./OrderItem";
 import PlaceOrder from "../views/PlaceOrder/index";
 import DashBoard from "./Dashboard/index";
@@ -24,6 +25,7 @@ const Views = () => {
   const location = useLocation();
 
   const shouldRenderHeader = !location.pathname.startsWith("/admin/dashboard");
+  const shouldRenderFooter = !location.pathname.startsWith("/admin/dashboard");
 
   return (
     <>
@@ -44,11 +46,12 @@ const Views = () => {
         <Route path="/order" element={<Order />} />
         <Route path="/review" element={<Review />} />
         <Route path="/user" element={<User />} />
+        <Route path="/user/:id/dashboard" element={<UserDashboard />} />
         <Route path="/orderItem" element={<OrderItem />} />
         <Route path="/admin/dashboard" element={<DashBoard />} />
       </Routes>
 
-      <Footer />
+      {shouldRenderFooter && <Footer />}
     </>
   );
 };

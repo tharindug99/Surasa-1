@@ -1,50 +1,54 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { setBookings } from 'redux/actions'; // You need to create setBookings action
-import BookingRequest from 'services/Requests/Booking'; // You need to create BookingRequest
-import { useEffect } from 'react';
-import useLoading from 'hooks/useLoading';
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
+import { setBookings } from "redux/actions";
+import BookingRequest from "services/Requests/Booking";
+import useLoading from "hooks/useLoading";
+import CollapsibleTable from "./BookingTableUI"; // Import CollapsibleTable component
 
-const BookingDetail = props => {
-  const { setBookings, bookings } = props; // Add bookings to props
+const BookingDetail = (props) => {
+  const { setBookings, bookings } = props;
   const [loading, withLoading] = useLoading();
 
-  const getAllBookings = async () => { // New function for fetching all bookings
+  const getAllBookings = async () => {
     try {
-      const bookings = await withLoading(BookingRequest.getAllBookings()); // Use getAllBookings function
+      const bookings = await withLoading(BookingRequest.getAllBookings());
       setBookings(bookings?.data);
-      console.log(bookings?.data); // Console log the bookings
+      console.log(bookings?.data);
     } catch (error) {
       console.log(error?.message);
       console.error(error);
     }
-  }
+  };
 
   useEffect(() => {
-    if(bookings?.length < 1){ // Fetch bookings if not already fetched
+    if (bookings?.length < 1) {
       getAllBookings();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <>
-      {
-        loading
-          ? "Loading Bookings"
-          : <h4>Check console for bookings data</h4>
-      }
+      {loading ? (
+        "Loading Bookings"
+      ) : (
+        <>
+          <h4>Bookings Data</h4>
+          <CollapsibleTable rows={bookings} />{" "}
+          {/* Pass bookings to CollapsibleTable */}
+        </>
+      )}
     </>
-  )
+  );
 };
 
-const mapStateToProps = ({booking}) => { // Add booking to mapStateToProps
-  const { bookings } = booking; // You need to create booking reducer
-  return { bookings }
-}
+const mapStateToProps = ({ booking }) => {
+  const { bookings } = booking;
+  return { bookings };
+};
 
 const mapDispatchToProps = {
-  setBookings // You need to create setBookings action
-}
+  setBookings,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(BookingDetail);

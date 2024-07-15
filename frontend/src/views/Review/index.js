@@ -1,52 +1,41 @@
-// frontend/src/views/Review/index.js
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
+import { setReviews } from "redux/actions";
+import ReviewRequest from "services/Requests/Review";
+import useLoading from "hooks/useLoading";
+import StickyHeadTable from "./ReviewTableUI"; // Import your table component
 
-import React from 'react';
-import { connect } from 'react-redux';
-import { setReviews } from 'redux/actions'; // You need to create setReviews action
-import ReviewRequest from 'services/Requests/Review'; // You need to create ReviewRequest
-import { useEffect } from 'react';
-import useLoading from 'hooks/useLoading';
-
-const Review = props => {
-  const { setReviews, reviews } = props; // Add reviews to props
+const Review = (props) => {
+  const { setReviews, reviews } = props;
   const [loading, withLoading] = useLoading();
 
-  const getAllReviews = async () => { // New function for fetching all reviews
+  const getAllReviews = async () => {
     try {
-      const reviews = await withLoading(ReviewRequest.getAllReviews()); // Use getAllReviews function
-      setReviews(reviews?.data);
-      console.log(reviews?.data); // Console log the reviews
+      const reviewsResponse = await withLoading(ReviewRequest.getAllReviews());
+      setReviews(reviewsResponse?.data);
     } catch (error) {
       console.log(error?.message);
-      console.error(error);
     }
-  }
+  };
 
   useEffect(() => {
-    if(reviews?.length < 1){ // Fetch reviews if not already fetched
+    if (reviews?.length < 1) {
       getAllReviews();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [reviews, getAllReviews]);
 
   return (
-    <>
-      {
-        loading
-          ? "Loading Reviews"
-          : <h4>Check console for reviews data</h4>
-      }
-    </>
-  )
+    <>{loading ? "Loading Reviews" : <StickyHeadTable rows={reviews} />}</>
+  );
 };
 
-const mapStateToProps = ({review}) => { // Add review to mapStateToProps
-  const { reviews } = review; // You need to create review reducer
-  return { reviews }
-}
+const mapStateToProps = ({ review }) => {
+  const { reviews } = review;
+  return { reviews };
+};
 
 const mapDispatchToProps = {
-  setReviews // You need to create setReviews action
-}
+  setReviews,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Review);
