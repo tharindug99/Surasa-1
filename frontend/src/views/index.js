@@ -5,7 +5,6 @@ import NotFound from "./Error/404";
 import Header from "components/shared/header/header";
 import Footer from "components/shared/footer";
 import Login from "./Login/login";
-import Index from "./Register";
 import Product from "./Product";
 import Category from "./Category";
 import Home from "./Home";
@@ -20,8 +19,12 @@ import UserDashboard from "./User/Dashboard/UserDashboard";
 import OrderItem from "./OrderItem";
 import PlaceOrder from "../views/PlaceOrder/index";
 import DashBoard from "./Dashboard/index";
+
 import AdminLogin from "./Admin/AdminLogin";
 import ForgotAdminPassword from "./Admin/ForgotAdminPassword";
+
+import Register from "./Register";
+
 
 const Views = () => {
   const location = useLocation();
@@ -34,9 +37,9 @@ const Views = () => {
       {shouldRenderHeader && <Header />}
 
       <Routes>
-        <Route path="/" element={<Home title="Home" />} />
-        <Route path="/register" element={<Index />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Home title="Surasa" />} />
+        <Route path="/register" element={<Register title="Register" />} />
+        <Route path="/login" element={<Login title="Login" />} />
         <Route path="/place-order" element={<PlaceOrder />} />
         <Route path="/product/:id" element={<Product />} />
         <Route path="/category/:id" element={<Category />} />
