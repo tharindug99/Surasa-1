@@ -20,6 +20,8 @@ import UserDashboard from "./User/Dashboard/UserDashboard";
 import OrderItem from "./OrderItem";
 import PlaceOrder from "../views/PlaceOrder/index";
 import DashBoard from "./Dashboard/index";
+import AdminLogin from "./Admin/AdminLogin";
+import ForgotAdminPassword from "./Admin/ForgotAdminPassword";
 
 const Views = () => {
   const location = useLocation();
@@ -49,6 +51,8 @@ const Views = () => {
         <Route path="/user/:id/dashboard" element={<UserDashboard />} />
         <Route path="/orderItem" element={<OrderItem />} />
         <Route path="/admin/dashboard" element={<DashBoard />} />
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/admin/reset-password" element={<ForgotAdminPassword />} />
       </Routes>
 
       {shouldRenderFooter && <Footer />}
