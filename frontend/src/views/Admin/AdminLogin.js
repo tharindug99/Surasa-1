@@ -1,7 +1,7 @@
 import React from "react";
 import Logo from "../../../src/assets/images/Surasa Logo.png";
 import { useNavigate } from "react-router-dom";
-import { deepYellow, yellow, white } from "@mui/material/colors";
+import { yellow } from "@mui/material/colors";
 import { Button } from "@mui/material";
 
 const AdminLogin = () => {

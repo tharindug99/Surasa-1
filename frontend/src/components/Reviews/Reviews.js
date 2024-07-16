@@ -19,10 +19,10 @@ const Reviews = ({ reviews, setReviews }) => {
       try {
         const response = await withLoading(ReviewRequest.getAllReviews());
         setReviews(response.data);
-        console.log(response.data);
+        
       } catch (error) {
         console.error("Error fetching reviews:", error);
-        console.log(ReviewRequest.getAllReviews.url);
+        
       }
     };
 

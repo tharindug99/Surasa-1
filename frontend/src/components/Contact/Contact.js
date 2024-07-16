@@ -31,6 +31,7 @@ const Contact = () => {
       <section>
         {/* Background image */}
         <div
+          id="contact"
           className="relative flex justify-center items-center h-full z-10"
           style={{
             backgroundImage: `url(${backgroundImg})`,
