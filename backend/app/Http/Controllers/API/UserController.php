@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -23,26 +24,26 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-   public function store(UserRequest $request)
-{
-    $validated = $request->validated();
-    $user = new User();
-    $user->first_name = $validated['first_name'];
-    $user->last_name = $validated['last_name'];
-    $user->phone_num = $validated['phone_num'];
-    $user->email = $validated['email'];
-    $user->image = $request->has('image') ? $validated['image'] : 'https://placehold.co/40x40';
-    $user->password = Hash::make($validated['password']);
-    $user->loyalty_points = $validated['loyalty_points'] ?? 0;
+    public function store(UserRequest $request)
+    {
+        $validated = $request->validated();
+        $user = new User();
+        $user->first_name = $validated['first_name'];
+        $user->last_name = $validated['last_name'];
+        $user->phone_num = $validated['phone_num'];
+        $user->email = $validated['email'];
+        $user->image = $request->has('image') ? $validated['image'] : 'https://placehold.co/40x40';
+        $user->password = Hash::make($validated['password']);
+        $user->loyalty_points = $validated['loyalty_points'] ?? 0;
 
-    $user->save();
+        $user->save();
 
-    return response()->json([
-        'success' => true,
-        'message' => 'User created successfully.',
-        'user' => $user
-    ], 201);
-}
+        return response()->json([
+            'success' => true,
+            'message' => 'User created successfully.',
+            'user' => $user
+        ], 201);
+    }
 
     /**
      * Display the specified resource.
@@ -61,28 +62,28 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-   public function update(UserRequest $request, string $id)
-{
-    $user = User::find($id);
+    public function update(UserRequest $request, string $id)
+    {
+        $user = User::find($id);
 
-    if (!$user) {
-        return response()->json(['error' => 'User not found'], 404);
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+
+        $validated = $request->validated();
+
+        if (isset($validated['password'])) {
+            $validated['password'] = Hash::make($validated['password']);
+        }
+
+        $user->update($validated);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'User updated successfully.',
+            'user' => $user
+        ], 200);
     }
-
-    $validated = $request->validated();
-
-    if (isset($validated['password'])) {
-        $validated['password'] = Hash::make($validated['password']);
-    }
-
-    $user->update($validated);
-
-    return response()->json([
-        'success' => true,
-        'message' => 'User updated successfully.',
-        'user' => $user
-    ], 200);
-}
 
     /**
      * Remove the specified resource from storage.
@@ -101,20 +102,70 @@ class UserController extends Controller
     }
 
 
+    /*   public function login(Request $request)
+       {
+           $credentials = $request->validate([
+               'email' => 'required|email',
+               'password' => 'required',
+           ]);
+
+           if (Auth::attempt($credentials)) {
+               $user = Auth::user();
+               return response()->json([
+                   'success' => true,
+                   'message' => 'Login successful.',
+                   'userId' => $user->id,
+                   // You can add more user details here if needed
+               ]);
+           } else {
+               return response()->json([
+                   'success' => false,
+                   'message' => 'Invalid credentials.',
+               ], 401);
+           }
+       }*/
+
+
     public function login(Request $request)
     {
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
+        $requestData = $request->all();
+        Log::info('Request Data:', $requestData);
+
+        $email = $requestData['email'] ?? null;
+        $password = $requestData['password'] ?? null;
+
+        if (!$email || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'The email field is required and must be a valid email address.',
+            ], 422);
+        }
+
+        if (!$password) {
+            return response()->json([
+                'success' => false,
+                'message' => 'The password field is required.',
+            ], 422);
+        }
+
+        $credentials = [
+            'email' => $email,
+            'password' => $password,
+        ];
 
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
+
+            // Generate JWT token
+            $token = $user->createToken('auth_token')->plainTextToken;
+
             return response()->json([
                 'success' => true,
                 'message' => 'Login successful.',
                 'userId' => $user->id,
-                // You can add more user details here if needed
+                'token' => $token,
+                'tokenType' => config('auth.token_type'), // Use a configuration value
+                'expiresIn' => config('jwt.ttl') * 60, // Token expiration time in minutes
             ]);
         } else {
             return response()->json([
@@ -123,6 +174,5 @@ class UserController extends Controller
             ], 401);
         }
     }
-
 
 }

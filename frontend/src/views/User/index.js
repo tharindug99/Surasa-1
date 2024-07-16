@@ -1,27 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
-import { setUsers } from "redux/actions"; // You need to create setUsers action
-import UserRequest from "services/Requests/User"; // You need to create UserRequest
+import { useSelector, useDispatch } from "react-redux";
+import { setUsers as setUsersAction } from "redux/actions"; // Assuming actions are properly defined
+import UserRequest from "services/Requests/User"; // Assuming UserRequest is properly defined
 import useLoading from "hooks/useLoading";
 import CollapsibleTable from "./CustomerTableUI";
-import PointsModal from "./PointsModal"; // Import PointsModal component
+import PointsModal from "./PointsModal";
 
-const User = (props) => {
-  const { setUsers, users } = props; // Add users to props
+const User = () => {
+  const dispatch = useDispatch();
+  const users = useSelector((state) => state.user.users);
   const [loading, withLoading] = useLoading();
   const [modalOpen, setModalOpen] = useState(false);
   const [currentUserId, setCurrentUserId] = useState(null);
   const [isAddingPoints, setIsAddingPoints] = useState(true);
 
   const getAllUsers = async () => {
-    // New function for fetching all users
     try {
-      const response = await withLoading(UserRequest.getAllUsers()); // Use getAllUsers function
-      setUsers(response?.data);
-      console.log(response?.data); // Console log the users
+      const response = await withLoading(UserRequest.getAllUsers());
+      dispatch(setUsersAction(response?.data));
     } catch (error) {
-      console.log(error?.message);
-      console.error(error);
+      console.error("Failed to fetch users:", error);
     }
   };
 
@@ -31,33 +29,22 @@ const User = (props) => {
     setModalOpen(true);
   };
 
-  const handleAddPoints = async (userId, points) => {
+  const handlePointsChange = async (userId, points, isAdding) => {
     try {
-      const response = await UserRequest.addPoints(userId, points);
-      getAllUsers(); // Refresh the users list
+      const response = isAdding
+        ? await UserRequest.addPoints(userId, points)
+        : await UserRequest.deductPoints(userId, points);
+      getAllUsers(); // Refresh the users list after updating points
     } catch (error) {
-      console.log(error?.message);
-      console.error(error);
-    }
-  };
-
-  const handleDeductPoints = async (userId, points) => {
-    try {
-      const response = await UserRequest.deductPoints(userId, points);
-      getAllUsers(); // Refresh the users list
-    } catch (error) {
-      console.log(error?.message);
-      console.error(error);
+      console.error("Failed to update points:", error);
     }
   };
 
   useEffect(() => {
-    if (users?.length < 1) {
-      // Fetch users if not already fetched
+    if (users.length < 1) {
       getAllUsers();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [users.length]);
 
   return (
     <>
@@ -73,8 +60,8 @@ const User = (props) => {
             onClose={() => setModalOpen(false)}
             userId={currentUserId}
             isAdding={isAddingPoints}
-            handleAddPoints={handleAddPoints}
-            handleDeductPoints={handleDeductPoints}
+            handleAddPoints={(userId, points) => handlePointsChange(userId, points, true)}
+            handleDeductPoints={(userId, points) => handlePointsChange(userId, points, false)}
           />
         </>
       )}
@@ -82,14 +69,4 @@ const User = (props) => {
   );
 };
 
-const mapStateToProps = ({ user }) => {
-  // Add user to mapStateToProps
-  const { users } = user; // You need to create user reducer
-  return { users };
-};
-
-const mapDispatchToProps = {
-  setUsers, // You need to create setUsers action
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(User);
+export default User;

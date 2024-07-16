@@ -1,14 +1,18 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import Logo from '../../../src/assets/images/Surasa Logo.png';
 import bg from '../../assets/images/login.gif';
-import { useNavigate } from 'react-router-dom';
-import { useDocumentTitle } from "../../hooks/useDocumentTitle";
+import {useNavigate} from 'react-router-dom';
+import {useDocumentTitle} from "../../hooks/useDocumentTitle";
 import UserRequest from '../../services/Requests/User'; // Adjust the import path as necessary
+import {useDispatch, useSelector} from 'react-redux';
+import {loginUser} from "../../redux/actions";
 
 const Login = (props) => {
     const navigate = useNavigate();
-    const { title } = props;
+    const {title} = props;
     useDocumentTitle(title);
+    const dispatch = useDispatch();
+    const currentUser = useSelector((state) => state.currentUser);
 
     // State to store login form data
     const [formData, setFormData] = useState({
@@ -18,7 +22,7 @@ const Login = (props) => {
 
     // Handle form field changes
     const handleChange = (event) => {
-        const { name, value } = event.target;
+        const {name, value} = event.target;
         setFormData(prevState => ({
             ...prevState,
             [name]: value,
@@ -26,19 +30,69 @@ const Login = (props) => {
     };
 
     // Handle form submission
-    const handleSubmit = async (event) => {
-        event.preventDefault();
+   /* const handleSubmit = async (e) => {
+        e.preventDefault();
+        console.log(formData);
 
         try {
-            // Use the loginUser method from UserRequest
-            const response = await UserRequest.loginUser(formData.email, formData.password);
+            const response = await fetch('http://localhost:8000/api/users/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
 
-            if (response.status === 200) { // Adjust according to your API's success response
-                const data = response.data;
-                console.log(data);
-                navigate('/', { state: { userId: data.userId } }); // Adjust as necessary based on your API response
+            const data = await response.json();
+
+            if (response.ok) {
+                const {success, message, userId, token, tokenType, expiresIn} = data;
+
+                if (success) {
+                    // Save the token and token type to local storage
+                    localStorage.setItem('authToken', token);
+                    localStorage.setItem('tokenType', tokenType);
+
+                    // Save the token expiration time (in milliseconds)
+                    const expirationTime = new Date().getTime() + expiresIn * 60 * 1000;
+                    localStorage.setItem('tokenExpiration', expirationTime.toString());
+
+                    console.log(message);
+                    navigate('/', {state: {userId}});
+                } else {
+                    console.error(message);
+                    // Display the error message to the user
+                }
             } else {
-                console.error('Login failed.');
+                console.error('Network response was not ok');
+                // Display a generic error message to the user
+            }
+        } catch (error) {
+            console.error('An error occurred:', error);
+            // Display the error message to the user
+        }
+    };*/
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        console.log(formData);
+
+        try {
+            const response = await UserRequest.loginUser(formData);
+            const { success, message, userId, token, tokenType, expiresIn } = response;
+
+            if (success) {
+                localStorage.setItem('authToken', token);
+                localStorage.setItem('tokenType', tokenType);
+                const expirationTime = new Date().getTime() + expiresIn * 60 * 1000;
+                localStorage.setItem('tokenExpiration', expirationTime.toString());
+
+                console.log(message);
+
+                dispatch(loginUser({ userId, token, tokenType, expiresIn }));
+                navigate('/', { state: { userId } });
+            } else {
+                console.error(message);
             }
         } catch (error) {
             console.error('An error occurred:', error);
@@ -59,14 +113,14 @@ const Login = (props) => {
                     <form onSubmit={handleSubmit} className="space-y-6">
                         <div>
                             <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
-                            <input type="email" name="email" id="email" autoComplete="email" required
+                            <input type="email" name="email" required
                                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                                    value={formData.email} onChange={handleChange}/>
                         </div>
                         <div>
                             <label htmlFor="password"
                                    className="block text-sm font-medium text-gray-700">Password</label>
-                            <input type="password" name="password" id="password" autoComplete="current-password"
+                            <input type="password" name="password"
                                    required
                                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                                    value={formData.password} onChange={handleChange}/>
