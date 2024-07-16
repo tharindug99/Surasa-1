@@ -13,6 +13,12 @@ module.exports = withMT({
         SurasaBrown: "#291603",
         DeepBlue: "#0f172a",
       },
+      textColor: {
+        NavBarBG: "#f3f3f3",
+        SurasaYellow: "#F0C903",
+        SurasaBrown: "#291603",
+        DeepBlue: "#0f172a",
+      },
       fontSize: {
         "body-lg": "3rem",
         body: ".875rem",

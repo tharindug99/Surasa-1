@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Food from "./Food";
 import Beverages from "./Beverages";
-import { brown, yellow, white } from "@mui/material/colors";
 import { Button } from "@mui/material";
 
 const Section = styled.div`
@@ -18,7 +17,7 @@ function Tabs() {
   const navigate = useNavigate();
 
   const handleOrderNowClick = () => {
-    navigate("/order");
+    navigate("/place-order");
   };
 
   return (

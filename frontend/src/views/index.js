@@ -25,7 +25,6 @@ import ForgotAdminPassword from "./Admin/ForgotAdminPassword";
 
 import Register from "./Register";
 
-
 const Views = () => {
   const location = useLocation();
 
@@ -38,6 +37,7 @@ const Views = () => {
 
       <Routes>
         <Route path="/" element={<Home title="Surasa" />} />
+        <Route path="/home" element={<Home title="Surasa" />} />
         <Route path="/register" element={<Register title="Register" />} />
         <Route path="/login" element={<Login title="Login" />} />
         <Route path="/place-order" element={<PlaceOrder />} />

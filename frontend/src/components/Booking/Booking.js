@@ -9,7 +9,6 @@ const localizer = momentLocalizer(moment);
 
 function Booking(props) {
   const { bookings } = props;
-  console.log(bookings);
   const [fullName, setFullName] = useState("");
   const [contactNumber, setContactNumber] = useState("");
   const [email, setEmail] = useState("");
@@ -31,8 +30,6 @@ function Booking(props) {
 
     fetchBookings();
   }, []);
-
-  console.log(bookedEvents);
 
   // Format bookedEvents into the required format for react-big-calendar
   const formattedEvents = bookedEvents.map((event) => ({

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Link as ScrollLink } from "react-scroll";
 import logo from "../../../../src/assets/images/Surasa Logo.png";
 import { GiHamburgerMenu } from "react-icons/gi";
@@ -16,6 +16,7 @@ const Header = (props) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
   const navigate = useNavigate();
+  const location = useLocation(); // To get the current route
 
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
@@ -41,6 +42,30 @@ const Header = (props) => {
     }
   }, []);
 
+  const renderNavLink = (to, label) => {
+    if (location.pathname === "/") {
+      return (
+        <ScrollLink
+          className="dropdown-link"
+          activeclass="active"
+          to={to}
+          spy={true}
+          smooth={true}
+          offset={-70}
+          duration={500}
+        >
+          {label}
+        </ScrollLink>
+      );
+    } else {
+      return (
+        <Link to={`/#${to}`} className="dropdown-link">
+          {label}
+        </Link>
+      );
+    }
+  };
+
   return (
     <>
       <div
@@ -57,45 +82,9 @@ const Header = (props) => {
           </div>
           {/* Navigation Links */}
           <ul className="hidden lg:flex ml-24 space-x-4">
-            <li>
-              <ScrollLink
-                className="dropdown-link"
-                activeclass="active"
-                to="home"
-                spy={true}
-                smooth={true}
-                offset={-70}
-                duration={500}
-              >
-                Home
-              </ScrollLink>
-            </li>
-            <li>
-              <ScrollLink
-                className="dropdown-link"
-                activeclass="active"
-                to="about"
-                spy={true}
-                smooth={true}
-                offset={-70}
-                duration={500}
-              >
-                About Us
-              </ScrollLink>
-            </li>
-            <li>
-              <ScrollLink
-                className="dropdown-link"
-                activeclass="active"
-                to="contact"
-                spy={true}
-                smooth={true}
-                offset={-70}
-                duration={500}
-              >
-                Contact Us
-              </ScrollLink>
-            </li>
+            <li>{renderNavLink("home", "Home")}</li>
+            <li>{renderNavLink("about", "About Us")}</li>
+            <li>{renderNavLink("contact", "Contact Us")}</li>
           </ul>
           {/* Index and Login Buttons */}
           {userInfo ? (
@@ -127,7 +116,6 @@ const Header = (props) => {
                   },
                 }}
               >
-                {" "}
                 Register
               </Button>
               <Button
@@ -170,45 +158,9 @@ const Header = (props) => {
                     </>
                   )}
                   {/* Dropdown items with hover effect */}
-                  <li>
-                    <ScrollLink
-                      className="dropdown-link"
-                      activeclass="active"
-                      to="home"
-                      spy={true}
-                      smooth={true}
-                      offset={-70}
-                      duration={500}
-                    >
-                      Home
-                    </ScrollLink>
-                  </li>
-                  <li>
-                    <ScrollLink
-                      className="dropdown-link"
-                      activeclass="active"
-                      to="about"
-                      spy={true}
-                      smooth={true}
-                      offset={-70}
-                      duration={500}
-                    >
-                      About Us
-                    </ScrollLink>
-                  </li>
-                  <li>
-                    <ScrollLink
-                      className="dropdown-link"
-                      activeclass="active"
-                      to="contact"
-                      spy={true}
-                      smooth={true}
-                      offset={-70}
-                      duration={500}
-                    >
-                      Contact Us
-                    </ScrollLink>
-                  </li>
+                  <li>{renderNavLink("home", "Home")}</li>
+                  <li>{renderNavLink("about", "About Us")}</li>
+                  <li>{renderNavLink("contact", "Contact Us")}</li>
                   {!userInfo && (
                     <>
                       <li>
