@@ -163,6 +163,12 @@ class UserController extends Controller
                 'success' => true,
                 'message' => 'Login successful.',
                 'userId' => $user->id,
+                'first_name' => $user->first_name,
+                'last_name' => $user->last_name,
+                'email' => $user->email,
+                'phone_num' => $user->phone_num,
+                'image' => $user->image,
+                'loyalty_points' => $user->loyalty_points,
                 'token' => $token,
                 'tokenType' => config('auth.token_type'), // Use a configuration value
                 'expiresIn' => config('jwt.ttl') * 60, // Token expiration time in minutes

@@ -7,10 +7,7 @@
     <list default="true" id="d937de62-ec1a-4c84-8794-a3b0c9f8362f" name="Changes" comment="User Login Success">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/API/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/API/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/api.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/services/Requests/User.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/services/Requests/User.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/views/Login/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/Login/login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/User/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/User/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

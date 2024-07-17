@@ -30,50 +30,9 @@ const Login = (props) => {
     };
 
     // Handle form submission
-   /* const handleSubmit = async (e) => {
-        e.preventDefault();
-        console.log(formData);
 
-        try {
-            const response = await fetch('http://localhost:8000/api/users/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
-            });
 
-            const data = await response.json();
-
-            if (response.ok) {
-                const {success, message, userId, token, tokenType, expiresIn} = data;
-
-                if (success) {
-                    // Save the token and token type to local storage
-                    localStorage.setItem('authToken', token);
-                    localStorage.setItem('tokenType', tokenType);
-
-                    // Save the token expiration time (in milliseconds)
-                    const expirationTime = new Date().getTime() + expiresIn * 60 * 1000;
-                    localStorage.setItem('tokenExpiration', expirationTime.toString());
-
-                    console.log(message);
-                    navigate('/', {state: {userId}});
-                } else {
-                    console.error(message);
-                    // Display the error message to the user
-                }
-            } else {
-                console.error('Network response was not ok');
-                // Display a generic error message to the user
-            }
-        } catch (error) {
-            console.error('An error occurred:', error);
-            // Display the error message to the user
-        }
-    };*/
-
-    const handleSubmit = async (e) => {
+    /*const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(formData);
 
@@ -97,7 +56,34 @@ const Login = (props) => {
         } catch (error) {
             console.error('An error occurred:', error);
         }
+    };*/
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        console.log(formData);
+
+        try {
+            const response = await UserRequest.loginUser(formData);
+            const { success, message, userId, token, tokenType, expiresIn, first_name } = response;
+
+            if (success) {
+                localStorage.setItem('authToken', token);
+                localStorage.setItem('tokenType', tokenType);
+                const expirationTime = new Date().getTime() + expiresIn * 60 * 1000;
+                localStorage.setItem('tokenExpiration', expirationTime.toString());
+
+                console.log(message);
+
+                dispatch(loginUser({ userId, token, tokenType, expiresIn, first_name }));
+                navigate(`/?user=${encodeURIComponent(first_name)}`);
+            } else {
+                console.error(message);
+            }
+        } catch (error) {
+            console.error('An error occurred:', error);
+        }
     };
+
+
 
     return (
         <div className="flex min-h-screen bg-gray-100">
