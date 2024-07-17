@@ -181,4 +181,31 @@ class UserController extends Controller
         }
     }
 
+    public function logout(Request $request)
+    {
+        $user = $request->user();
+        $token = $request->header('Authorization');
+
+        Log::info('Logout request user:', ['user' => $user]);
+        Log::info('Logout request token:', ['token' => $token]);
+
+        if ($user) {
+            $user->currentAccessToken()->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Logout successful.',
+            ]);
+        }
+
+        Log::warning('Unauthenticated logout attempt');
+
+        return response()->json([
+            'success' => false,
+            'message' => 'User not authenticated.',
+        ], 401);
+    }
+
+
+
 }

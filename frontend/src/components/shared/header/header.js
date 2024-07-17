@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation,Link } from "react-router-dom";
 import { Link as ScrollLink } from "react-scroll";
 import logo from "../../../../src/assets/images/Surasa Logo.png";
 import { GiHamburgerMenu } from "react-icons/gi";
 import "./NavBar.css";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
+import {connect, useDispatch, useSelector} from "react-redux";
 import Button from "@mui/material/Button";
 import { yellow } from "@mui/material/colors";
+import UserRequest from '../../../services/Requests/User';
+import {logoutUser} from "../../../redux/actions";
 
 const Header = (props) => {
   const { items } = props;
@@ -16,7 +17,34 @@ const Header = (props) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
   const navigate = useNavigate();
-  const location = useLocation(); // To get the current route
+  const location = useLocation();
+  const dispatch = useDispatch();
+  const firstName = new URLSearchParams(location.search).get('first_name');
+  const isLoggedIn = useSelector((state) => state.user.token !== null);
+  console.log('Auth Token:', localStorage.getItem('authToken'));
+
+
+
+  const handleLogout = async () => {
+    try {
+      const response = await UserRequest.logoutUser();
+      const { success, message } = response;
+
+      if (success) {
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('tokenType');
+        localStorage.removeItem('tokenExpiration');
+        dispatch(logoutUser());
+        navigate('/login');
+      } else {
+        console.error(message);
+      }
+    } catch (error) {
+      console.error('An error occurred during logout:', error);
+    }
+  };
+
+
 
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
@@ -85,20 +113,23 @@ const Header = (props) => {
             <li>{renderNavLink("home", "Home")}</li>
             <li>{renderNavLink("about", "About Us")}</li>
             <li>{renderNavLink("contact", "Contact Us")}</li>
+            <button
+                className="logout-button"
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
           </ul>
           {/* Index and Login Buttons */}
           {userInfo ? (
             <div className="hidden lg:flex md:flex items-center space-x-4">
-              <span>Welcome back, {userInfo.full_name}</span>
-              <button
+              <span>Welcome back, {userInfo.first_name}</span>
+              {/*<button
                 className="logout-button"
-                onClick={() => {
-                  localStorage.removeItem("user-info");
-                  setUserInfo(null);
-                }}
+                onClick={handleLogout}
               >
                 Logout
-              </button>
+              </button>*/}
             </div>
           ) : (
             <div className="hidden lg:flex md:flex space-x-4">
