@@ -23,6 +23,11 @@ module.exports = withMT({
         "body-lg": "3rem",
         body: ".875rem",
       },
+
+      fontFamily: {
+        Inter: ["Inter", "sans-serif"],
+        
+      },
     },
   },
   plugins: [],
