@@ -16,7 +16,7 @@ const Landing = () => {
 
   return (
     <>
-      <div id="home" className="mx-auto md:px-6 sm:px-4">
+      <div id="home" className="mx-auto md:px-6 sm:px-4 pb-[40px] max-h-screen">
         <div className="container grid grid-cols-1 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-2 gap-4 md:ml-14 sm:ml-10 mx-8">
           {/* Left Section */}
           <div
@@ -29,7 +29,7 @@ const Landing = () => {
               <br />
               <span>to Surasa!!</span>
             </h1>
-            <p className="text_para mt-10">
+            <p className="text_para w-max-[150px]">
               "Satisfy your hunger needs, with an authentic culinary experience
               !!"
             </p>
