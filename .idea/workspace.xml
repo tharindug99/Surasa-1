@@ -5,14 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d937de62-ec1a-4c84-8794-a3b0c9f8362f" name="Changes" comment="User Login Success with return name to header">
+      <change afterPath="$PROJECT_DIR$/backend/env.example" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/9200da1c-6784-4019-8d84-055dad3d3b88.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/9200da1c-6784-4019-8d84-055dad3d3b88.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/API/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/API/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/api.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/shared/header/header.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/shared/header/header.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/redux/actions/User.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/redux/actions/User.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/redux/constants/User.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/redux/constants/User.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/redux/reducers/User.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/redux/reducers/User.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/services/Requests/User.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/services/Requests/User.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,6 +39,12 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RESET_MODE" value="HARD" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;DeathwingIN&quot;
+  }
+}</component>
   <component name="GitToolBoxStore">
     <option name="recentBranches">
       <RecentBranches>
@@ -72,6 +78,15 @@
       </RecentBranches>
     </option>
   </component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/DeathwingIN/Surasa.git&quot;,
+    &quot;accountId&quot;: &quot;1357a1f6-9890-47ea-9779-7c0afa717472&quot;
+  }
+}</component>
+  <component name="GoLibraries">
+    <option name="indexEntireGoPath" value="true" />
+  </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/frontend/src/components/shared/header.js" root0="FORCE_HIGHLIGHTING" />
   </component>
@@ -79,7 +94,7 @@
   <component name="KubernetesApiProvider">{
   &quot;isMigrated&quot;: true
 }</component>
-  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="C:\php-8.3.8\php.exe">
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="C:\Programming Languages\php-8.3.11\php.exe">
     <include_path>
       <path value="$PROJECT_DIR$/backend/vendor/psr/event-dispatcher" />
       <path value="$PROJECT_DIR$/backend/vendor/psr/container" />
@@ -217,17 +232,21 @@
     &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
     &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;E:/Surasa/frontend&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/imesh/Desktop/Surasa/backend&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\imesh\\AppData\\Local\\Programs\\PhpStorm\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\imesh\\AppData\\Local\\JetBrains\\IntelliJ IDEA 2024.2.1\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
   &quot;keyToStringList&quot;: {
@@ -247,11 +266,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\imesh\Desktop\Surasa\backend" />
       <recent name="E:\Surasa\frontend\src\views" />
       <recent name="E:\Surasa\frontend\src\services\Requests" />
       <recent name="E:\Surasa\frontend\src\redux\actions" />
       <recent name="E:\Surasa\frontend\src\redux\reducers" />
-      <recent name="E:\Surasa\frontend\src\redux\constants" />
     </key>
   </component>
   <component name="RunManager">
@@ -263,8 +282,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-PS-241.18034.69" />
-        <option value="bundled-php-predefined-ba97393d7c68-48a1a656d44e-com.jetbrains.php.sharedIndexes-PS-241.18034.69" />
+        <option value="bundled-jdk-9823dce3aa75-b114ca120d71-intellij.indexing.shared.core-IU-242.21829.142" />
+        <option value="bundled-js-predefined-d6986cc7102b-7c0b70fcd90d-JavaScript-IU-242.21829.142" />
       </set>
     </attachedChunks>
   </component>
@@ -300,6 +319,7 @@
       <workItem from="1720948379976" duration="785000" />
       <workItem from="1721021977657" duration="10602000" />
       <workItem from="1721123291265" duration="7234000" />
+      <workItem from="1730608077303" duration="2546000" />
     </task>
     <task id="LOCAL-00001" summary="01 Run">
       <option name="closed" value="true" />
@@ -610,5 +630,9 @@
     <MESSAGE value="User Registration with success Hash Password" />
     <MESSAGE value="User Login Success with return name to header" />
     <option name="LAST_COMMIT_MESSAGE" value="User Login Success with return name to header" />
+  </component>
+  <component name="VgoProject">
+    <integration-enabled>false</integration-enabled>
+    <settings-migrated>true</settings-migrated>
   </component>
 </project>

@@ -6,8 +6,8 @@
     "start": "npm-run-all --parallel install-frontend install-backend start-client start-backend",
     "install-frontend": "cd frontend && npm install",
     "install-backend": "cd backend && composer install",
-    "start-client": "cd frontend && npm start",
-    "start-backend": "cd backend && php artisan serve"
+    "start-client": "cd frontend && npm start -- --host 0.0.0.0",
+    "start-backend": "cd backend && php artisan serve --host 0.0.0.0"
   },
   "author": "",
   "license": "ISC",
