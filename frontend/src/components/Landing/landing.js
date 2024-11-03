@@ -6,7 +6,6 @@ import FoodItem1 from "../../assets/images/FoodItem1.jpg";
 import FoodItem2 from "../../assets/images/fooditem2.jpg";
 import FoodItem3 from "../../assets/images/fooditem5.jpg";
 import FoodItem4 from "../../assets/images/pasta.jpg";
-import EatAndDrinkImg from "../../assets/vectors/EatAndDrink.png";
 import { brown, yellow, white } from "@mui/material/colors";
 import { Link as ScrollLink } from "react-scroll";
 import { Button } from "@mui/material";
@@ -118,17 +117,6 @@ const Landing = () => {
               />
             </div>
           </div>
-        </div>
-        {/* Vectors Section */}
-        <div className="items-center justify-center h-20">
-          <img src={EatAndDrinkImg} />
-          <img src={EatAndDrinkImg} className="lg:hidden md:hidden" />
-          <img src={EatAndDrinkImg} className="lg:hidden md:hidden" />
-          <img src={EatAndDrinkImg} className="lg:hidden md:hidden" />
-          <img src={EatAndDrinkImg} className="lg:hidden md:hidden" />
-          <img src={EatAndDrinkImg} className="lg:hidden md:hidden" />
-          <img src={EatAndDrinkImg} className="lg:hidden md:hidden" />
-          <img src={EatAndDrinkImg} className="lg:hidden md:hidden" />
         </div>
       </div>
     </>
