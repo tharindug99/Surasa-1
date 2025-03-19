@@ -18,11 +18,11 @@ const Home = (props) => {
   return (
     <>
       <Landing />
-      {/*<OrderMenu />*/}
-      {/*<About />*/}
-      {/*<Booking />*/}
-      {/*<Reviews />*/}
-      {/*<ContactUs />*/}
+      <OrderMenu />
+      <About />
+      <Booking />
+      <Reviews />
+      <ContactUs />
     </>
   );
 };
