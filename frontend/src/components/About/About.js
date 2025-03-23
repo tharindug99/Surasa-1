@@ -3,6 +3,7 @@ import AboutImage from "../../assets/images/Aboutbg.png";
 
 function About() {
   return (
+
     <section
       className="md:h-screen bg-cover bg-center flex flex-col md:grid md:grid-cols-2 gap-4"
       style={{
