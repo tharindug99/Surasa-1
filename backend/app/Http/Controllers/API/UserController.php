@@ -102,30 +102,6 @@ class UserController extends Controller
     }
 
 
-    /*   public function login(Request $request)
-       {
-           $credentials = $request->validate([
-               'email' => 'required|email',
-               'password' => 'required',
-           ]);
-
-           if (Auth::attempt($credentials)) {
-               $user = Auth::user();
-               return response()->json([
-                   'success' => true,
-                   'message' => 'Login successful.',
-                   'userId' => $user->id,
-                   // You can add more user details here if needed
-               ]);
-           } else {
-               return response()->json([
-                   'success' => false,
-                   'message' => 'Invalid credentials.',
-               ], 401);
-           }
-       }*/
-
-
     public function login(Request $request)
     {
         $requestData = $request->all();
@@ -180,6 +156,9 @@ class UserController extends Controller
             ], 401);
         }
     }
+
+
+
 
     public function logout(Request $request)
     {
