@@ -17,9 +17,9 @@ const Home = (props) => {
 
   return (
     <>
-      <Landing />
+      {/*<Landing />*/}
       {/*<OrderMenu />*/}
-      {/*<About />*/}
+      <About />
       {/*<Booking />*/}
       {/*<Reviews />*/}
       {/*<ContactUs />*/}

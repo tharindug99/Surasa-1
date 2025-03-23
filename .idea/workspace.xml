@@ -4,9 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d937de62-ec1a-4c84-8794-a3b0c9f8362f" name="Changes" comment="User Login Success with return name to header">
+    <list default="true" id="d937de62-ec1a-4c84-8794-a3b0c9f8362f" name="Changes" comment="Land Up-01">
+      <change afterPath="$PROJECT_DIR$/frontend/src/assets/vectors/call.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/assets/vectors/email.svg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Landing/landing.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Landing/landing.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/About/About.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/About/About.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/shared/footer.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/shared/footer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/shared/header/header.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/shared/header/header.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/Home/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/Home/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -233,7 +239,7 @@
     &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/imesh/Desktop/Surasa/backend&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/imesh/Desktop/Surasa/frontend/src/assets/vectors&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -260,11 +266,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\imesh\Desktop\Surasa\frontend\src\assets\vectors" />
       <recent name="C:\Users\imesh\Desktop\Surasa\backend" />
       <recent name="E:\Surasa\frontend\src\views" />
       <recent name="E:\Surasa\frontend\src\services\Requests" />
       <recent name="E:\Surasa\frontend\src\redux\actions" />
-      <recent name="E:\Surasa\frontend\src\redux\reducers" />
     </key>
   </component>
   <component name="RunManager">
@@ -314,6 +320,12 @@
       <workItem from="1721021977657" duration="10602000" />
       <workItem from="1721123291265" duration="7234000" />
       <workItem from="1730608077303" duration="2546000" />
+      <workItem from="1730644854759" duration="79000" />
+      <workItem from="1730697045275" duration="8000" />
+      <workItem from="1730864337794" duration="6216000" />
+      <workItem from="1730883785555" duration="3000" />
+      <workItem from="1731072455736" duration="315000" />
+      <workItem from="1731072856350" duration="16000" />
     </task>
     <task id="LOCAL-00001" summary="01 Run">
       <option name="closed" value="true" />
@@ -579,7 +591,15 @@
       <option name="project" value="LOCAL" />
       <updated>1721194371441</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="Land Up-01">
+      <option name="closed" value="true" />
+      <created>1730643621555</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1730643621555</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -598,7 +618,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="04 Category" />
     <MESSAGE value="Changes Names" />
     <MESSAGE value="Nav Add" />
     <MESSAGE value="Add Component Animation" />
@@ -623,7 +642,8 @@
     <MESSAGE value="Merge conflicts" />
     <MESSAGE value="User Registration with success Hash Password" />
     <MESSAGE value="User Login Success with return name to header" />
-    <option name="LAST_COMMIT_MESSAGE" value="User Login Success with return name to header" />
+    <MESSAGE value="Land Up-01" />
+    <option name="LAST_COMMIT_MESSAGE" value="Land Up-01" />
   </component>
   <component name="VgoProject">
     <integration-enabled>false</integration-enabled>

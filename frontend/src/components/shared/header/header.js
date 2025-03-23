@@ -88,7 +88,7 @@ const Header = () => {
             </>));
 
     return (<div
-            className={`bg-NavBarBG ${isScrolled ? "fixed top-0 left-0 w-full z-50 bg-white opacity-75" : "top-0 left-0 w-full"}`}>
+            className={`bg-NavBarBG ${isScrolled ? "fixed  top-0 left-0 w-full z-50 bg-white opacity-75" : "top-0 left-0 w-full"}`}>
             <nav className="flex justify-between items-center w-full h-[60px] px-[12px] md:px-[20px]">
                 <div className="flex">
                     <img className="h-[50px] w-[50px]" src={logo} alt="Surasa Logo"/>
@@ -109,7 +109,7 @@ const Header = () => {
 
 
                 {/*Mobile Menu*/}
-                <div className="lg:hidden ">
+                <div className="lg:hidden  z-50">
                     <GiHamburgerMenu size={30} onClick={toggleDropdown}/>
                     {showDropdown && (<div className="absolute top-[60px] right-0 bg-amber-50 shadow-md p-6 w-full opacity- ">
                             <ul className="flex flex-col space-y-2 items-center">

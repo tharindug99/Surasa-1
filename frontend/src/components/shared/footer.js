@@ -1,58 +1,56 @@
 import React from "react";
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
+import logo from "../../assets/images/Surasa Logo.png";
+import emailIcon from "../../assets/vectors/email.svg";
+import callIcon from "../../assets/vectors/call.svg";
 
 function Footer() {
+  const socialIcons = [
+    { icon: <FaFacebook className="text-[#3B5998] text-2xl" />, link: "#" },
+    { icon: <FaTwitter className="text-[#1DA1F2] text-2xl" />, link: "#" },
+    { icon: <FaInstagram className="text-[#C13584] text-2xl" />, link: "#" },
+    { icon: <FaLinkedin className="text-[#0077B5] text-2xl" />, link: "#" },
+  ];
+
   return (
-    <footer className="bg-white py-12 z-50 h-[250px]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-1/2">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
-          {/* First Column */}
-          <div className="text-SurasaBrown">
-            <h2 className="text-lg font-semibold mb-4">About Us</h2>
-            <p className="text-sm">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            </p>
+      <footer className=" pt-10 bg-[#A9A29A0F] px-20">
+        <div className="flex flex-wrap justify-between p-10">
+          <div className="w-full md:w-auto mb-4 md:mb-0 flex justify-center items-center ">
+            <img src={logo} alt="Logo" className="w-16 h-16" />
           </div>
-          {/* Second Column */}
-          <div className="text-SurasaBrown">
-            <h2 className="text-lg font-semibold mb-4">Follow Us</h2>
-            <div className="flex space-x-4">
-              <a
-                href="#"
-                className="text-SurasaBrown hover:text-[#F0C903] transition duration-300"
-              >
-                <FaFacebook size={24} />
-              </a>
-              <a
-                href="#"
-                className="text-SurasaBrown hover:text-[#F0C903] transition duration-300"
-              >
-                <FaTwitter size={24} />
-              </a>
-              <a
-                href="#"
-                className="text-SurasaBrown hover:text-[#F0C903] transition duration-300"
-              >
-                <FaInstagram size={24} />
-              </a>
-              <a
-                href="#"
-                className="text-SurasaBrown hover:text-[#F0C903] transition duration-300"
-              >
-                <FaLinkedin size={24} />
-              </a>
+          <div className="space-y-2 text-center md:text-left ">
+            <p className="font-bold">Opening Hours</p>
+            <p>Weekdays: 9:00 AM - 5:00 PM</p>
+            <p>Weekends: 8:00 AM - 8:00 PM</p>
+          </div>
+          <div className="space-y-2 text-center md:text-left md:pt-[0px] pt-[20px]">
+            <p className="font-bold">Address</p>
+            <p>Level 1, 12 Sample St, Sydney NSW 2000</p>
+          </div>
+          <div className="space-y-2 text-center md:text-left  md:pt-[0px] pt-[20px]">
+            <p className="font-bold">Contact</p>
+            <div className="flex items-center justify-center md:justify-start">
+              <img src={emailIcon} alt="Email" className="w-5 h-5 mr-2" />
+              <p>Info@example.com</p>
+            </div>
+            <div className="flex items-center justify-center md:justify-start">
+              <img src={callIcon} alt="Phone" className="w-5 h-5 mr-2" />
+              <p>077-1234567</p>
             </div>
           </div>
-          {/* Third Column */}
-          <div className="text-SurasaBrown mb-10">
-            <h2 className="text-lg font-semibold mb-4">Contact Us</h2>
-            <p className="text-sm">123 Main Street, City, State, 12345</p>
-            <p className="text-sm">info@example.com</p>
-            <p className="text-sm">123-456-7890</p>
+        </div>
+
+        <div className="md:flex justify-between items-center p-4 border-t grid  ">
+          <p className="text-center md:text-left">&copy; 2024, All Rights Reserved</p>
+          <div className="flex space-x-3 justify-center items-center md:pt-[0px] pt-[20px]">
+            {socialIcons.map((icon, index) => (
+                <a href={icon.link} key={index} className="text-xl">
+                  {icon.icon}
+                </a>
+            ))}
           </div>
         </div>
-      </div>
-    </footer>
+      </footer>
   );
 }
 
