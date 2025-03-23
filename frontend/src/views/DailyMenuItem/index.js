@@ -19,10 +19,8 @@ const DailyMenu = (props) => {
       ); // Use getAllDailyMenuItems function
       setDailyMenuItems(dailyMenuItems?.data);
       console.log(dailyMenuItems?.data);
-      console.log("hiii"); // Console log the daily menu items
     } catch (error) {
       console.log(error?.message);
-      console.log("hiii error");
       console.error(error);
     }
   };

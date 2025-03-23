@@ -1,12 +1,12 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import Logo from '../../../src/assets/images/Surasa Logo.png';
 import loginBg from '../../assets/images/login.gif';
-import {useNavigate} from 'react-router-dom';
-import {useDocumentTitle} from "../../hooks/useDocumentTitle";
+import { useNavigate } from 'react-router-dom';
+import { useDocumentTitle } from "../../hooks/useDocumentTitle";
 import UserRequest from '../../services/Requests/User';
-import {useDispatch} from 'react-redux';
-import {addUser} from '../../redux/actions/User'
-
+import { useDispatch } from 'react-redux';
+import { addUser } from '../../redux/actions/User';
+import Toaster from "../../components/Toaster/Toaster";
 
 const Register = (props) => {
     // State for form data
@@ -18,8 +18,11 @@ const Register = (props) => {
         confirm_password: '',
         phone_num: ''
     });
+    const [showToaster, setShowToaster] = useState(false); 
+    const [toasterMessage, setToasterMessage] = useState("");
+    const [toasterType, setToasterType] = useState("error");
 
-    const {title} = props;
+    const { title } = props;
     const [errorMessage, setErrorMessage] = useState('');
     useDocumentTitle(title);
     const navigate = useNavigate();
@@ -30,6 +33,9 @@ const Register = (props) => {
         event.preventDefault();
         if (formData.password !== formData.confirm_password) {
             setErrorMessage('Passwords do not match.');
+            setToasterMessage('Passwords do not match.');
+            setToasterType('error');
+            setShowToaster(true);
             return;
         }
         try {
@@ -41,15 +47,32 @@ const Register = (props) => {
                 phone_num: formData.phone_num
             });
             dispatch(addUser(response.data));
+            setShowToaster(true);
+            setToasterType("success");
+            setToasterMessage("Registration successful!");
             navigate('/login');
         } catch (error) {
-            setErrorMessage(error.response?.data?.message || 'Registration failed. Please try again.');
+            let errorMsg = 'Registration failed. Please try again.';
+            if (error.response && error.response.data) {
+                if (error.response.data.email) {
+                    errorMsg = error.response.data.email[0];
+                } else if (error.response.data.phone_num) {
+                    errorMsg = error.response.data.phone_num[0];
+                } else if (error.response.data.password) {
+                    errorMsg = error.response.data.password[0];
+                }    
+            }
+            setErrorMessage(errorMsg);
+            setToasterMessage(errorMsg);
+            setToasterType("error");
+            setShowToaster(true);
+            console.error('An error occurred:', error);
         }
-
     };
+
     // Update form data state on input change
     const handleChange = (event) => {
-        const {name, value} = event.target;
+        const { name, value } = event.target;
         setFormData(prevState => ({
             ...prevState,
             [name]: value
@@ -117,8 +140,9 @@ const Register = (props) => {
                         </div>
                         {/* Sign In Link */}
                         <div className="text-sm">
-                            <p className="text-center my-6">Already have an account? <a href="/login"
-                                                                                        className="font-medium text-yellow-800 hover:text-yellow-700">Sign
+                            <p className="text-center my-6">Already have an account? 
+                                <a href="/login"
+                                className="font-medium text-yellow-800 hover:text-yellow-700">Sign
                                 in</a></p>
                         </div>
                         {/* Submit Button */}
@@ -132,6 +156,7 @@ const Register = (props) => {
                     </form>
                 </div>
             </div>
+            {showToaster && <Toaster message={toasterMessage} type={toasterType} onClose={() => setShowToaster(false)} />}
         </div>
     );
 };
