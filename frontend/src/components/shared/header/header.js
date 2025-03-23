@@ -7,7 +7,7 @@ import Button from "@mui/material/Button";
 import {yellow} from "@mui/material/colors";
 
 import logo from "../../../../src/assets/images/Surasa Logo.png";
-import {logoutUser} from "../../../redux/actions";
+import { logoutUser } from "../../../redux/actions";
 import UserRequest from "../../../services/Requests/User";
 import "./NavBar.css";
 
@@ -24,6 +24,7 @@ const Header = () => {
     const handleLogout = async () => {
         try {
             const {success, message} = await UserRequest.logoutUser();
+            console.log("Logout is ok")
             if (success) {
                 localStorage.clear();
                 console.log("logged out");
@@ -31,6 +32,7 @@ const Header = () => {
                 navigate("/login");
             } else {
                 console.error(message);
+                console.log("Error in logging out");
             }
         } catch (error) {
             console.error("An error occurred during logout:", error);
@@ -49,7 +51,7 @@ const Header = () => {
         const storedUserInfo = localStorage.getItem("first_name");
         console.log(storedUserInfo);
         setUserInfo(storedUserInfo);
-    }, []);
+    }, [userInfo]);
 
     const renderNavLink = (to, label) => (location.pathname === "/" ? (<ScrollLink
                 className="dropdown-link"

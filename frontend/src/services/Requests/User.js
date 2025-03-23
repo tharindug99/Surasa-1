@@ -90,27 +90,31 @@ UserRequest.loginUser = async (formData) => {
 
 UserRequest.logoutUser = async () => {
     try {
-        const response = await fetch({
-            url: `${user}/logout`,
+        const response = await fetch(`${user}/logout`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
             },
         });
-
-        if (response.status !== 200) {
-            // Handle non-ok responses
-            const errorResponse = await response.json();
+        console.log("response",response);
+        console.log("response.data", response.data);
+        if (!response.data.success) {
+            const errorResponse = await response();
             throw new Error(errorResponse.message || 'Network response was not ok');
         }
-
-        return response.data;
+        localStorage.clear();
+        // const data = response.parseJSON();
+        // return data;
     } catch (error) {
-        console.error('An error occurred during logout:', error);
+        console.error('An error occurred during logout:', error.message);
+        console.log("response");
         throw error;
     }
 };
+
+
+
 
 
 export default UserRequest;
