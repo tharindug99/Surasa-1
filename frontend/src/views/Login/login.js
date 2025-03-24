@@ -47,6 +47,8 @@ const Login = (props) => {
                 setToasterType("success");
                 localStorage.setItem('authToken', token);
                 localStorage.setItem('tokenType', tokenType);
+                localStorage.setItem('userId',userId);
+                localStorage.setItem('first_name',first_name);
                 const expirationTime = new Date().getTime() + expiresIn * 60 * 1000;
                 localStorage.setItem('tokenExpiration', expirationTime.toString());
 

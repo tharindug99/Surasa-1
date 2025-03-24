@@ -7,7 +7,7 @@ import Button from "@mui/material/Button";
 import {yellow} from "@mui/material/colors";
 
 import logo from "../../../../src/assets/images/Surasa Logo.png";
-import {logoutUser} from "../../../redux/actions";
+import { logoutUser } from "../../../redux/actions";
 import UserRequest from "../../../services/Requests/User";
 import "./NavBar.css";
 
@@ -24,12 +24,15 @@ const Header = () => {
     const handleLogout = async () => {
         try {
             const {success, message} = await UserRequest.logoutUser();
+            console.log("Logout is ok")
             if (success) {
-                localStorage.removeItem("authToken");
-                dispatch(logoutUser());
+                localStorage.clear();
+                console.log("logged out");
+                setUserInfo(null);
                 navigate("/login");
             } else {
                 console.error(message);
+                console.log("Error in logging out");
             }
         } catch (error) {
             console.error("An error occurred during logout:", error);
@@ -45,9 +48,10 @@ const Header = () => {
     }, []);
 
     useEffect(() => {
-        const storedUserInfo = localStorage.getItem("user-info");
-        if (storedUserInfo) setUserInfo(JSON.parse(storedUserInfo));
-    }, []);
+        const storedUserInfo = localStorage.getItem("first_name");
+        console.log(storedUserInfo);
+        setUserInfo(storedUserInfo);
+    }, [userInfo]);
 
     const renderNavLink = (to, label) => (location.pathname === "/" ? (<ScrollLink
                 className="dropdown-link"
@@ -63,7 +67,7 @@ const Header = () => {
                 {label}
             </Link>));
 
-    const UserActions = () => (userInfo ? (<span>Welcome back, {userInfo.first_name}</span>) : (<>
+    const UserActions = () => (userInfo ? (<span>Welcome back, {userInfo}</span>) : (<>
                 <Button
                     disableElevation
                     variant="contained"
@@ -114,11 +118,11 @@ const Header = () => {
                     {showDropdown && (<div className="absolute top-[60px] right-0 bg-amber-50 shadow-md p-6 w-full opacity- ">
                             <ul className="flex flex-col space-y-2 items-center">
                                 {userInfo && (<>
-                                        <li>Welcome back, {userInfo.full_name}</li>
+                                        <li>Welcome back, {userInfo}</li>
                                         <li
                                             className="logout-button"
                                             onClick={() => {
-                                                localStorage.removeItem("user-info");
+                                                localStorage.clear();
                                                 setUserInfo(null);
                                             }}
                                         >
