@@ -78,7 +78,7 @@ function Order() {
       );
 
       if (foodItem) {
-        total += parseFloat(foodItem.price.replace("LKR", "")) * quantity;
+        total += parseFloat(foodItem.price.replace("$", "")) * quantity;
       } else if (beverageItem) {
         total += beverageItem.price * quantity;
       }
