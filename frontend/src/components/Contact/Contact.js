@@ -81,12 +81,13 @@ const Contact = () => {
                     </label>
                   </fieldset>
 
-                  <Button
+
+                  <button
                     type="submit"
-                    className="flex justify-center items-center px-6 py-3 mt-6 text-sm font-bold text-white uppercase bg-yellow-500 rounded-lg hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
+                    className="flex justify-center items-center px-6 py-3 mt-6 text-sm font-bold text-white uppercase bg-SurasaYellow rounded-lg hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
                   >
                     Submit
-                  </Button>
+                  </button>
                 </form>
               </div>
 
