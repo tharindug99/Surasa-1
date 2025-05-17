@@ -34,11 +34,10 @@ UserRequest.updateAUser = (params) => {
     });
 };
 
-UserRequest.deleteAUser = (params) => {
+UserRequest.deleteAUser = (id) => {
     return fetch({
-        url: user,
+        url: `${user}/${id}`,
         method: "delete",
-        params: params,
     });
 };
 
