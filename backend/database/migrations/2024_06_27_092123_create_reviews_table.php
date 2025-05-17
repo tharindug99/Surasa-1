@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('review_image')->nullable(); // review_image VARCHAR(255) NULL
             $table->integer('no_of_stars'); // no_of_stars INT NOT NULL
             $table->string('full_name'); // full_name VARCHAR(255) NOT NULL
+            $table->string('status')->default('rejected');
             $table->text('comment'); // comment TEXT NOT NULL
             $table->timestamps(); // created_at and updated_at timestamps
 
@@ -41,5 +42,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('reviews');
+
     }
 };

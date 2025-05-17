@@ -35,6 +35,7 @@ class ReviewRequest extends FormRequest
             'no_of_stars' => 'required|integer|min:1|max:5',
             'full_name' => 'required|string',
             'comment' => 'required|string',
+            'status' => 'required|string|in:approved,rejected'
         ];
     }
 
