@@ -7,7 +7,7 @@ const foodItems = [
     name: "Margherita Pizza",
     description:
       "Classic pizza with tomatoes, mozzarella cheese, fresh basil, salt, and extra-virgin olive oil.",
-    price: "$8.99",
+    price: 8.99,
     image:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTumoMickQs_jcLYaMyiQhNG4FsxB2VeluN3XtCQhLvqg&s",
     ratings: 4.5,
@@ -17,7 +17,7 @@ const foodItems = [
     name: "Caesar Salad",
     description:
       "Crisp romaine lettuce with Caesar dressing, croutons, and Parmesan cheese.",
-    price: "$5.99",
+    price: 5.99,
     image:
       "https://www.seriouseats.com/thmb/Fi_FEyVa3_-_uzfXh6OdLrzal2M=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/the-best-caesar-salad-recipe-06-40e70f549ba2489db09355abd62f79a9.jpg",
     ratings: 4.3,
@@ -27,7 +27,7 @@ const foodItems = [
     name: "Pasta Carbonara",
     description:
       "Classic Italian pasta with eggs, cheese, pancetta, and pepper.",
-    price: "$10.99",
+    price: 10.99,
     image:
       "https://www.allrecipes.com/thmb/a_0W8yk_LLCtH-VPqg2uLD9I5Pk=/0x512/filters:no_upscale():max_bytes(150000):strip_icc()/11973-spaghetti-carbonara-ii-DDMFS-4x3-6edea51e421e4457ac0c3269f3be5157.jpg",
     ratings: 4.7,
@@ -37,7 +37,7 @@ const foodItems = [
     name: "Mushroom Burger",
     description:
       "Classic Italian pasta with eggs, cheese, pancetta, and pepper.",
-    price: "$10.99",
+    price: 10.99,
     image:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkJv-PoBgECzVVvK-cxL8PiaHpmJmsIrJujGd06xCA1Q&s",
     ratings: 4.7,
@@ -78,9 +78,9 @@ function Order() {
       );
 
       if (foodItem) {
-        total += parseFloat(foodItem.price.replace("LKR", "")) * quantity;
+        total += parseFloat(foodItem.price) * quantity;
       } else if (beverageItem) {
-        total += beverageItem.price * quantity;
+        total += parseFloat(beverageItem.price) * quantity;
       }
 
       return total;
@@ -127,7 +127,7 @@ function Order() {
               </div>
               <div className="px-6 pt-4 pb-2">
                 <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">
-                  {item.price}
+                  LKR {item.price}
                 </span>
                 <span className="inline-block bg-white rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">
                   ⭐ {item.ratings}
@@ -168,7 +168,7 @@ function Order() {
       </div>
       <div className="mt-6">
         <h2 className="text-2xl font-bold">
-          Total Cost: ${totalCost.toFixed(2)}
+          Total Cost: LKR {totalCost.toFixed(2)}
         </h2>
       </div>
       <div className="mt-4">
