@@ -4,16 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d937de62-ec1a-4c84-8794-a3b0c9f8362f" name="Changes" comment="Land Up-01">
-      <change afterPath="$PROJECT_DIR$/frontend/src/assets/vectors/call.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/assets/vectors/email.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/About/About.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/About/About.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/shared/footer.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/shared/footer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/shared/header/header.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/shared/header/header.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/Home/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/Home/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/index.js" afterDir="false" />
-    </list>
+    <list default="true" id="d937de62-ec1a-4c84-8794-a3b0c9f8362f" name="Changes" comment="Add Loyalty points APIs" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -227,34 +218,34 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
-    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Responsive&quot;,
-    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/imesh/Desktop/Surasa/frontend/src/assets/vectors&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\imesh\\AppData\\Local\\JetBrains\\IntelliJ IDEA 2024.2.1\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.go.formatter.settings.were.checked": "true",
+    "RunOnceActivity.go.migrated.go.modules.settings": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "Imesh-Dve-01",
+    "go.import.settings.migrated": "true",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/imesh/Desktop/Surasa/frontend/src/assets/vectors",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "yarn",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "ts.external.directory.path": "C:\\Users\\imesh\\AppData\\Local\\JetBrains\\IntelliJ IDEA 2024.2.1\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;mysql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "mysql"
     ]
   }
-}</component>
+}]]></component>
   <component name="ReactDesignerToolWindowState">
     <option name="myId2Visible">
       <map>
@@ -599,7 +590,31 @@
       <option name="project" value="LOCAL" />
       <updated>1730643621555</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="Create API for Logout - User">
+      <option name="closed" value="true" />
+      <created>1747489817884</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1747489817884</updated>
+    </task>
+    <task id="LOCAL-00036" summary="Admin Login API">
+      <option name="closed" value="true" />
+      <created>1747494405225</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1747494405225</updated>
+    </task>
+    <task id="LOCAL-00037" summary="Add Loyalty points APIs">
+      <option name="closed" value="true" />
+      <created>1747496813026</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1747496813026</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -618,9 +633,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Changes Names" />
-    <MESSAGE value="Nav Add" />
-    <MESSAGE value="Add Component Animation" />
     <MESSAGE value="Checked" />
     <MESSAGE value="Add Migrations" />
     <MESSAGE value="Add Seeders" />
@@ -643,7 +655,10 @@
     <MESSAGE value="User Registration with success Hash Password" />
     <MESSAGE value="User Login Success with return name to header" />
     <MESSAGE value="Land Up-01" />
-    <option name="LAST_COMMIT_MESSAGE" value="Land Up-01" />
+    <MESSAGE value="Create API for Logout - User" />
+    <MESSAGE value="Admin Login API" />
+    <MESSAGE value="Add Loyalty points APIs" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add Loyalty points APIs" />
   </component>
   <component name="VgoProject">
     <integration-enabled>false</integration-enabled>

@@ -101,7 +101,9 @@ class UserController extends Controller
         return response()->json(['message' => 'User deleted']);
     }
 
-
+    /**
+     * User Login
+     */
     public function login(Request $request)
     {
         $requestData = $request->all();
@@ -157,34 +159,98 @@ class UserController extends Controller
         }
     }
 
-
-
-
     public function logout(Request $request)
     {
         $user = $request->user();
-        $token = $request->header('Authorization');
+        $token = $request->bearerToken(); // Get raw token from Authorization header
 
         Log::info('Logout request user:', ['user' => $user]);
-        Log::info('Logout request token:', ['token' => $token]);
 
         if ($user) {
-            $user->currentAccessToken()->delete();
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Logout successful.',
-            ]);
+            try {
+                $user->tokens()->where('id', explode('|', $token)[0])->delete();
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Logout successful.'
+                ]);
+            } catch (\Exception $e) {
+                Log::error('Logout failed:', ['error' => $e->getMessage()]);
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Logout failed. Please try again.'
+                ], 500);
+            }
         }
 
         Log::warning('Unauthenticated logout attempt');
-
         return response()->json([
             'success' => false,
-            'message' => 'User not authenticated.',
+            'message' => 'User not authenticated.'
         ], 401);
     }
 
 
+
+    /**
+     * Add loyalty points to user
+     */
+    public function addLoyaltyPoints(Request $request, $userId)
+    {
+        $user = User::findOrFail($userId);
+        // Admin check
+//        if (!auth()->user()->is_admin) {
+//            return response()->json([
+//                'success' => false,
+//                'message' => 'Unauthorized - Admin access required'
+//            ], 403);
+//        }
+
+
+        $request->validate([
+            'points' => 'required|integer|min:1',
+        ]);
+
+        $user->increment('loyalty_points', $request->points);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Loyalty points added successfully.',
+            'user' => $user->fresh()
+        ]);
+    }
+
+    /**
+     * Deduct loyalty points from user
+     */
+    public function deductLoyaltyPoints(Request $request, User $user)
+    {
+//        // Admin check
+//        if (!auth()->user()->is_admin) {
+//            return response()->json([
+//                'success' => false,
+//                'message' => 'Unauthorized - Admin access required'
+//            ], 403);
+//        }
+
+
+        $request->validate([
+            'points' => 'required|integer|min:1',
+        ]);
+
+        if ($user->loyalty_points < $request->points) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Insufficient loyalty points.',
+            ], 422);
+        }
+
+        $user->decrement('loyalty_points', $request->points);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Loyalty points deducted successfully.',
+            'user' => $user->fresh()
+        ]);
+    }
 
 }
