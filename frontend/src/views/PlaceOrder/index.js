@@ -64,6 +64,7 @@ function Order() {
   const [address, setAddress] = useState("");
 
   const handleQuantityChange = (id, quantity) => {
+    if (quantity < 0) return;
     setQuantities((prevQuantities) => ({
       ...prevQuantities,
       [id]: quantity,
@@ -78,7 +79,7 @@ function Order() {
       );
 
       if (foodItem) {
-        total += parseFloat(foodItem.price.replace("LKR", "")) * quantity;
+        total += parseFloat(foodItem.price.replace("$", "")) * quantity;
       } else if (beverageItem) {
         total += beverageItem.price * quantity;
       }
@@ -133,7 +134,7 @@ function Order() {
                   ⭐ {item.ratings}
                 </span>
               </div>
-              <div className="px-6 pt-4 pb-2 flex justify-between items-center">
+              <div className="px-6 pt-4 pb-4 flex justify-between items-center">
                 <div className="flex items-center">
                   <span className="mr-2">Quantity:</span>
                   <button
