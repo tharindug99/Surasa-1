@@ -45,8 +45,11 @@ Route::apiResource('orderitems', OrderItemController::class);
 Route::apiResource('reviews', ReviewController::class);
 Route::apiResource('users', UserController::class);
 Route::post('/users/login', [UserController::class, 'login']);
-
 Route::post('/users/logout', [UserController::class, 'logout'])->middleware('auth:sanctum');
+
+// Admin routes
+Route::post('/admin/login', [AdminController::class, 'adminLogin']);
+Route::post('/admin/logout', [AdminController::class, 'adminLogout'])->middleware('auth:sanctum');
 
 
 

@@ -27,8 +27,7 @@ class AdminController extends Controller
         $admin = new Admin();
         $admin->name = $validated['name'];
         $admin->phone_num = $validated['phone_num'];
-        $admin->password = $validated['password'];
-
+        $admin->password = Hash::make($validated['password']);
         $admin->save();
 
         return response()->json([
@@ -95,4 +94,88 @@ class AdminController extends Controller
 
         return response()->json(['message' => 'Admin deleted']);
     }
+
+    /** Admin Login **/
+    public function adminLogin(Request $request)
+    {
+        $requestData = $request->all();
+        Log::info('Admin Login Request Data:', $requestData);
+
+        $name = $requestData['name'] ?? null;
+        $password = $requestData['password'] ?? null;
+
+        if (!$name) {
+            return response()->json([
+                'success' => false,
+                'message' => 'The name field is required.',
+            ], 422);
+        }
+
+        if (!$password) {
+            return response()->json([
+                'success' => false,
+                'message' => 'The password field is required.',
+            ], 422);
+        }
+
+        $credentials = [
+            'name' => $name,
+            'password' => $password,
+        ];
+
+        if (Auth::guard('admin')->attempt($credentials)) {
+            $admin = Auth::guard('admin')->user();
+
+            // Generate JWT token
+            $token = $admin->createToken('admin_auth_token')->plainTextToken;
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Admin login successful.',
+                'adminId' => $admin->id,
+                'name' => $admin->name,
+                'phone_num' => $admin->phone_num,
+                'token' => $token,
+                'tokenType' => 'Bearer',
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Invalid credentials.',
+            ], 401);
+        }
+    }
+
+    /** Admin Logout **/
+    public function adminLogout(Request $request)
+    {
+        $admin = $request->user();
+        $token = $request->header('Authorization');
+
+        Log::info('Admin Logout request user:', ['admin' => $admin]);
+
+        if ($admin) {
+            try {
+                $admin->tokens()->delete();
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Admin logout successful.'
+                ]);
+            } catch (\Exception $e) {
+                Log::error('Admin Logout failed:', ['error' => $e->getMessage()]);
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Logout failed. Please try again.'
+                ], 500);
+            }
+        }
+
+        Log::warning('Unauthenticated admin logout attempt');
+        return response()->json([
+            'success' => false,
+            'message' => 'Admin not authenticated.'
+        ], 401);
+    }
+
 }
+
