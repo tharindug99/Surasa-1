@@ -19,6 +19,8 @@ return new class extends Migration
             $table->integer('quantity'); // quantity INT NOT NULL
             $table->decimal('total_cost', 10, 2); // total_cost DECIMAL(10,2) NOT NULL
             $table->timestamps(); // created_at and updated_at timestamps
+            $table->foreignId('user_id')->constrained();
+            $table->string('status')->default('Pending');
 
             $table->foreign('order_id')
                 ->references('id')

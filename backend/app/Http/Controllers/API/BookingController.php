@@ -28,6 +28,7 @@ class BookingController extends Controller
         $booking->phone_num = $validated['phone_num'];
         $booking->email = $validated['email'];
         $booking->faculty = $validated['faculty'];
+        $booking->status = $validated['status'];
         $booking->start_time = $validated['start_time'];
         $booking->end_time = $validated['end_time'];
         $booking->event_name = $validated['event_name'];

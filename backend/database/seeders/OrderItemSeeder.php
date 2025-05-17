@@ -10,20 +10,17 @@ use Illuminate\Database\Seeder;
 
 class OrderItemSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
+    // database/seeders/OrderItemSeeder.php
+
     public function run(): void
     {
-        $orders = Order::all();
-        $orders->each(function ($order) {
-            $products = Product::all()->random(5); // Fetch a random subset of products
-            $products->each(function ($product) use ($order) {
-                OrderItem::factory()->create([
+        Order::all()->each(function ($order) {
+            OrderItem::factory()
+                ->count(5) // Create 5 items per order
+                ->create([
                     'order_id' => $order->id,
-                    'product_id' => $product->id,
+                    // Factory will auto-set user_id from the order
                 ]);
-            });
         });
     }
 }
