@@ -1,4 +1,14 @@
-import {SAVE_USER, ADD_USER, UPDATE_USER, REMOVE_USER, SAVE_USERS, LOGIN_USER, LOGOUT_USER} from "redux/constants/User";
+import {
+    SAVE_USER,
+    ADD_USER,
+    UPDATE_USER,
+    REMOVE_USER,
+    SAVE_USERS,
+    LOGIN_USER,
+    LOGOUT_USER,
+    ADD_LOYALTY_POINTS,
+    DEDUCT_LOYALTY_POINTS
+} from "redux/constants/User";
 
 const initState = {
     users: [],
@@ -50,6 +60,31 @@ const User = (state = initState, action) => {
                 token: null,
                 tokenType: null,
                 expiresIn: null,
+            };
+        case ADD_LOYALTY_POINTS:
+            return {
+                ...state,
+                users: state.users.map(u =>
+                    u.id === action.payload.user.id ?
+                        { ...u, loyalty_points: u.loyalty_points + action.payload.points } :
+                        u
+                ),
+                currentUser: state.currentUser?.id === action.payload.user.id ?
+                    { ...state.currentUser, loyalty_points: state.currentUser.loyalty_points + action.payload.points } :
+                    state.currentUser
+            };
+
+        case DEDUCT_LOYALTY_POINTS:
+            return {
+                ...state,
+                users: state.users.map(u =>
+                    u.id === action.payload.user.id ?
+                        { ...u, loyalty_points: u.loyalty_points - action.payload.points } :
+                        u
+                ),
+                currentUser: state.currentUser?.id === action.payload.user.id ?
+                    { ...state.currentUser, loyalty_points: state.currentUser.loyalty_points - action.payload.points } :
+                    state.currentUser
             };
         default:
             return state;

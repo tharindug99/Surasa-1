@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setUsers as setUsersAction } from "redux/actions"; // Assuming actions are properly defined
-import UserRequest from "services/Requests/User"; // Assuming UserRequest is properly defined
+import {
+  setUsers as setUsersAction,
+  updateUserLoyaltyPoints
+} from "redux/actions/User";
+import UserRequest from "services/Requests/User";
 import useLoading from "hooks/useLoading";
 import CollapsibleTable from "./CustomerTableUI";
 import PointsModal from "./PointsModal";
@@ -31,10 +34,24 @@ const User = () => {
 
   const handlePointsChange = async (userId, points, isAdding) => {
     try {
+      const pointsValue = parseInt(points);
+      if (isNaN(pointsValue)) {
+        console.error("Invalid points value");
+        return;
+      }
+
       const response = isAdding
-        ? await UserRequest.addPoints(userId, points)
-        : await UserRequest.deductPoints(userId, points);
-      getAllUsers(); // Refresh the users list after updating points
+        ? await UserRequest.addLoyaltyPoints(userId, pointsValue)
+        : await UserRequest.deductLoyaltyPoints(userId, pointsValue);
+
+      // Update Redux store with the modified user
+      dispatch(updateUserLoyaltyPoints(
+        response.data.user,
+        pointsValue,
+        isAdding ? 'ADD_LOYALTY_POINTS' : 'DEDUCT_LOYALTY_POINTS'
+      ));
+
+      setModalOpen(false);
     } catch (error) {
       console.error("Failed to update points:", error);
     }
@@ -55,13 +72,13 @@ const User = () => {
           <div>
             <CollapsibleTable rows={users} handleOpenModal={handleOpenModal} />
           </div>
+          // In User component's return statement
           <PointsModal
             open={modalOpen}
             onClose={() => setModalOpen(false)}
             userId={currentUserId}
             isAdding={isAddingPoints}
-            handleAddPoints={(userId, points) => handlePointsChange(userId, points, true)}
-            handleDeductPoints={(userId, points) => handlePointsChange(userId, points, false)}
+            handleSubmit={handlePointsChange}  // Single handler for both operations
           />
         </>
       )}
