@@ -24,7 +24,6 @@ const BookingDetail = (props) => {
     if (bookings?.length < 1) {
       getAllBookings();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
