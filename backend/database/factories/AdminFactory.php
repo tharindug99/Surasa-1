@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Hash;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Admin>
@@ -17,9 +18,9 @@ class AdminFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->name, // Generates a random name
-            'phone_num' => $this->faker->phoneNumber, // Generates a random phone number
-            'password' => bcrypt('password'), // Default password
+            'name' => $this->faker->name,
+            'phone_num' => $this->faker->phoneNumber,
+            'password' => Hash::make('password'), // Use Hash facade instead of bcrypt()
             'created_at' => now(),
             'updated_at' => now()
         ];

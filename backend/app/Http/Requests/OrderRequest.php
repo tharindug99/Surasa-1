@@ -34,6 +34,7 @@ class OrderRequest extends FormRequest
             'full_name' => 'required|string',
             'mobile_number' => 'required|string|max:12',
             'address' => 'required|string',
+            'status' => 'sometimes|in:Pending,Ready,OutforDelivery,Completed,Cancelled',
         ];
     }
 

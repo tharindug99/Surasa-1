@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('phone_num', 20); // phone_num VARCHAR(20) NOT NULL
             $table->string('email'); // email VARCHAR(255) NOT NULL
             $table->enum('faculty', ['Agricultural Sciences', 'Applied Sciences', 'Computing','Geomatics','Management Studies','Medicine','Social Sciences & Languages','Technology','Graduate Studies']); // facility ENUM('Option1', 'Option2', 'Option3') NOT NULL
+            $table->enum('status',['Pending','Confirmed', 'Rejected', 'Completed']);
             $table->timestamp('start_time'); // start_time TIMESTAMP NOT NULL
             $table->timestamp('end_time')->useCurrent(); // end_time TIMESTAMP NOT NULL
             $table->string('event_name'); // event_name VARCHAR(255) NOT NULL

@@ -15,8 +15,9 @@ class Booking extends Model
         'email',
         'facility',
         'start_time',
+        'status',
         'end_time',
-        'event_name'
+        'event_name',
     ];
 
 }
