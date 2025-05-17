@@ -19,7 +19,7 @@ class OrderItemSeeder extends Seeder
                 ->count(5) // Create 5 items per order
                 ->create([
                     'order_id' => $order->id,
-                    // Factory will auto-set user_id from the order
+
                 ]);
         });
     }
