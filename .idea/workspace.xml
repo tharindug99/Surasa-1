@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d937de62-ec1a-4c84-8794-a3b0c9f8362f" name="Changes" comment="Admin Login API">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/API/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/API/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/routes/api.php" afterDir="false" />
-    </list>
+    <list default="true" id="d937de62-ec1a-4c84-8794-a3b0c9f8362f" name="Changes" comment="Add Loyalty points APIs" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -610,7 +606,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747494405225</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="Add Loyalty points APIs">
+      <option name="closed" value="true" />
+      <created>1747496813026</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1747496813026</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -629,7 +633,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Add Component Animation" />
     <MESSAGE value="Checked" />
     <MESSAGE value="Add Migrations" />
     <MESSAGE value="Add Seeders" />
@@ -654,7 +657,8 @@
     <MESSAGE value="Land Up-01" />
     <MESSAGE value="Create API for Logout - User" />
     <MESSAGE value="Admin Login API" />
-    <option name="LAST_COMMIT_MESSAGE" value="Admin Login API" />
+    <MESSAGE value="Add Loyalty points APIs" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add Loyalty points APIs" />
   </component>
   <component name="VgoProject">
     <integration-enabled>false</integration-enabled>
