@@ -191,4 +191,66 @@ class UserController extends Controller
 
 
 
+    /**
+     * Add loyalty points to user
+     */
+    public function addLoyaltyPoints(Request $request, $userId)
+    {
+        $user = User::findOrFail($userId);
+        // Admin check
+//        if (!auth()->user()->is_admin) {
+//            return response()->json([
+//                'success' => false,
+//                'message' => 'Unauthorized - Admin access required'
+//            ], 403);
+//        }
+
+
+        $request->validate([
+            'points' => 'required|integer|min:1',
+        ]);
+
+        $user->increment('loyalty_points', $request->points);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Loyalty points added successfully.',
+            'user' => $user->fresh()
+        ]);
+    }
+
+    /**
+     * Deduct loyalty points from user
+     */
+    public function deductLoyaltyPoints(Request $request, User $user)
+    {
+//        // Admin check
+//        if (!auth()->user()->is_admin) {
+//            return response()->json([
+//                'success' => false,
+//                'message' => 'Unauthorized - Admin access required'
+//            ], 403);
+//        }
+
+
+        $request->validate([
+            'points' => 'required|integer|min:1',
+        ]);
+
+        if ($user->loyalty_points < $request->points) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Insufficient loyalty points.',
+            ], 422);
+        }
+
+        $user->decrement('loyalty_points', $request->points);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Loyalty points deducted successfully.',
+            'user' => $user->fresh()
+        ]);
+    }
+
 }

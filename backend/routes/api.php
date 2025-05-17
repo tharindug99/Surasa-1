@@ -34,6 +34,8 @@ Route::apiResource('orders', OrderController::class);
 Route::apiResource('orderitems', OrderItemController::class);
 Route::apiResource('reviews', ReviewController::class);
 Route::apiResource('users', UserController::class);
+
+// User Login
 Route::post('/users/login', [UserController::class, 'login']);
 Route::post('/users/logout', [UserController::class, 'logout'])->middleware('auth:sanctum');
 
@@ -41,6 +43,11 @@ Route::post('/users/logout', [UserController::class, 'logout'])->middleware('aut
 Route::post('/admin/login', [AdminController::class, 'adminLogin']);
 Route::post('/admin/logout', [AdminController::class, 'adminLogout']);
 
+// Loyalty Points
+Route::middleware('auth:sanctum')->group(function () {
+    Route::patch('/users/{user}/add-loyalty-points', [UserController::class, 'addLoyaltyPoints']);
+    Route::patch('/users/{user}/deduct-loyalty-points', [UserController::class, 'deductLoyaltyPoints']);
+});
 
 
 
