@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Laravel\Sanctum\HasApiTokens; // If using Sanctum
-// use Laravel\Passport\HasApiTokens; // If using Passport
+use Laravel\Sanctum\HasApiTokens;
 
 class Admin extends Authenticatable
 {
-    use HasApiTokens; // Include if using Sanctum/Passport
+    use HasApiTokens, HasFactory; // Add HasFactory here
 
     protected $fillable = [
         'name',
