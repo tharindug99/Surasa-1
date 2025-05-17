@@ -1,11 +1,91 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
 import { FiPlusCircle } from "react-icons/fi";
 import DailyMenu from "../DailyMenuItem/index";
+import { useDispatch } from "react-redux";
+import UserRequest from "services/Requests/User";
+import useLoading from "hooks/useLoading";
+import { setUsers as setUsersAction } from "redux/actions";
+
+import { setBookings } from "redux/actions";
+import BookingRequest from "services/Requests/Booking";
 import MainStatistics from "../../components/Dashboard/Home/MainStatistics";
 
+import ReviewRequest from "../../services/Requests/Review";
+
+import OrderRequest from 'services/Requests/Order';
+
 function DashboardHome() {
+  const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [loading, withLoading] = useLoading();
+  const [userCount, setUserCount] = useState(0);
+  const [bookingCount, setBookingCount] = useState(0);
+  const [orderCount, setOrderCount] = useState(0);
+  const [reviewCount, setReviewCount] = useState(0);
+
+  //Get user Count
+  const getAllUsers = async () => {
+    try {
+      const response = await withLoading(UserRequest.getAllUsers());
+      dispatch(setUsersAction(response?.data));
+      const count = Array.isArray(response?.data) ? response.data.length : 0;
+      setUserCount(count); // 2. Update state
+      console.log("Total users:", count);
+    } catch (error) {
+      console.error("Failed to fetch users:", error);
+    }
+  };
+
+  //Get booking Count
+  const getAllBookings = async () => {
+    try {
+      const bookings = await withLoading(BookingRequest.getAllBookings());
+      dispatch(setBookings(bookings?.data));
+      const count = Array.isArray(bookings?.data) ? bookings.data.length : 0;
+      setBookingCount(count); // 2. Update state
+      console.log("Total bookings:", count);
+    } catch (error) {
+      console.log(error?.message);
+      console.error(error);
+    }
+  };
+
+  //Get order Count
+  const getAllOrders = async () => {
+    try {
+      const orders = await withLoading(OrderRequest.getAllOrders());
+      const count = Array.isArray(orders?.data) ? orders.data.length : 0;
+      setOrderCount(count); // Set the count, not the array
+      console.log("Total orders:", count);
+    } catch (error) {
+      console.log(error?.message);
+      console.error(error);
+    }
+  };
+
+  //Get review Count
+  const getAllReviews = async () => {
+    try {
+      const reviews = await withLoading(ReviewRequest.getAllReviews());
+      const count = Array.isArray(reviews?.data) ? reviews.data.length : 0;
+      setReviewCount(count); // Set the count, not the array
+      console.log("Total reviews:", count);
+    }
+    catch (error) {
+      console.log(error?.message);
+      console.error(error);
+    }
+  };
+
+
+  useEffect(() => {
+    getAllUsers();
+    getAllBookings();
+    getAllOrders();
+    getAllReviews();
+  }, []);
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -27,7 +107,7 @@ function DashboardHome() {
 
   return (
     <div className="container mx-auto p-4">
-      <MainStatistics />
+      <MainStatistics userCount={userCount} bookingCount={bookingCount} orderCount={orderCount} reviewCount={reviewCount} />
 
       <div className="flex justify-between items-center mt-10">
         <div className="text-white font-semibold text-[48px]">
