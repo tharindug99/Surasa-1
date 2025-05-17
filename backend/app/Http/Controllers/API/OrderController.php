@@ -24,6 +24,7 @@ class OrderController extends Controller
     {
         $validated = $request->validated();
         $orders = new Order();
+        $orders->fill($validated);
         $orders->user_id = $validated['user_id'];
         $orders->full_name = $validated['full_name'];
         $orders->mobile_number = $validated['mobile_number'];

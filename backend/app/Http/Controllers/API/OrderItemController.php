@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\OrderItemRequest;
+use App\Models\Order;
 use App\Models\OrderItem;
 
 
@@ -25,12 +26,19 @@ class OrderItemController extends Controller
     public function store(OrderItemRequest $request)
     {
         $validated = $request->validated();
+
+        // Retrieve the order to get the user_id
+        $order = Order::findOrFail($validated['order_id']);
+
         $orderItems = new OrderItem();
         $orderItems->order_id = $validated['order_id'];
         $orderItems->product_id = $validated['product_id'];
         $orderItems->price = $validated['price'];
         $orderItems->quantity = $validated['quantity'];
         $orderItems->total_cost = $validated['total_cost'];
+
+        // Update the order's total price
+        $order->price = $order->orderItems()->sum('total_cost');
 
         $orderItems->save();
 

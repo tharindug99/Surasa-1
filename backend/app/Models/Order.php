@@ -14,9 +14,14 @@ class Order extends Model
         'full_name',
         'mobile_number',
         'order_time',
-        'address'
+        'address',
+        'status',
+        'price'
     ];
 
+    protected $attributes = [
+        'status' => 'Pending',
+    ];
     public function user()
     {
         return $this->belongsTo(User::class);

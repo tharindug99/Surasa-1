@@ -20,6 +20,8 @@ return new class extends Migration
             $table->timestamp('order_time')->default(DB::raw('CURRENT_TIMESTAMP')); // order_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
             $table->text('address'); // address TEXT NOT NULL
             $table->timestamps(); // created_at and updated_at timestamps
+            $table->string('status')->default('Pending');
+            $table->decimal('price', 10, 2)->default(0.00);
 
             $table->foreign('user_id')
                 ->references('id')

@@ -4,12 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d937de62-ec1a-4c84-8794-a3b0c9f8362f" name="Changes" comment="Add status for Booking">
+    <list default="true" id="d937de62-ec1a-4c84-8794-a3b0c9f8362f" name="Changes" comment="Schema Change Booking Table">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/Models/Admin.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/Admin.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/factories/AdminFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/factories/AdminFactory.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/factories/BookingFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/factories/BookingFactory.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/database/seeders/AdminSeeder.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/seeders/AdminSeeder.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/API/OrderController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/API/OrderController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/API/OrderItemController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/API/OrderItemController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Http/Requests/OrderRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Requests/OrderRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Models/Order.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/Order.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Models/OrderItem.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/OrderItem.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/database/factories/OrderItemFactory.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/factories/OrderItemFactory.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/database/migrations/2024_06_27_092104_create_orders_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/migrations/2024_06_27_092104_create_orders_table.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/database/migrations/2024_06_27_092113_create_order_items_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/database/migrations/2024_06_27_092113_create_order_items_table.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -628,7 +632,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747499401513</updated>
     </task>
-    <option name="localTasksCounter" value="39" />
+    <task id="LOCAL-00039" summary="Schema Change Booking Table">
+      <option name="closed" value="true" />
+      <created>1747501151632</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1747501151632</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -647,7 +659,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Add Migrations" />
     <MESSAGE value="Add Seeders" />
     <MESSAGE value="Add Models" />
     <MESSAGE value="Add Requests and Controllers" />
@@ -672,7 +683,8 @@
     <MESSAGE value="Admin Login API" />
     <MESSAGE value="Add Loyalty points APIs" />
     <MESSAGE value="Add status for Booking" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add status for Booking" />
+    <MESSAGE value="Schema Change Booking Table" />
+    <option name="LAST_COMMIT_MESSAGE" value="Schema Change Booking Table" />
   </component>
   <component name="VgoProject">
     <integration-enabled>false</integration-enabled>
