@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import DashBoardHeader from "../../components/Dashboard/DashBoardHeader";
 import LeftNavBar from "../../components/Dashboard/LeftNavBar";
 import DashboardHome from "./DashBoardHome";
-import CustomerInfo from "../User/index"; //from here
-import BookingRequests from "../Booking/index"; //from here
-import DeliveryOrders from "../PlaceOrder/index"; //from here
-import MenuItems from "../DailyMenuItem/index"; //from here
-import ContactMsgs from "../ContactUs/index"; //from here
-import ReviewApproval from "../Review/index"; //from here
+import CustomerInfo from "../User/index";
+import BookingRequests from "../Booking/index";
+import DeliveryOrders from "../PlaceOrder/index";
+import MenuItems from "../DailyMenuItem/index";
+import ContactMsgs from "../ContactUs/index";
+import ReviewApproval from "../Review/index";
 // import SignOutScreen from '../screens/SignOutScreen';
 
 function DashboardLayout() {
