@@ -21,6 +21,7 @@ class BookingFactory extends Factory
             'phone_num' => $this->faker->phoneNumber, // Generates a random phone number
             'email' => $this->faker->safeEmail, // Generates a random safe email
             'faculty' => $this->faker->randomElement(['Agricultural Sciences', 'Applied Sciences', 'Computing','Geomatics','Management Studies','Medicine','Social Sciences & Languages','Technology','Graduate Studies']), // Random facility option
+            'status' => $this ->faker->randomElement(['Confirmed,Rejected,Completed']),
             'start_time' => $this->faker->dateTime, // Generates a random date-time for start time
             'end_time' => $this->faker->dateTime, // Generates a random date-time for end time
             'event_name' => $this->faker->word, // Generates a random word for the event name

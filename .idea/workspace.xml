@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d937de62-ec1a-4c84-8794-a3b0c9f8362f" name="Changes" comment="Add Loyalty points APIs" />
+    <list default="true" id="d937de62-ec1a-4c84-8794-a3b0c9f8362f" name="Changes" comment="Add Loyalty points APIs">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Http/Controllers/API/BookingController.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Controllers/API/BookingController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Http/Requests/BookingRequest.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Http/Requests/BookingRequest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app/Models/Booking.php" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/Models/Booking.php" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
