@@ -5,7 +5,12 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminRequest;
 use App\Models\Admin;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class AdminController extends Controller
 {
@@ -95,68 +100,46 @@ class AdminController extends Controller
         return response()->json(['message' => 'Admin deleted']);
     }
 
-    /** Admin Login **/
+    /**
+     * Admin Login
+     */
     public function adminLogin(Request $request)
     {
-        $requestData = $request->all();
-        Log::info('Admin Login Request Data:', $requestData);
-
-        $name = $requestData['name'] ?? null;
-        $password = $requestData['password'] ?? null;
-
-        if (!$name) {
-            return response()->json([
-                'success' => false,
-                'message' => 'The name field is required.',
-            ], 422);
-        }
-
-        if (!$password) {
-            return response()->json([
-                'success' => false,
-                'message' => 'The password field is required.',
-            ], 422);
-        }
-
-        $credentials = [
-            'name' => $name,
-            'password' => $password,
-        ];
+        $credentials = $request->validate([
+            'name' => 'required|string',
+            'password' => 'required|string',
+        ]);
 
         if (Auth::guard('admin')->attempt($credentials)) {
             $admin = Auth::guard('admin')->user();
-
-            // Generate JWT token
             $token = $admin->createToken('admin_auth_token')->plainTextToken;
 
             return response()->json([
                 'success' => true,
-                'message' => 'Admin login successful.',
-                'adminId' => $admin->id,
-                'name' => $admin->name,
-                'phone_num' => $admin->phone_num,
                 'token' => $token,
-                'tokenType' => 'Bearer',
+                'admin' => $admin
             ]);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'Invalid credentials.',
-            ], 401);
         }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Invalid credentials'
+        ], 401);
     }
 
-    /** Admin Logout **/
+    /**
+     * Admin Logout
+     */
     public function adminLogout(Request $request)
     {
         $admin = $request->user();
-        $token = $request->header('Authorization');
+        $token = $request->bearerToken(); // Get raw token from Authorization header
 
         Log::info('Admin Logout request user:', ['admin' => $admin]);
 
         if ($admin) {
             try {
-                $admin->tokens()->delete();
+                $admin->tokens()->where('id', explode('|', $token)[0])->delete();
                 return response()->json([
                     'success' => true,
                     'message' => 'Admin logout successful.'

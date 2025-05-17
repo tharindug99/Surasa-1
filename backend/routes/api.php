@@ -13,16 +13,6 @@ use App\Http\Controllers\API\{AdminController,
     ProductController,
     ReviewController,
     UserController};
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "api" middleware group. Make something great!
-|
-*/
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -49,7 +39,7 @@ Route::post('/users/logout', [UserController::class, 'logout'])->middleware('aut
 
 // Admin routes
 Route::post('/admin/login', [AdminController::class, 'adminLogin']);
-Route::post('/admin/logout', [AdminController::class, 'adminLogout'])->middleware('auth:sanctum');
+Route::post('/admin/logout', [AdminController::class, 'adminLogout']);
 
 
 
