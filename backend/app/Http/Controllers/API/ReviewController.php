@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ReviewRequest;
+use App\Http\Requests\UpdateReviewStatusRequest;
 use App\Models\Review;
 
 class ReviewController extends Controller
@@ -91,5 +92,17 @@ class ReviewController extends Controller
         $reviews->delete();
 
         return response()->json(['message' => 'Review deleted']);
+    }
+
+    /** Update Status  **/
+    public function updateStatus(UpdateReviewStatusRequest $request, Review $review)
+    {
+        $review->update(['status' => $request->status]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Review status updated successfully',
+            'data' => $review
+        ]);
     }
 }
