@@ -15,7 +15,11 @@ class Review extends Model
         'review_image',
         'no_of_stars',
         'full_name',
-        'comment'
+        'comment',
+        'status'
+    ];
+    protected $attributes = [
+        'status' => 'rejected', // Default status
     ];
 
     public function user()

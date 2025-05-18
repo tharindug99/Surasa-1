@@ -49,6 +49,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::patch('/users/{user}/deduct-loyalty-points', [UserController::class, 'deductLoyaltyPoints']);
 });
 
+// Update review status
+Route::put('/reviews/{review}/status', [ReviewController::class, 'updateStatus']);
+//    ->middleware('auth:sanctum') // Optional authentication
+//    ->name('reviews.update-status');
+
 
 
 
