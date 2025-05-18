@@ -95,7 +95,6 @@ function OrderRow(props) {
                         <MenuItem value="Completed">Completed</MenuItem>
                         <MenuItem value="Cancelled">Cancelled</MenuItem>
                         <MenuItem value="OutforDelivery">Out for Delivery</MenuItem>
-
                     </Select>
                 </TableCell>
             </TableRow>
@@ -151,13 +150,13 @@ OrderRow.propTypes = {
     }).isRequired,
 };
 
-export default function ReadyOrdersTable({ orders }) {
-    // Filter only Ready orders
-    const readyOrders = orders.filter(order => order.status === 'Ready');
+export default function OutforDeliveryTable({ orders }) {
+    // Filter only OutforDelivery orders
+    const outforDeliveryOrders = orders.filter(order => order.status === 'OutforDelivery');
 
     return (
         <TableContainer component={Paper}>
-            <Table aria-label="ready-orders-table">
+            <Table aria-label="OutforDelivery-orders-table">
                 <TableHead>
                     <TableRow>
                         <TableCell />
@@ -170,7 +169,7 @@ export default function ReadyOrdersTable({ orders }) {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {readyOrders.map((order) => (
+                    {outforDeliveryOrders.map((order) => (
                         <OrderRow key={order.id} row={order} />
                     ))}
                 </TableBody>

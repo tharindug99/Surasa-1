@@ -7,6 +7,8 @@ import useLoading from 'hooks/useLoading';
 import OrderStatistics from 'components/OrderMenu/OrderStatistics';
 import PendingOrdersTable from 'components/OrderMenu/Tables/PendingOrderTable';
 import ReadyOrdersTable from 'components/OrderMenu/Tables/ReadyOrderTable';
+import OutforDeliveryTable from 'components/OrderMenu/Tables/OutforDeliveryOrderTable';
+import FinalizedOrdersTable from 'components/OrderMenu/Tables/FinalizedOrderTable';
 
 
 const Order = props => {
@@ -74,6 +76,7 @@ const Order = props => {
         deliveredCount={deliveredCount} // Replace with actual review count
       />
 
+      {/* -------------------Pending Orders----------------------- */}
       <div className="flex justify-between items-center mt-6">
         <h2 className="text-xl font-semibold">Pending Orders</h2>
 
@@ -92,9 +95,10 @@ const Order = props => {
         </div>
       </div>
 
+      {/* -------------------Ready Orders----------------------- */}
+
       <div className="flex justify-between items-center mt-6">
         <h2 className="text-xl font-semibold">Ready Orders</h2>
-
         <button
           className="bg-blue-500 text-white px-4 py-2 rounded"
           onClick={() => getAllOrders()}
@@ -105,12 +109,39 @@ const Order = props => {
       <div className="flex flex-col w-full mt-6">
         <div className="overflow-x-auto">
           <ReadyOrdersTable orders={orders} />
-
-
+        </div>
+      </div>
+      {/* -------------------Out for Delivery Orders----------------------- */}
+      <div className="flex justify-between items-center mt-6">
+        <h2 className="text-xl font-semibold">Out for Delivery Orders</h2>
+        <button
+          className="bg-blue-500 text-white px-4 py-2 rounded"
+          onClick={() => getAllOrders()}
+        >
+          Refresh Orders
+        </button>
+      </div>
+      <div className="flex flex-col w-full mt-6">
+        <div className="overflow-x-auto">
+          <OutforDeliveryTable orders={orders} />
         </div>
       </div>
 
-
+      {/* -------------------Completed/Cancelled Orders----------------------- */}
+      <div className="flex justify-between items-center mt-6">
+        <h2 className="text-xl font-semibold">Completed/Cancelled Orders</h2>
+        <button
+          className="bg-blue-500 text-white px-4 py-2 rounded"
+          onClick={() => getAllOrders()}
+        >
+          Refresh Orders
+        </button>
+      </div>
+      <div className="flex flex-col w-full mt-6">
+        <div className="overflow-x-auto">
+          <FinalizedOrdersTable orders={orders} />
+        </div>
+      </div>
     </>
   )
 };
