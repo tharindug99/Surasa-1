@@ -1,4 +1,4 @@
-import {SAVE_REVIEW, ADD_REVIEW, UPDATE_REVIEW, REMOVE_REVIEW, SAVE_REVIEWS} from "redux/constants/Review";
+import { SAVE_REVIEW, ADD_REVIEW, UPDATE_REVIEW, REMOVE_REVIEW, SAVE_REVIEWS, UPDATE_REVIEW_STATUS } from "redux/constants/Review";
 
 
 const initState = {
@@ -13,7 +13,7 @@ const Review = (state = initState, action) => {
         ...state,
         reviews: action.payload,
       };
-      case SAVE_REVIEWS:
+    case SAVE_REVIEWS:
       return {
         ...state,
         reviews: action.payload,
@@ -27,7 +27,7 @@ const Review = (state = initState, action) => {
 
     case UPDATE_REVIEW:
       const updatedReviews = state.reviews.map((review) =>
-          review.id === action.payload.id ? action.payload : review
+        review.id === action.payload.id ? action.payload : review
       );
       return {
         ...state,
@@ -41,6 +41,14 @@ const Review = (state = initState, action) => {
         ...state,
         reviews: filteredReviews,
         currentReview: state.currentReview?.id === action.payload.id ? null : state.currentReview,
+      };
+
+    case UPDATE_REVIEW_STATUS:
+      return {
+        ...state,
+        reviews: state.reviews.map(review =>
+          review.id === action.payload.id ? action.payload : review
+        )
       };
 
     default:

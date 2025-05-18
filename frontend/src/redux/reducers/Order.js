@@ -1,4 +1,4 @@
-import {SAVE_ORDER, ADD_ORDER, UPDATE_ORDER, REMOVE_ORDER, SAVE_ORDERS} from "redux/constants/Order";
+import { SAVE_ORDER, ADD_ORDER, UPDATE_ORDER, REMOVE_ORDER, SAVE_ORDERS } from "redux/constants/Order";
 
 const initState = {
   orders: [],
@@ -12,7 +12,7 @@ const Order = (state = initState, action) => {
         ...state,
         orders: action.payload,
       };
-      case SAVE_ORDERS:
+    case SAVE_ORDERS:
       return {
         ...state,
         orders: action.payload,
@@ -26,7 +26,7 @@ const Order = (state = initState, action) => {
 
     case UPDATE_ORDER:
       const updatedOrders = state.orders.map((order) =>
-          order.id === action.payload.id ? action.payload : order
+        order.id === action.payload.id ? action.payload : order
       );
       return {
         ...state,

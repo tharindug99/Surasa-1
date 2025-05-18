@@ -1,45 +1,55 @@
 import fetch from "axiosConfig/FetchInterceptor";
 
-const ReviewRequest = {};
 const review = "reviews";
 
-ReviewRequest.addAReview = (data) => {
-  return fetch({
-    url: review,
-    method: "post",
-    data: data,
-  });
-};
+// Single declaration of ReviewRequest with all methods
+const ReviewRequest = {
+  addAReview: (data) => {
+    return fetch({
+      url: review,
+      method: "post",
+      data: data,
+    });
+  },
 
-ReviewRequest.getAllReviews = (params) => {
-  return fetch({
-    url: review,
-    method: "get",
-    params: params,
-  });
-};
+  getAllReviews: (params) => {
+    return fetch({
+      url: review,
+      method: "get",
+      params: params,
+    });
+  },
 
-ReviewRequest.getAReview = (id) => {
-  return fetch({
-    url: `${review}/${id}`,
-    method: "get",
-  });
-};
+  getAReview: (id) => {
+    return fetch({
+      url: `${review}/${id}`,
+      method: "get",
+    });
+  },
 
-ReviewRequest.updateAReview = (params) => {
-  return fetch({
-    url: review,
-    method: "put",
-    params: params,
-  });
-};
+  updateAReview: (params) => {
+    return fetch({
+      url: review,
+      method: "put",
+      params: params,
+    });
+  },
 
-ReviewRequest.deleteAReview = (params) => {
-  return fetch({
-    url: review,
-    method: "delete",
-    params: params,
-  });
+  deleteAReview: (params) => {
+    return fetch({
+      url: review,
+      method: "delete",
+      params: params,
+    });
+  },
+
+  updateStatus: (reviewId, data) => {
+    return fetch({
+      url: `reviews/${reviewId}/status`,
+      method: "put",
+      data: data,
+    });
+  }
 };
 
 export default ReviewRequest;
