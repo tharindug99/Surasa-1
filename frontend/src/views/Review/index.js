@@ -5,7 +5,7 @@ import ReviewRequest from "services/Requests/Review";
 import useLoading from "hooks/useLoading";
 import StickyHeadTable from "./ReviewTableUI";
 import { useDispatch } from 'react-redux';
-//     // eslint-disable-next-line react-hooks/exhaustive-deps
+
 
 const Review = (props) => {
   const { setReviews, reviews, updateReviewStatus } = props;
