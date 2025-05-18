@@ -32,9 +32,9 @@ const BookingDetail = (props) => {
         "Loading Bookings"
       ) : (
         <>
-          <h4>Bookings Data</h4>
-          <CollapsibleTable rows={bookings} />{" "}
-          {/* Pass bookings to CollapsibleTable */}
+
+          <CollapsibleTable rows={bookings} />
+
         </>
       )}
     </>

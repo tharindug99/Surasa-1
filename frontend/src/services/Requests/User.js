@@ -34,28 +34,27 @@ UserRequest.updateAUser = (params) => {
     });
 };
 
-UserRequest.deleteAUser = (params) => {
+UserRequest.deleteAUser = (id) => {
     return fetch({
-        url: user,
+        url: `${user}/${id}`,
         method: "delete",
-        params: params,
     });
 };
 
 // New methods for adding and deducting points ------------ NEW--------------------------------
-UserRequest.addPoints = (userId, points) => {
+UserRequest.addLoyaltyPoints = (userId, points) => {
     return fetch({
-        url: `${user}/${userId}/add-points`,
-        method: "post",
-        data: {points},
+        url: `users/${userId}/add-loyalty-points`,
+        method: 'patch',
+        data: { points }
     });
 };
 
-UserRequest.deductPoints = (userId, points) => {
+UserRequest.deductLoyaltyPoints = (userId, points) => {
     return fetch({
-        url: `${user}/${userId}/deduct-points`,
-        method: "post",
-        data: {points},
+        url: `users/${userId}/deduct-loyalty-points`,
+        method: 'patch',
+        data: { points }
     });
 };
 
@@ -97,7 +96,7 @@ UserRequest.logoutUser = async () => {
                 'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
             },
         });
-        console.log("response",response);
+        console.log("response", response);
         console.log("response.data", response.data);
         if (!response.data.success) {
             const errorResponse = await response();

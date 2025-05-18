@@ -26,11 +26,11 @@ BookingRequest.getABooking = (id) => {
   });
 };
 
-BookingRequest.updateABooking = (params) => {
+BookingRequest.updateABooking = (id, bookingData) => {
   return fetch({
-    url: booking,
+    url: `${booking}/${id}`,
     method: "put",
-    params: params
+    data: bookingData // Send complete validated object
   });
 };
 

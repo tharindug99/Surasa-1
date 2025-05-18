@@ -1,3 +1,4 @@
+// PointsModal.js
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Dialog from "@mui/material/Dialog";
@@ -13,20 +14,17 @@ function PointsModal({
   onClose,
   userId,
   isAdding,
-  handleAddPoints,
-  handleDeductPoints,
+  handleSubmit,  // Changed from handleAddPoints/handleDeductPoints
 }) {
   const [points, setPoints] = useState("");
 
-  const handleSubmit = () => {
+  const handleFormSubmit = () => {
     const pointsValue = parseInt(points, 10);
-    if (isAdding) {
-      handleAddPoints(userId, pointsValue);
-    } else {
-      handleDeductPoints(userId, pointsValue);
+    if (!isNaN(pointsValue)) {
+      handleSubmit(userId, pointsValue, isAdding);  // Pass isAdding flag
+      setPoints("");
+      onClose();
     }
-    setPoints("");
-    onClose();
   };
 
   return (
@@ -52,7 +50,7 @@ function PointsModal({
         <Button onClick={onClose} color="primary">
           Cancel
         </Button>
-        <Button onClick={handleSubmit} color="primary">
+        <Button onClick={handleFormSubmit} color="primary">
           Submit
         </Button>
       </DialogActions>
@@ -65,8 +63,7 @@ PointsModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   userId: PropTypes.number,
   isAdding: PropTypes.bool.isRequired,
-  handleAddPoints: PropTypes.func.isRequired,
-  handleDeductPoints: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,  // Updated prop type
 };
 
 export default PointsModal;

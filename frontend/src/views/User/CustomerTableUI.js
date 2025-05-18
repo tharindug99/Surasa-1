@@ -14,9 +14,10 @@ import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 function Row(props) {
-  const { row, handleOpenModal } = props;
+  const { row, handleOpenModal, onDeleteUser } = props;
   const [open, setOpen] = React.useState(false);
 
   return (
@@ -40,9 +41,26 @@ function Row(props) {
         <TableCell align="right">
           <Button
             variant="contained"
+            onClick={() => onDeleteUser(row.id)}
+            size="small"
+            sx={{
+              ml: 1,
+              backgroundColor: 'red',
+              color: 'white',
+              borderRadius: '4px', // Adjust radius as needed (4px is Material UI default)
+              '&:hover': {
+                backgroundColor: '#d32f2f',
+              }
+            }}
+          >
+            Delete
+          </Button>
+          <Button
+            variant="contained"
             color="primary"
             onClick={() => handleOpenModal(row.id, true)}
             size="small"
+            sx={{ ml: 1 }}
           >
             Add
           </Button>
@@ -51,7 +69,7 @@ function Row(props) {
             color="secondary"
             onClick={() => handleOpenModal(row.id, false)}
             size="small"
-            style={{ marginLeft: 8 }}
+            sx={{ ml: 1 }}
           >
             Deduct
           </Button>
@@ -95,9 +113,10 @@ Row.propTypes = {
     updated_at: PropTypes.string.isRequired,
   }).isRequired,
   handleOpenModal: PropTypes.func.isRequired,
+  onDeleteUser: PropTypes.func.isRequired,
 };
 
-export default function CollapsibleTable({ rows, handleOpenModal }) {
+export default function CollapsibleTable({ rows, handleOpenModal, onDeleteUser }) {
   return (
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
@@ -113,7 +132,12 @@ export default function CollapsibleTable({ rows, handleOpenModal }) {
         </TableHead>
         <TableBody>
           {rows.map((row) => (
-            <Row key={row.id} row={row} handleOpenModal={handleOpenModal} />
+            <Row
+              key={row.id}
+              row={row}
+              handleOpenModal={handleOpenModal}
+              onDeleteUser={onDeleteUser}
+            />
           ))}
         </TableBody>
       </Table>
@@ -136,4 +160,5 @@ CollapsibleTable.propTypes = {
     })
   ).isRequired,
   handleOpenModal: PropTypes.func.isRequired,
+  onDeleteUser: PropTypes.func.isRequired,
 };

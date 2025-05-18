@@ -8,15 +8,16 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
+import Button from '@mui/material/Button';
 
 const columns = [
-  { id: 'full_name', label: 'Name', minWidth: 170 },
-  { id: 'email', label: 'Email', minWidth: 170 },
-  { id: 'comment', label: 'Comment', minWidth: 170 },
-  { id: 'no_of_stars', label: 'Stars', minWidth: 100, align: 'right' },
+  { id: 'full_name', label: 'Name', minWidth: 170, width: 170 },
+  { id: 'comment', label: 'Comment', minWidth: 85, width: 85 },
+  { id: 'no_of_stars', label: 'Stars', minWidth: 100, width: 100, align: 'right' },
+  { id: 'actions', label: 'Actions', minWidth: 170, width: 170, align: 'right' },
 ];
 
-export default function StickyHeadTable({ rows }) {
+export default function StickyHeadTable({ rows, onStatusChange }) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -29,17 +30,29 @@ export default function StickyHeadTable({ rows }) {
     setPage(0);
   };
 
+  const handleStatusUpdate = async (reviewId, status) => {
+    try {
+      await onStatusChange(reviewId, status);
+    } catch (error) {
+      console.error('Status update failed:', error);
+    }
+  };
+
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-      <TableContainer sx={{ maxHeight: 440 }}>
-        <Table stickyHeader aria-label="sticky table">
+      <TableContainer sx={{ maxHeight: 700 }}>
+        <Table stickyHeader aria-label="sticky table" style={{ tableLayout: 'fixed' }}>
           <TableHead>
             <TableRow>
               {columns.map((column) => (
                 <TableCell
                   key={column.id}
                   align={column.align}
-                  style={{ minWidth: column.minWidth }}
+                  style={{
+                    minWidth: column.minWidth,
+                    width: column.width,
+                    backgroundColor: '#f5f5f5',
+                  }}
                 >
                   {column.label}
                 </TableCell>
@@ -52,9 +65,47 @@ export default function StickyHeadTable({ rows }) {
               .map((row) => (
                 <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
                   {columns.map((column) => {
+                    if (column.id === 'actions') {
+                      return (
+                        <TableCell
+                          key={column.id}
+                          align={column.align}
+                          style={{ width: column.width }}
+                        >
+                          <Button
+                            variant="contained"
+                            color="success"
+                            onClick={() => handleStatusUpdate(row.id, 'approved')}
+                            sx={{ mr: 1 }}
+                          >
+                            Approve
+                          </Button>
+                          <Button
+                            variant="contained"
+                            color="error"
+                            onClick={() => handleStatusUpdate(row.id, 'rejected')}
+                          >
+                            Reject
+                          </Button>
+                        </TableCell>
+                      );
+                    }
+
                     const value = row[column.id];
                     return (
-                      <TableCell key={column.id} align={column.align}>
+                      <TableCell
+                        key={column.id}
+                        align={column.align}
+                        style={{
+                          width: column.width,
+                          whiteSpace: 'pre-wrap',
+                          wordBreak: 'break-word',
+                          ...(column.id === 'comment' && {
+                            maxWidth: column.width,
+                            overflow: 'hidden',
+                          }),
+                        }}
+                      >
                         {value}
                       </TableCell>
                     );
@@ -79,4 +130,5 @@ export default function StickyHeadTable({ rows }) {
 
 StickyHeadTable.propTypes = {
   rows: PropTypes.array.isRequired,
+  onStatusChange: PropTypes.func.isRequired,
 };

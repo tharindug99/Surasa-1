@@ -4,7 +4,7 @@ import LeftNavBar from "../../components/Dashboard/LeftNavBar";
 import DashboardHome from "./DashBoardHome";
 import CustomerInfo from "../User/index";
 import BookingRequests from "../Booking/index";
-import DeliveryOrders from "../PlaceOrder/index";
+import Order from "../Order/index";
 import MenuItems from "../DailyMenuItem/index";
 import ContactMsgs from "../ContactUs/index";
 import ReviewApproval from "../Review/index";
@@ -27,7 +27,7 @@ function DashboardLayout() {
       case "BookingRequests":
         return <BookingRequests />;
       case "Orders":
-        return <DeliveryOrders />;
+        return <Order />;
       case "MenuItems":
         return <MenuItems />;
       case "ContactMsgs":

@@ -1,4 +1,4 @@
-import {SAVE_USERS, SAVE_USER, ADD_USER, UPDATE_USER, REMOVE_USER, LOGIN_USER,LOGOUT_USER} from "redux/constants/User";
+import { SAVE_USERS, SAVE_USER, ADD_USER, UPDATE_USER, REMOVE_USER, LOGIN_USER, LOGOUT_USER } from "redux/constants/User";
 
 export const setUsers = (payload) => {
   return {
@@ -42,4 +42,9 @@ export const loginUser = (payload) => ({
 
 export const logoutUser = () => ({
   type: LOGOUT_USER,
+});
+
+export const updateUserLoyaltyPoints = (user, points, operationType) => ({
+  type: operationType,
+  payload: { user, points }
 });
