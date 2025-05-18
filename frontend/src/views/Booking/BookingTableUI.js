@@ -1,4 +1,7 @@
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 import * as React from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import Collapse from "@mui/material/Collapse";
@@ -13,10 +16,52 @@ import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import { useDispatch } from "react-redux";
+import BookingRequest from "services/Requests/Booking";
+import Toaster from "../../components/Toaster/Toaster";
+// Add these at the top with other imports
 
 function Row(props) {
   const { row } = props;
   const [open, setOpen] = React.useState(false);
+  const [status, setStatus] = React.useState(row.status);
+  const dispatch = useDispatch();
+  const [showToaster, setShowToaster] = useState(false);
+  const [toasterMessage, setToasterMessage] = useState("");
+  const [toasterType, setToasterType] = useState("error");
+
+  // In Row component
+  const handleStatusChange = async (event) => {
+    const newStatus = event.target.value;
+    try {
+      // Create full booking object with existing values + new status
+      const updatedBooking = {
+        ...row, // Spread all existing properties
+        status: newStatus
+      };
+
+      // Send full validated object
+      await BookingRequest.updateABooking(row.id, updatedBooking);
+
+      // Update Redux store
+      dispatch({
+        type: 'UPDATE_BOOKING',
+        payload: updatedBooking
+      });
+
+      setToasterMessage('Booking Status Updated Successfully!');
+      setToasterType('success');
+      setShowToaster(true);
+
+    } catch (error) {
+      console.error("Update failed:", error.response?.data);
+      // Revert UI state on error
+      setStatus(row.status);
+      setToasterMessage('Booking Status Update Failed!');
+      setToasterType('error');
+      setShowToaster(true);
+    }
+  };
 
   return (
     <React.Fragment>
@@ -36,8 +81,28 @@ function Row(props) {
         <TableCell align="right">{row.email}</TableCell>
         <TableCell align="right">{row.faculty}</TableCell>
         <TableCell align="right">{row.phone_num}</TableCell>
-        <TableCell align="right">{row.status}</TableCell>
+        <TableCell align="right">
+          <Select
+            value={status}
+            onChange={handleStatusChange}
+            size="small"
+            sx={{
+              minWidth: 120,
+              backgroundColor: 'background.paper',
+              borderRadius: '4px',
+              '& .MuiSelect-select': {
+                padding: '8px 32px 8px 12px'
+              }
+            }}
+          >
+            <MenuItem value="Pending">Pending</MenuItem>
+            <MenuItem value="Completed">Completed</MenuItem>
+            <MenuItem value="Rejected">Rejected</MenuItem>
+            <MenuItem value="Confirmed">Confirmed</MenuItem>
+          </Select>
+        </TableCell>
       </TableRow>
+      {/* Keep existing collapse structure */}
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
@@ -67,6 +132,13 @@ function Row(props) {
           </Collapse>
         </TableCell>
       </TableRow>
+      {showToaster &&
+        <Toaster
+          message={toasterMessage}
+          type={toasterType}
+          onClose={() => setShowToaster(false)}
+        />}
+
     </React.Fragment>
   );
 }
@@ -104,6 +176,7 @@ export default function CollapsibleTable({ rows }) {
           ))}
         </TableBody>
       </Table>
+
     </TableContainer>
   );
 }
