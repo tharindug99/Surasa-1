@@ -37,7 +37,7 @@ function OrderRow(props) {
                 status: newStatus
             };
 
-            await OrderRequest.updateOrder(row.id, updatedOrder);
+            await OrderRequest.updateAnOrder(row.id, updatedOrder);
 
             dispatch({
                 type: 'UPDATE_ORDER',

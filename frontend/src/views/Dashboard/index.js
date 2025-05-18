@@ -34,8 +34,6 @@ function DashboardLayout() {
         return <ContactMsgs />;
       case "ReviewApproval":
         return <ReviewApproval />;
-      //   case "SignOut":
-      //     return <SignOutScreen />;
       default:
         return <DashboardHome />;
     }

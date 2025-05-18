@@ -27,9 +27,8 @@ function LeftNavBar({ openSidebarToggle, OpenSidebar, setCurrentScreen }) {
 
   return (
     <aside
-      className={`h-full bg-SurasaBrown overflow-y-auto transition-all duration-500 text-white ${
-        openSidebarToggle ? "absolute z-20 w-64" : "hidden md:block md:w-64"
-      }`}
+      className={`h-full bg-SurasaBrown overflow-y-auto transition-all duration-500 text-white ${openSidebarToggle ? "absolute z-20 w-64" : "hidden md:block md:w-64"
+        }`}
     >
       <div className="flex justify-between items-center p-4">
         <div className="flex items-center">
@@ -98,14 +97,6 @@ function LeftNavBar({ openSidebarToggle, OpenSidebar, setCurrentScreen }) {
         >
           <a href="#" className="flex items-center">
             <BsMenuButtonWideFill className="text-xl mr-3" /> Review Approval
-          </a>
-        </li>
-        <li
-          className={getItemClass("SignOut")}
-          onClick={() => handleItemClick("SignOut")}
-        >
-          <a href="#" className="flex items-center">
-            <BsFillGearFill className="text-xl mr-3" /> Sign Out
           </a>
         </li>
       </ul>
