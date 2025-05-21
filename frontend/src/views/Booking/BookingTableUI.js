@@ -1,7 +1,7 @@
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import Collapse from "@mui/material/Collapse";
@@ -29,6 +29,11 @@ function Row(props) {
   const [showToaster, setShowToaster] = useState(false);
   const [toasterMessage, setToasterMessage] = useState("");
   const [toasterType, setToasterType] = useState("error");
+
+  // Set initial status from row prop
+  useEffect(() => {
+    setStatus(row.status);
+  }, [row.status]);
 
   // In Row component
   const handleStatusChange = async (event) => {
@@ -88,7 +93,10 @@ function Row(props) {
             size="small"
             sx={{
               minWidth: 120,
-              backgroundColor: 'background.paper',
+              backgroundColor:
+                status === 'Pending' ? 'yellow' :
+                  status === 'Confirmed' ? 'green' :
+                    status === 'Completed' ? 'blueviolet' : 'red',
               borderRadius: '4px',
               '& .MuiSelect-select': {
                 padding: '8px 32px 8px 12px'
