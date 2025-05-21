@@ -36,6 +36,7 @@ const DailyMenu = (props) => {
         DailyMenuItemRequest.getAllDailyMenuItem() // Match exact service method name
       );
       setDailyMenuItems(menuItems?.data);
+      console.log("Daily Menu Items from method:", menuItems?.data);
     } catch (error) {
       console.error("Error fetching daily menu items:", error);
     }
@@ -47,8 +48,8 @@ const DailyMenu = (props) => {
     }
     if (dailyMenuItems?.length < 1) {
       getAllDailyMenuItems();
+      console.log("Daily Menu Items from useeffect:", dailyMenuItems);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
