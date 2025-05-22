@@ -14,6 +14,9 @@ const Landing = () => {
   const navigate = useNavigate();
   const foodAnimRef = useRef(null);
 
+  const handleOrderNowClick = () => {
+    navigate("/place-order");
+  };
   return (
     <>
       <div id="home" className="mx-auto md:px-6 sm:px-4 pb-[40px] max-h-screen">
@@ -53,6 +56,7 @@ const Landing = () => {
             </div>
             <ScrollLink to="menu" smooth={false} duration={100} offset={-70}>
               <Button
+              onClick={handleOrderNowClick}
                 size="large"
                 disableElevation
                 variant="contained"
