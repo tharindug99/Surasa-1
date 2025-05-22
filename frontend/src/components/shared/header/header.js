@@ -10,11 +10,14 @@ import logo from "../../../../src/assets/images/Surasa Logo.png";
 import { logoutUser } from "../../../redux/actions";
 import UserRequest from "../../../services/Requests/User";
 import "./NavBar.css";
+import PersonIcon from '@mui/icons-material/Person';
+import IconButton from "@mui/material/IconButton";
 
 const Header = () => {
     const [showDropdown, setShowDropdown] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
     const [userInfo, setUserInfo] = useState(null);
+    const [userId, setUserId] = useState(0);
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -49,7 +52,8 @@ const Header = () => {
 
     useEffect(() => {
         const storedUserInfo = localStorage.getItem("first_name");
-        console.log(storedUserInfo);
+        const UserId = localStorage.getItem("userId")
+        setUserId(UserId);
         setUserInfo(storedUserInfo);
     }, [userInfo]);
 
@@ -67,7 +71,12 @@ const Header = () => {
                 {label}
             </Link>));
 
-    const UserActions = () => (userInfo ? (<span>Welcome back, {userInfo}</span>) : (<>
+    const UserActions = () => (userInfo ? (<span><PersonIcon onClick={handleProfileIconClick} sx={{ 
+      cursor: "pointer", // Show pointer on hover
+      "&:hover": {
+        color: "primary.main", // Optional: Change color on hover (MUI theme)
+      }
+    }}/></span>) : (<>
                 <Button
                     disableElevation
                     variant="contained"
@@ -90,6 +99,10 @@ const Header = () => {
                     Login
                 </Button>
             </>));
+
+            const handleProfileIconClick = () => {
+                navigate(`/user/${userId}/dashboard`); // Navigate to profile
+                 };
 
     return (<div
             className={`bg-NavBarBG ${isScrolled ? "fixed  top-0 left-0 w-full z-50 bg-white opacity-75" : "top-0 left-0 w-full"}`}>
@@ -118,7 +131,11 @@ const Header = () => {
                     {showDropdown && (<div className="absolute top-[60px] right-0 bg-amber-50 shadow-md p-6 w-full opacity- ">
                             <ul className="flex flex-col space-y-2 items-center">
                                 {userInfo && (<>
-                                        <li>Welcome back, {userInfo}</li>
+                                        {/* <li>Welcome back, {userInfo}</li> */}
+                                        <IconButton onClick={handleProfileIconClick} color="primary">
+                                                <PersonIcon/>
+                                        </IconButton>
+                                        
                                         <li
                                             className="logout-button"
                                             onClick={() => {
