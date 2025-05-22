@@ -37,7 +37,7 @@ function OrderRow(props) {
                 status: newStatus
             };
 
-            await OrderRequest.updateOrder(row.id, updatedOrder);
+            await OrderRequest.updateAnOrder(row.id, updatedOrder);
 
             dispatch({
                 type: 'UPDATE_ORDER',
@@ -49,7 +49,7 @@ function OrderRow(props) {
             setShowToaster(true);
 
         } catch (error) {
-            console.error("Update failed:", error.response?.data);
+            console.error("Update failed:", error);
             setStatus(row.status);
             setToasterMessage('Order Status Update Failed!');
             setToasterType('error');
