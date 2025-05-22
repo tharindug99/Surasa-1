@@ -17,7 +17,7 @@ import Paper from "@mui/material/Paper";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { useDispatch } from "react-redux";
-import OrderRequest from "services/Requests/Order"; // Update to your order service
+import OrderRequest from "services/Requests/Order";
 import Toaster from "../../Toaster/Toaster";
 
 function OrderRow(props) {
@@ -49,7 +49,7 @@ function OrderRow(props) {
             setShowToaster(true);
 
         } catch (error) {
-            console.error("Update failed:", error.response?.data);
+            console.error("Update failed:", error);
             setStatus(row.status);
             setToasterMessage('Order Status Update Failed!');
             setToasterType('error');
