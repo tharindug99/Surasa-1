@@ -13,7 +13,7 @@ function Footer() {
   ];
 
   return (
-      <footer className=" pt-10 bg-[#A9A29A0F] px-20">
+      <footer className=" pt-10 px-20 bg-[rgba(199,150,103,0.3)]">
         <div className="flex flex-wrap justify-between p-10">
           <div className="w-full md:w-auto mb-4 md:mb-0 flex justify-center items-center ">
             <img src={logo} alt="Logo" className="w-16 h-16" />
