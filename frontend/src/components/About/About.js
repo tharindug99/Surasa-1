@@ -14,10 +14,10 @@ function About() {
       <div id="about" className="relative md:m-24 m-8  flex flex-col  justify-center  px-10">
         <div className="absolute inset-0 bg-[#291603] opacity-30 z-0 rounded-3xl"></div>
         <div className="relative z-10 flex flex-col md:gap-5 gap-3 pb-5">
-          <h1 className="text-white text-[64px] font-Inter text-center ">
+          <h1 className="text-white text-[40px] font-Inter text-center ">
             About
           </h1>
-          <p className="text-white md:text-[20px] text-[14px] font-Inter">
+          <p className="text-white md:text-[15px] text-[14px] font-Inter">
             Welcome to Surasa website, the innovative restaurant run by talented
             undergraduates from the Faculty of Agricultural Sciences at
             Sabaragamuwa University of Sri Lanka. <br></br> <br></br>Our mission
