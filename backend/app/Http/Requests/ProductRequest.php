@@ -28,7 +28,7 @@ class ProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'nullable|unique:products,name,' . $this->id,
+            'name' => 'nullable|unique:products,name,' . $this->route('id'),
             'description' => 'nullable',
             'category_id' => 'nullable|numeric',
             'price' => 'nullable|numeric',
