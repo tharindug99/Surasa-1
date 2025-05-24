@@ -27,6 +27,8 @@ class DailyMenuItemController extends Controller
         $validated = $request->validated();
         $dailyMenuItem = new DailyMenuItem();
         $dailyMenuItem->product_id = $validated['product_id'];
+        $dailyMenuItem->name = $validated['name'];
+        $dailyMenuItem->price = $validated['price'];
         $dailyMenuItem->description = $validated['description'];
         $dailyMenuItem->image = $validated['image'];
         $dailyMenuItem->date = $validated['date'];
