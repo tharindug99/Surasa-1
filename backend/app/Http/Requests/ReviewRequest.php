@@ -32,10 +32,10 @@ class ReviewRequest extends FormRequest
             'user_id' => 'required|exists:users,id',
             'product_id' => 'required|exists:products,id',
             'review_image' => 'nullable|string|max:255',
-            'no_of_stars' => 'required|integer|min:1|max:5',
-            'full_name' => 'required|string',
-            'comment' => 'required|string',
-            'status' => 'required|string|in:approved,rejected,pending'
+            'no_of_stars' => 'nullable|integer|min:1|max:5',
+            'full_name' => 'nullable|string',
+            'comment' => 'nullable|string',
+            'status' => 'nullable|string|in:approved,rejected,pending'
         ];
     }
 

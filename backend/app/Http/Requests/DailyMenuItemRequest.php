@@ -30,9 +30,9 @@ class DailyMenuItemRequest extends FormRequest
     {
         return [
             'product_id' => 'required|exists:products,id',
-            'description' => 'required|string',
-            'image' => 'required|string|max:255',
-            'date' => 'required|date',
+            'description' => 'nullable|string',
+            'image' => 'nullable|string|max:255',
+            'date' => 'nullable|date',
         ];
     }
 
