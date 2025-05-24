@@ -24,6 +24,7 @@ class ReviewFactory extends Factory
             'review_image' => 'https://placehold.co/300x200', // Placeholder image URL
             'no_of_stars' => $this->faker->numberBetween(1, 5), // Random number of stars between 1 and 5
             'full_name' => $this->faker->name, // Generates a random full name
+            'status' => $this->faker->randomElement(['approved', 'rejected', 'pending']), // Random status
             'comment' => $this->faker->paragraph, // Generates a random paragraph for the comment
             'created_at' => now(),
             'updated_at' => now()
