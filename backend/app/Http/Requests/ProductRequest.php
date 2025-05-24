@@ -28,10 +28,10 @@ class ProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|unique:products,name,' . $this->id,
-            'description' => 'required',
-            'category_id' => 'required|numeric',
-            'price' => 'required|numeric',
+            'name' => 'nullable|unique:products,name,' . $this->id,
+            'description' => 'nullable',
+            'category_id' => 'nullable|numeric',
+            'price' => 'nullable|numeric',
             'avatar' => 'nullable|image|max:2048',
         ];
     }
