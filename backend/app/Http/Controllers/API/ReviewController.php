@@ -29,6 +29,7 @@ class ReviewController extends Controller
         $reviews->product_id = $validated['product_id'];
         $reviews->review_image = $validated['review_image'];
         $reviews->no_of_stars = $validated['no_of_stars'];
+        $reviews->status = $validated['status'];
         $reviews->full_name = $validated['full_name'];
         $reviews->comment = $validated['comment'];
 
