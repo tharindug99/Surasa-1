@@ -13,7 +13,7 @@ import {
     Button
 } from "@mui/material";
 
-function DailyMenuItemRow({ menuItem }) {
+function DailyMenuItemRow({ dailyMenuItem }) {
     const getCategoryName = (id) => {
         switch (id) {
             case 1: return 'Food';
@@ -23,12 +23,12 @@ function DailyMenuItemRow({ menuItem }) {
     };
 
     const handleDelete = () => {
-        console.log('Delete menu item:', menuItem.id);
+        console.log('Delete menu item:', dailyMenuItem.id);
         // Add your delete logic here
     };
 
     const handleEdit = () => {
-        console.log('Edit menu item:', menuItem.id);
+        console.log('Edit menu item:', dailyMenuItem.id);
         // Add your edit logic here
     };
 
@@ -40,16 +40,16 @@ function DailyMenuItemRow({ menuItem }) {
     return (
         <TableRow>
             <TableCell component="th" scope="row">
-                {menuItem.id}
+                {dailyMenuItem.id}
             </TableCell>
             <TableCell align="right">
-                {getCategoryName(menuItem.product_id)}
+                {getCategoryName(dailyMenuItem.product_id)}
             </TableCell>
             <TableCell align="right" sx={{ width: "300px", textAlign: "left" }}>
-                {menuItem.description || 'No description'}
+                {dailyMenuItem.description || 'No description'}
             </TableCell>
             <TableCell align="right">
-                {formatDate(menuItem.date)}
+                {formatDate(dailyMenuItem.date)}
             </TableCell>
             <TableCell align="right">
                 <Button
@@ -75,7 +75,7 @@ function DailyMenuItemRow({ menuItem }) {
 }
 
 DailyMenuItemRow.propTypes = {
-    menuItem: PropTypes.shape({
+    dailyMenuItem: PropTypes.shape({
         id: PropTypes.number.isRequired,
         product_id: PropTypes.number.isRequired,
         description: PropTypes.string,
@@ -83,7 +83,7 @@ DailyMenuItemRow.propTypes = {
     }).isRequired
 };
 
-export default function DailyMenuTable({ menuItems }) {
+export default function DailyMenuTable({ dailyMenuItems }) {
     return (
         <TableContainer component={Paper}>
             <Table aria-label="daily-menu-table">
@@ -97,8 +97,8 @@ export default function DailyMenuTable({ menuItems }) {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {(menuItems || []).map((menuItem) => (
-                        <DailyMenuItemRow key={menuItem.id} menuItem={menuItem} />
+                    {(dailyMenuItems || []).map((dailyMenuItem) => (
+                        <DailyMenuItemRow key={dailyMenuItem.id} dailyMenuItem={dailyMenuItem} />
                     ))}
                 </TableBody>
             </Table>
@@ -107,9 +107,9 @@ export default function DailyMenuTable({ menuItems }) {
 }
 
 DailyMenuTable.propTypes = {
-    menuItems: PropTypes.arrayOf(PropTypes.object)
+    dailyMenuItems: PropTypes.arrayOf(PropTypes.object)
 };
 
 DailyMenuTable.defaultProps = {
-    menuItems: []
+    dailyMenuItems: []
 };

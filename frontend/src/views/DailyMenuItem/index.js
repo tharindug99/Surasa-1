@@ -18,25 +18,30 @@ const DailyMenu = (props) => {
   } = props;
   const [loading, withLoading] = useLoading();
 
+  const [dailyMenuProducts, setDailyMenuProducts] = React.useState([]);
+
   const getAllProducts = async () => {
     try {
       const products = await withLoading(
         ProductRequest.getAllProducts()
       );
       setProducts(products?.data);
+      console.log("Products from method:", products.data);
     } catch (error) {
       console.error("Error fetching products:", error);
     }
   };
 
-  // Updated to match service method name
   const getAllDailyMenuItems = async () => {
     try {
-      const menuItems = await withLoading(
-        DailyMenuItemRequest.getAllDailyMenuItem() // Match exact service method name
+      const dailyMenuItems = await withLoading(
+        DailyMenuItemRequest.getAllDailyMenuItem()
       );
-      setDailyMenuItems(menuItems?.data);
-      console.log("Daily Menu Items from method:", menuItems?.data);
+      // setDailyMenuItems(dailyMenuItems?.data);
+      // // console.log("Daily Menu Items from method:", menuItems.data);
+      // console.log("Daily Menu Items from props:", dailyMenuItems.data);
+      setDailyMenuProducts(dailyMenuItems?.data);
+      console.log("Daily Menu Products from method:", dailyMenuProducts);
     } catch (error) {
       console.error("Error fetching daily menu items:", error);
     }
@@ -45,10 +50,11 @@ const DailyMenu = (props) => {
   useEffect(() => {
     if (products?.length < 1) {
       getAllProducts();
+      console.log("Products from useeffect:", products);
     }
     if (dailyMenuItems?.length < 1) {
       getAllDailyMenuItems();
-      console.log("Daily Menu Items from useeffect:", dailyMenuItems);
+      console.log("Daily Menu Items from useeffect:", dailyMenuProducts);
     }
   }, []);
 
@@ -62,7 +68,7 @@ const DailyMenu = (props) => {
           <ProductsTable products={products} />
 
           <h2 style={{ marginBottom: '20px', marginTop: '40px' }}>Daily Menu Items</h2>
-          <DailyMenuTable menuItems={dailyMenuItems} />
+          <DailyMenuTable dailyMenuItems={dailyMenuProducts} />
         </div>
       )}
     </div>

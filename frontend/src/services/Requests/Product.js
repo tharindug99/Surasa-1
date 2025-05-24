@@ -34,7 +34,7 @@ ProductRequest.updateAProduct = (id, productData) => {
   formData.append('description', productData.description);
   formData.append('category_id', productData.category_id);
   formData.append('price', productData.price);
-
+  console.log("test", Array.isArray(productData.tags));
 
   if (productData.image) {
     formData.append('image', productData.avatar);
@@ -43,7 +43,7 @@ ProductRequest.updateAProduct = (id, productData) => {
   return fetch({
     url: `${product}/${id}`,
     method: "put",
-    data: formData, // Send the FormData object
+    data: formData,
     headers: {
       'Content-Type': 'multipart/form-data'
     }
