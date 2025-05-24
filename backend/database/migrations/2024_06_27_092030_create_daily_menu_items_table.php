@@ -13,6 +13,8 @@ return new class extends Migration {
         Schema::create('daily_menu_items', function (Blueprint $table) {
             $table->id(); // id INT AUTO_INCREMENT PRIMARY KEY
             $table->unsignedBigInteger('product_id'); // product_id INT NOT NULL
+            $table->decimal('price', 8, 2);
+            $table->string('name'); // name VARCHAR(255) NOT NULL
             $table->text('description'); // description TEXT NOT NULL
             $table->string('image'); // image VARCHAR(255) NOT NULL
             $table->date('date'); //  DATE NOT NULL

@@ -10,16 +10,16 @@ class DailyMenuItem extends Model
     use HasFactory;
 
     protected $fillable = [
-         'product_id',
-         'description',
-         'image',
-         'date'
-     ];
+        'product_id',
+        'description',
+        'name',
+        'price',
+        'image',
+        'date'
+    ];
 
     public function product()
     {
         return $this->belongsTo(Product::class);
     }
-
-
 }
