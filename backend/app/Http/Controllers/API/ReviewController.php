@@ -94,15 +94,5 @@ class ReviewController extends Controller
         return response()->json(['message' => 'Review deleted']);
     }
 
-    /** Update Status  **/
-    public function updateStatus(UpdateReviewStatusRequest $request, Review $review)
-    {
-        $review->update(['status' => $request->status]);
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Review status updated successfully',
-            'data' => $review
-        ]);
-    }
+    
 }
