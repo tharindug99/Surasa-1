@@ -26,19 +26,34 @@ ProductRequest.getAProduct = (id) => {
   });
 };
 
-ProductRequest.updateAProduct = (params) => {
+ProductRequest.updateAProduct = (id, productData) => {
+  // Create FormData object
+  const formData = new FormData();
+
+  formData.append('name', productData.name);
+  formData.append('description', productData.description);
+  formData.append('category_id', productData.category_id);
+  formData.append('price', productData.price);
+
+
+  if (productData.image) {
+    formData.append('image', productData.avatar);
+  }
+
   return fetch({
-    url: product,
+    url: `${product}/${id}`,
     method: "put",
-    params: params
+    data: formData, // Send the FormData object
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
   });
 };
 
-ProductRequest.deleteAProduct = (params) => {
+ProductRequest.deleteAProduct = (id) => {
   return fetch({
-    url: product,
-    method: "delete",
-    params: params
+    url: `${product}/${id}`,
+    method: "delete"
   });
 };
 

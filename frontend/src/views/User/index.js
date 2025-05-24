@@ -120,10 +120,16 @@ const User = () => {
         pointsValue,
         isAdding ? 'ADD_LOYALTY_POINTS' : 'DEDUCT_LOYALTY_POINTS'
       ));
+      setToasterMessage(`Loyalty points ${isAdding ? 'added' : 'deducted'} successfully`);
+      setToasterType('success');
+      setShowToaster(true);
 
       setModalOpen(false);
     } catch (error) {
       console.error("Failed to update points:", error);
+      setToasterMessage(error.response?.data?.error || 'Failed to update points');
+      setToasterType('error');
+      setShowToaster(true);
     }
   };
 
