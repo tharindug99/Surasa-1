@@ -1,4 +1,3 @@
-// frontend/src/views/DailyMenu/index.js
 import React from "react";
 import { connect } from "react-redux";
 import { setProducts, setDailyMenuItems } from "redux/actions";
@@ -47,6 +46,7 @@ const DailyMenu = (props) => {
     }
   };
 
+
   useEffect(() => {
     if (products?.length < 1) {
       getAllProducts();
@@ -58,6 +58,18 @@ const DailyMenu = (props) => {
     }
   }, []);
 
+  const handleDelete = (productId) => {
+    setProducts(products.filter(p => p.id !== productId));
+  };
+
+  const handleUpdate = (updatedProduct) => {
+    setProducts(prevProducts =>
+      prevProducts.map(p =>
+        p.id === updatedProduct.id ? updatedProduct : p
+      )
+    );
+  };
+
   return (
     <div className="container">
       {loading ? (
@@ -65,7 +77,10 @@ const DailyMenu = (props) => {
       ) : (
         <div>
           <h2 style={{ marginBottom: '20px' }}>Products Table</h2>
-          <ProductsTable products={products} />
+          <ProductsTable
+            products={products}
+            onDelete={handleDelete}
+            onUpdate={handleUpdate} />
 
           <h2 style={{ marginBottom: '20px', marginTop: '40px' }}>Daily Menu Items</h2>
           <DailyMenuTable dailyMenuItems={dailyMenuProducts} />
