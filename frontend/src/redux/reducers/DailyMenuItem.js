@@ -18,7 +18,7 @@ const DailyMenuItem = (state = initState, action) => {
         ...state,
         dailyMenuItems: action.payload,
       };
-      case SAVE_DAILY_MENU_ITEMS:
+    case SAVE_DAILY_MENU_ITEMS:
       return {
         ...state,
         dailyMenuItems: action.payload,
@@ -32,7 +32,7 @@ const DailyMenuItem = (state = initState, action) => {
 
     case UPDATE_DAILY_MENU_ITEM:
       const updatedDailyMenuItems = state.dailyMenuItems.map((item) =>
-          item.id === action.payload.id ? action.payload : item
+        item.id === action.payload.id ? action.payload : item
       );
       return {
         ...state,

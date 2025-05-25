@@ -1,4 +1,3 @@
-// frontend/src/views/DailyMenu/index.js
 import React from "react";
 import { connect } from "react-redux";
 import { setProducts, setDailyMenuItems } from "redux/actions";
@@ -18,39 +17,62 @@ const DailyMenu = (props) => {
   } = props;
   const [loading, withLoading] = useLoading();
 
+
   const getAllProducts = async () => {
     try {
       const products = await withLoading(
         ProductRequest.getAllProducts()
       );
       setProducts(products?.data);
+      console.log("Products from method:", products.data);
     } catch (error) {
       console.error("Error fetching products:", error);
     }
   };
 
-  // Updated to match service method name
   const getAllDailyMenuItems = async () => {
     try {
-      const menuItems = await withLoading(
-        DailyMenuItemRequest.getAllDailyMenuItem() // Match exact service method name
+      const dailyMenuItems = await withLoading(
+        DailyMenuItemRequest.getAllDailyMenuItem()
       );
-      setDailyMenuItems(menuItems?.data);
-      console.log("Daily Menu Items from method:", menuItems?.data);
+      setDailyMenuItems(dailyMenuItems?.data);
+      // console.log("Daily Menu Items from method:", dailyMenuItems.data);
     } catch (error) {
       console.error("Error fetching daily menu items:", error);
     }
   };
 
+
   useEffect(() => {
     if (products?.length < 1) {
       getAllProducts();
+      console.log("Products from useeffect:", products);
     }
     if (dailyMenuItems?.length < 1) {
       getAllDailyMenuItems();
-      console.log("Daily Menu Items from useeffect:", dailyMenuItems);
+      console.log("Daily Menu Items from useeffect:", dailyMenuItems.data);
     }
-  }, []);
+  }, [products.length, dailyMenuItems.length]);
+
+  const handleDelete = (productId) => {
+    setProducts(products.filter(p => p.id !== productId));
+  };
+
+  const handleUpdate = (updatedProduct) => {
+    setProducts(products.map(p =>
+      p.id === updatedProduct.id ? updatedProduct : p
+    ));
+  };
+
+  const handleDailyMenuDelete = (itemId) => {
+    setDailyMenuItems(dailyMenuItems.filter(item => item.id !== itemId));
+  }
+
+  const handleDailyMenuUpdate = (updatedItem) => {
+    setDailyMenuItems(dailyMenuItems.map(item =>
+      item.id === updatedItem.id ? updatedItem : item
+    ));
+  };
 
   return (
     <div className="container">
@@ -59,10 +81,16 @@ const DailyMenu = (props) => {
       ) : (
         <div>
           <h2 style={{ marginBottom: '20px' }}>Products Table</h2>
-          <ProductsTable products={products} />
+          <ProductsTable
+            products={products}
+            onDelete={handleDelete}
+            onUpdate={handleUpdate} />
 
           <h2 style={{ marginBottom: '20px', marginTop: '40px' }}>Daily Menu Items</h2>
-          <DailyMenuTable menuItems={dailyMenuItems} />
+          <DailyMenuTable
+            dailyMenuItems={dailyMenuItems}
+            onDelete={handleDailyMenuDelete}
+            onUpdate={handleDailyMenuUpdate} />
         </div>
       )}
     </div>
@@ -71,7 +99,7 @@ const DailyMenu = (props) => {
 
 const mapStateToProps = ({ product, dailyMenuItem }) => ({
   products: product.products || [],
-  dailyMenuItems: dailyMenuItem.items || []
+  dailyMenuItems: dailyMenuItem.dailyMenuItems || []
 });
 
 const mapDispatchToProps = {

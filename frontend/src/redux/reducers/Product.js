@@ -1,4 +1,10 @@
-import { SAVE_PRODUCTS, SAVE_PRODUCT, ADD_PRODUCT, UPDATE_PRODUCT, REMOVE_PRODUCT } from "redux/constants/Product";
+import {
+  SAVE_PRODUCTS,
+  SAVE_PRODUCT,
+  ADD_PRODUCT,
+  UPDATE_PRODUCT, 
+  REMOVE_PRODUCT
+} from "redux/constants/Product";
 
 const initState = {
   products: [],
@@ -27,7 +33,7 @@ const Product = (state = initState, action) => {
 
     case UPDATE_PRODUCT:
       const updatedProducts = state.products.map((product) =>
-          product.id === action.payload.id ? action.payload : product
+        product.id === action.payload.id ? action.payload : product
       );
       return {
         ...state,

@@ -1,4 +1,3 @@
-// frontend/src/components/product/ProductTable.js
 import * as React from "react";
 import PropTypes from "prop-types";
 import {
@@ -19,33 +18,42 @@ import {
     DialogContent,
     DialogActions,
     TextField,
-    Snackbar,
-    Alert,
     MenuItem
 } from "@mui/material";
 import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
 import ProductRequest from "services/Requests/Product";
+import Toaster from "../../components/Toaster/Toaster";
+import { useEffect } from "react";
 
 function ProductRow(props) {
     const { product, onDelete, onUpdate } = props;
     const [open, setOpen] = React.useState(false);
     const [editOpen, setEditOpen] = React.useState(false);
     const [editedProduct, setEditedProduct] = React.useState({ ...product });
+
+    useEffect(() => {
+        setEditedProduct({ ...product });
+    }, [onDelete, onUpdate]);
+
+
+    // Toaster state
     const [toaster, setToaster] = React.useState({
         open: false,
         message: "",
         type: "success",
     });
 
-    const getCategoryName = (id) => {
-        switch (id) {
-            case 1:
-                return "Food";
-            case 2:
-                return "Beverage";
-            default:
-                return "Unknown";
-        }
+    const handleCloseToaster = () => {
+        setToaster(prev => ({ ...prev, open: false }));
+    };
+
+    const showToaster = (message, type = "success") => {
+        setToaster({ open: true, message, type });
+    };
+
+    const handleEditClick = () => {
+        setEditedProduct({ ...product });
+        setEditOpen(true);
     };
 
     const handleDelete = async () => {
@@ -61,40 +69,59 @@ function ProductRow(props) {
         }
     };
 
-    const handleEditClick = () => {
-        setEditedProduct({ ...product });
-        setEditOpen(true);
-    };
 
-    // In ProductRow component, update the handleEditSubmit function
     const handleEditSubmit = async () => {
         try {
-            
+            console.log("Edited Product:", {
+                name: editedProduct.name,
+                price: editedProduct.price,
+                // Add other fields
+            });
+            console.log("Edited Product (Before):", editedProduct); // Check initial data
+            // const formData = new FormData();
+            // formData.append('name', editedProduct.name || "");
+            // formData.append('description', editedProduct.description || "");
+            // formData.append('category_id', editedProduct.category_id || "");
+            // formData.append('price', editedProduct.price || "");
+
+            const payload = {
+                name: editedProduct.name || "",
+                description: editedProduct.description || "",
+                category_id: editedProduct.category_id || "",
+                price: editedProduct.price || ""
+            };
+
+
+
+            if (editedProduct.avatar instanceof File) {
+                payload.append('image', editedProduct.avatar);
+            }
+
+            console.log("Payload before ", payload)
+
             const updatedProduct = await ProductRequest.updateAProduct(
                 product.id,
-                editedProduct
+                payload
             );
+
             onUpdate(updatedProduct);
+
+            console.log("Updated product:", updatedProduct);
+
             setEditOpen(false);
             showToaster("Product updated successfully", "success");
         } catch (error) {
-            showToaster(
-                error.response?.data?.error || "Failed to update product",
-                "error"
-            );
+            console.error("Update error:", error);
+            const errorMessage = error.response?.data?.errors
+                ? Object.values(error.response.data.errors).flat().join(', ')
+                : "Failed to update product";
+            showToaster(errorMessage, "error");
         }
     };
 
+
     const handleFieldChange = (field, value) => {
         setEditedProduct((prev) => ({ ...prev, [field]: value }));
-    };
-
-    const showToaster = (message, type) => {
-        setToaster({ open: true, message, type });
-    };
-
-    const handleCloseToaster = () => {
-        setToaster((prev) => ({ ...prev, open: false }));
     };
 
     const handleAddToMenu = () => {
@@ -117,16 +144,18 @@ function ProductRow(props) {
                     {product.id}
                 </TableCell>
                 <TableCell align="right">{product.name}</TableCell>
-                <TableCell
-                    align="right"
-                    sx={{
-                        width: "250px",
-                        textAlign: "left",
-                    }}
-                >
-                    {product.description || "No description"}
-                </TableCell>
-                <TableCell align="right">{getCategoryName(product.category_id)}</TableCell>
+                <TableCell align="right">{product.avatar ? (
+                    <img
+                        src={product.avatar}
+                        alt={product.name}
+                        style={{ width: 50, height: 50, borderRadius: '50%' }}
+                    />
+                ) : (
+                    <Typography variant="body2" color="textSecondary">
+                        No Image
+                    </Typography>
+                )}</TableCell>
+                <TableCell align="right">{product.category?.name}</TableCell>
                 <TableCell align="right">
                     {product.price ? `$${product.price}` : "N/A"}
                 </TableCell>
@@ -175,7 +204,7 @@ function ProductRow(props) {
                                     </TableRow>
                                     <TableRow>
                                         <TableCell>Category ID:</TableCell>
-                                        <TableCell>{product.category_id}</TableCell>
+                                        <TableCell>{product.category?.name}</TableCell>
                                     </TableRow>
                                 </TableBody>
                             </Table>
@@ -221,8 +250,10 @@ function ProductRow(props) {
                         value={editedProduct.category_id}
                         onChange={(e) => handleFieldChange("category_id", Number(e.target.value))}
                     >
-                        <MenuItem value={1}>Food</MenuItem>
-                        <MenuItem value={2}>Beverage</MenuItem>
+                        {/* Single menu item showing the current category */}
+                        <MenuItem value={editedProduct.category_id}>
+                            {product.category?.name || "Unknown Category"}
+                        </MenuItem>
                     </TextField>
 
                     <input
@@ -255,21 +286,20 @@ function ProductRow(props) {
                 </DialogActions>
             </Dialog>
 
-            {/* Toaster */}
-            <Snackbar
-                open={toaster.open}
-                autoHideDuration={6000}
-                onClose={handleCloseToaster}
-                anchorOrigin={{ vertical: "top", horizontal: "right" }}
-            >
-                <Alert
+            {/* Toaster Component */}
+            {toaster.open && (
+                <Toaster
+                    message={toaster.message}
+                    type={toaster.type}
                     onClose={handleCloseToaster}
-                    severity={toaster.type}
-                    sx={{ width: "100%" }}
-                >
-                    {toaster.message}
-                </Alert>
-            </Snackbar>
+                    style={{
+                        position: 'fixed',
+                        top: '20px',
+                        right: '20px',
+                        zIndex: 9999
+                    }}
+                />
+            )}
         </React.Fragment>
     );
 }
@@ -280,7 +310,11 @@ ProductRow.propTypes = {
         name: PropTypes.string.isRequired,
         price: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
         category_id: PropTypes.number.isRequired,
-        description: PropTypes.string,
+        description: PropTypes.string.isRequired,
+        avatar: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.instanceOf(File),
+        ]),
     }).isRequired,
     onDelete: PropTypes.func.isRequired,
     onUpdate: PropTypes.func.isRequired,
@@ -295,7 +329,7 @@ export default function ProductsTable({ products, onDelete, onUpdate }) {
                         <TableCell />
                         <TableCell>ID</TableCell>
                         <TableCell align="right">Name</TableCell>
-                        <TableCell align="right">Description</TableCell>
+                        <TableCell align="right">Image</TableCell>
                         <TableCell align="right">Category</TableCell>
                         <TableCell align="right">Price</TableCell>
                         <TableCell align="right">Actions</TableCell>
