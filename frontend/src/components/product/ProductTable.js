@@ -73,26 +73,35 @@ function ProductRow(props) {
 
     const handleEditSubmit = async () => {
         try {
-            // 1. Prepare FormData with updated fields
+            console.log("Edited Product:", {
+                name: editedProduct.name,
+                price: editedProduct.price,
+                // Add other fields
+            });
+            console.log("Edited Product (Before):", editedProduct); // Check initial data
             const formData = new FormData();
-            formData.append('name', editedProduct.name);
-            formData.append('description', editedProduct.description);
-            formData.append('category_id', editedProduct.category_id);
-            formData.append('price', editedProduct.price);
+            formData.append('product.name', editedProduct.name || "");
+            formData.append('product.description', editedProduct.description || "");
+            formData.append('product.category_id', editedProduct.category_id || "");
+            formData.append('product.price', editedProduct.price || "");
 
-            // Append the image file if it's a new File
+
+            console.log("FormData in handleEditSubmit:", [...formData.entries()]);
+
+
             if (editedProduct.avatar instanceof File) {
                 formData.append('image', editedProduct.avatar);
             }
 
-            // 2. Send the request with the product ID and FormData
+
             const updatedProduct = await ProductRequest.updateAProduct(
                 product.id,
                 formData
             );
 
-            // 3. Pass the updated product data to the parent component
-            onUpdate(updatedProduct); // Expect the API to return the full updated product
+
+            onUpdate(updatedProduct);
+            console.log("Updated product:", updatedProduct);
             setEditOpen(false);
             showToaster("Product updated successfully", "success");
         } catch (error) {

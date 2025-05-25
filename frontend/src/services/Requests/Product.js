@@ -28,13 +28,19 @@ ProductRequest.getAProduct = (id) => {
 
 ProductRequest.updateAProduct = (id, productData) => {
   // Create FormData object
+
+  console.log("Sending to server:", {
+    id: id,
+    formData: [...productData.entries()] // Convert FormData to readable array
+  });
+
   const formData = new FormData();
 
-  formData.append('name', productData.name);
-  formData.append('description', productData.description);
-  formData.append('category_id', productData.category_id);
-  formData.append('price', productData.price);
-  console.log("test", Array.isArray(productData.tags));
+  formData.append('product.name', productData.name);
+  formData.append('product.description', productData.description);
+  formData.append('product.category_id', productData.category_id);
+  formData.append('product.price', productData.price);
+
 
   if (productData.image) {
     formData.append('image', productData.avatar);
@@ -43,7 +49,7 @@ ProductRequest.updateAProduct = (id, productData) => {
   return fetch({
     url: `${product}/${id}`,
     method: "put",
-    data: formData,
+    data: productData,
     headers: {
       'Content-Type': 'multipart/form-data'
     }
