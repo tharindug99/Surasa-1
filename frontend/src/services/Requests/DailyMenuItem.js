@@ -26,11 +26,11 @@ DailyMenuItemRequest.getADailyMenuItem = (id) => {
   });
 };
 
-DailyMenuItemRequest.updateADailyMenuItem = (params) => {
+DailyMenuItemRequest.updateADailyMenuItem = (id, data) => {
   return fetch({
-    url: dailymenuitem,
+    url: `${dailymenuitem}/${id}`,
     method: "put",
-    params: params
+    data: data
   });
 };
 

@@ -1,6 +1,6 @@
-// frontend/src/components/menu/DailyMenuTable.js
 import * as React from "react";
 import PropTypes from "prop-types";
+import { useEffect } from "react";
 import {
     Paper,
     Table,
@@ -10,6 +10,9 @@ import {
     TableHead,
     TableRow,
     Typography,
+    Box,
+    Collapse,
+    IconButton,
     Button,
     Dialog,
     DialogTitle,
@@ -18,11 +21,13 @@ import {
     TextField,
     MenuItem
 } from "@mui/material";
+import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
 import DailyMenuItemRequest from "services/Requests/DailyMenuItem";
 import Toaster from "../../components/Toaster/Toaster";
 
 function DailyMenuItemRow(props) {
     const { dailyMenuItem, onDelete, onUpdate } = props;
+    const [open, setOpen] = React.useState(false);
     const [editOpen, setEditOpen] = React.useState(false);
     const [editedItem, setEditedItem] = React.useState({ ...dailyMenuItem });
 
@@ -32,13 +37,9 @@ function DailyMenuItemRow(props) {
         type: "success",
     });
 
-    const getCategoryName = (id) => {
-        switch (id) {
-            case 1: return 'Food';
-            case 2: return 'Beverage';
-            default: return 'Unknown';
-        }
-    };
+    useEffect(() => {
+        setEditedItem({ ...dailyMenuItem });
+    }, [dailyMenuItem]);
 
     const handleCloseToaster = () => {
         setToaster(prev => ({ ...prev, open: false }));
@@ -52,10 +53,10 @@ function DailyMenuItemRow(props) {
         try {
             await DailyMenuItemRequest.deleteADailyMenuItem(dailyMenuItem.id);
             onDelete(dailyMenuItem.id);
-            showToaster("Daily Menu Item deleted successfully", "success");
+            showToaster("Menu item deleted successfully", "success");
         } catch (error) {
             showToaster(
-                error.response?.data?.error || "Failed to delete menu item",
+                error.response?.data?.error || "Failed to delete item",
                 "error"
             );
         }
@@ -77,7 +78,7 @@ function DailyMenuItemRow(props) {
             showToaster("Menu item updated successfully", "success");
         } catch (error) {
             showToaster(
-                error.response?.data?.error || "Failed to update menu item",
+                error.response?.data?.error || "Failed to update item",
                 "error"
             );
         }
@@ -94,19 +95,37 @@ function DailyMenuItemRow(props) {
 
     return (
         <React.Fragment>
-            <TableRow>
+            <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
+                <TableCell>
+                    <IconButton
+                        aria-label="expand row"
+                        size="small"
+                        onClick={() => setOpen(!open)}
+                    >
+                        {open ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
+                    </IconButton>
+                </TableCell>
                 <TableCell component="th" scope="row">
                     {dailyMenuItem.id}
                 </TableCell>
+                <TableCell align="right">{dailyMenuItem.name}</TableCell>
                 <TableCell align="right">
-                    {getCategoryName(dailyMenuItem.product_id)}
-                </TableCell>
-                <TableCell align="right" sx={{ width: "300px", textAlign: "left" }}>
-                    {dailyMenuItem.description || 'No description'}
+                    {dailyMenuItem.image ? (
+                        <img
+                            src={dailyMenuItem.image}
+                            alt={dailyMenuItem.name}
+                            style={{ width: 50, height: 50, borderRadius: '50%' }}
+                        />
+                    ) : (
+                        <Typography variant="body2" color="textSecondary">
+                            No Image
+                        </Typography>
+                    )}
                 </TableCell>
                 <TableCell align="right">
-                    {formatDate(dailyMenuItem.date)}
+                    {dailyMenuItem.price ? `$${dailyMenuItem.price}` : "N/A"}
                 </TableCell>
+                <TableCell align="right">{formatDate(dailyMenuItem.date)}</TableCell>
                 <TableCell align="right">
                     <Button
                         variant="contained"
@@ -128,17 +147,41 @@ function DailyMenuItemRow(props) {
                 </TableCell>
             </TableRow>
 
+            <TableRow>
+                <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={9}>
+                    <Collapse in={open} timeout="auto" unmountOnExit>
+                        <Box sx={{ margin: 1 }}>
+                            <Typography variant="h6" gutterBottom component="div">
+                                Additional Details
+                            </Typography>
+                            <Table size="small" aria-label="additional-details">
+                                <TableBody>
+                                    <TableRow>
+                                        <TableCell>Description:</TableCell>
+                                        <TableCell>{dailyMenuItem.description || 'No description'}</TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell>Product ID:</TableCell>
+                                        <TableCell>{dailyMenuItem.product_id}</TableCell>
+                                    </TableRow>
+                                </TableBody>
+                            </Table>
+                        </Box>
+                    </Collapse>
+                </TableCell>
+            </TableRow>
+
             {/* Edit Modal */}
             <Dialog open={editOpen} onClose={() => setEditOpen(false)}>
                 <DialogTitle>Edit Menu Item</DialogTitle>
                 <DialogContent>
                     <TextField
                         margin="dense"
-                        label="Product ID"
-                        type="number"
+                        label="Name"
                         fullWidth
-                        value={editedItem.product_id}
-                        onChange={(e) => handleFieldChange("product_id", Number(e.target.value))}
+                        multiline
+                        value={editedItem.name}
+                        onChange={(e) => handleFieldChange("name", e.target.value)}
                         sx={{ mt: 2 }}
                     />
                     <TextField
@@ -156,7 +199,7 @@ function DailyMenuItemRow(props) {
                         type="date"
                         fullWidth
                         InputLabelProps={{ shrink: true }}
-                        value={editedItem.date.split('T')[0]} // Assuming ISO date format
+                        value={editedItem.date.split('T')[0]}
                         onChange={(e) => handleFieldChange("date", e.target.value)}
                     />
                 </DialogContent>
@@ -168,7 +211,7 @@ function DailyMenuItemRow(props) {
                 </DialogActions>
             </Dialog>
 
-            {/* Toaster Component */}
+            {/* Toaster */}
             {toaster.open && (
                 <Toaster
                     message={toaster.message}
@@ -190,22 +233,29 @@ DailyMenuItemRow.propTypes = {
     dailyMenuItem: PropTypes.shape({
         id: PropTypes.number.isRequired,
         product_id: PropTypes.number.isRequired,
+        price: PropTypes.number,
+        name: PropTypes.string.isRequired,
         description: PropTypes.string,
         date: PropTypes.string.isRequired
     }).isRequired,
     onDelete: PropTypes.func.isRequired,
-    onUpdate: PropTypes.func.isRequired
+    onUpdate: PropTypes.func.isRequired,
+    dailyMenuItems: PropTypes.arrayOf(PropTypes.object)
 };
 
 export default function DailyMenuTable({ dailyMenuItems, onDelete, onUpdate }) {
+
+    console.log("Daily Menu Items from method:", dailyMenuItems);
     return (
         <TableContainer component={Paper}>
             <Table aria-label="daily-menu-table">
                 <TableHead>
                     <TableRow>
+                        <TableCell />
                         <TableCell>ID</TableCell>
-                        <TableCell align="right">Product Category</TableCell>
-                        <TableCell align="right">Description</TableCell>
+                        <TableCell align="right">Name</TableCell>
+                        <TableCell align="right">Image</TableCell>
+                        <TableCell align="right">Price</TableCell>
                         <TableCell align="right">Date</TableCell>
                         <TableCell align="right">Actions</TableCell>
                     </TableRow>
@@ -226,11 +276,11 @@ export default function DailyMenuTable({ dailyMenuItems, onDelete, onUpdate }) {
 }
 
 DailyMenuTable.propTypes = {
-    dailyMenuItems: PropTypes.arrayOf(PropTypes.object),
+    dailyMenuItem: PropTypes.arrayOf(PropTypes.object),
     onDelete: PropTypes.func.isRequired,
-    onUpdate: PropTypes.func.isRequired
+    onUpdate: PropTypes.func.isRequired,
 };
 
 DailyMenuTable.defaultProps = {
-    dailyMenuItems: []
+    dailyMenuItem: [],
 };

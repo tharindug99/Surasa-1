@@ -17,7 +17,6 @@ const DailyMenu = (props) => {
   } = props;
   const [loading, withLoading] = useLoading();
 
-  const [dailyMenuProducts, setDailyMenuProducts] = React.useState([]);
 
   const getAllProducts = async () => {
     try {
@@ -36,8 +35,8 @@ const DailyMenu = (props) => {
       const dailyMenuItems = await withLoading(
         DailyMenuItemRequest.getAllDailyMenuItem()
       );
-      setDailyMenuProducts(dailyMenuItems?.data);
-      console.log("Daily Menu Products from method:", dailyMenuProducts);
+      setDailyMenuItems(dailyMenuItems?.data);
+      // console.log("Daily Menu Items from method:", dailyMenuItems.data);
     } catch (error) {
       console.error("Error fetching daily menu items:", error);
     }
@@ -51,9 +50,9 @@ const DailyMenu = (props) => {
     }
     if (dailyMenuItems?.length < 1) {
       getAllDailyMenuItems();
-      console.log("Daily Menu Items from useeffect:", dailyMenuProducts);
+      console.log("Daily Menu Items from useeffect:", dailyMenuItems.data);
     }
-  }, []);
+  }, [products.length, dailyMenuItems.length]);
 
   const handleDelete = (productId) => {
     setProducts(products.filter(p => p.id !== productId));
@@ -62,6 +61,16 @@ const DailyMenu = (props) => {
   const handleUpdate = (updatedProduct) => {
     setProducts(products.map(p =>
       p.id === updatedProduct.id ? updatedProduct : p
+    ));
+  };
+
+  const handleDailyMenuDelete = (itemId) => {
+    setDailyMenuItems(dailyMenuItems.filter(item => item.id !== itemId));
+  }
+
+  const handleDailyMenuUpdate = (updatedItem) => {
+    setDailyMenuItems(dailyMenuItems.map(item =>
+      item.id === updatedItem.id ? updatedItem : item
     ));
   };
 
@@ -78,7 +87,10 @@ const DailyMenu = (props) => {
             onUpdate={handleUpdate} />
 
           <h2 style={{ marginBottom: '20px', marginTop: '40px' }}>Daily Menu Items</h2>
-          <DailyMenuTable dailyMenuItems={dailyMenuProducts} />
+          <DailyMenuTable
+            dailyMenuItems={dailyMenuItems}
+            onDelete={handleDailyMenuDelete}
+            onUpdate={handleDailyMenuUpdate} />
         </div>
       )}
     </div>
@@ -87,7 +99,7 @@ const DailyMenu = (props) => {
 
 const mapStateToProps = ({ product, dailyMenuItem }) => ({
   products: product.products || [],
-  dailyMenuItems: dailyMenuItem.items || []
+  dailyMenuItems: dailyMenuItem.dailyMenuItems || []
 });
 
 const mapDispatchToProps = {
