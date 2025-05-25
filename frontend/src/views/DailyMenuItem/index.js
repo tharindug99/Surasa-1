@@ -63,11 +63,9 @@ const DailyMenu = (props) => {
   };
 
   const handleUpdate = (updatedProduct) => {
-    setProducts(prevProducts =>
-      prevProducts.map(p =>
-        p.id === updatedProduct.id ? updatedProduct : p
-      )
-    );
+    setProducts(products.map(p =>
+      p.id === updatedProduct.id ? updatedProduct : p
+    ));
   };
 
   return (

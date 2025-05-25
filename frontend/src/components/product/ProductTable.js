@@ -23,12 +23,19 @@ import {
 import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
 import ProductRequest from "services/Requests/Product";
 import Toaster from "../../components/Toaster/Toaster";
+import { useEffect } from "react";
 
 function ProductRow(props) {
     const { product, onDelete, onUpdate } = props;
     const [open, setOpen] = React.useState(false);
     const [editOpen, setEditOpen] = React.useState(false);
     const [editedProduct, setEditedProduct] = React.useState({ ...product });
+
+    useEffect(() => {
+        // Reset editedProduct when product changes or deleted or when toaster is closed
+        setEditedProduct({ ...product });
+    }, [onDelete, onUpdate]);
+
 
     // Toaster state
     const [toaster, setToaster] = React.useState({
@@ -45,15 +52,9 @@ function ProductRow(props) {
         setToaster({ open: true, message, type });
     };
 
-    const getCategoryName = (id) => {
-        switch (id) {
-            case 1:
-                return "Food";
-            case 2:
-                return "Beverage";
-            default:
-                return "Unknown";
-        }
+    const handleEditClick = () => {
+        setEditedProduct({ ...product });
+        setEditOpen(true);
     };
 
     const handleDelete = async () => {
@@ -69,46 +70,40 @@ function ProductRow(props) {
         }
     };
 
-    const handleEditClick = () => {
-        setEditedProduct({ ...product });
-        setEditOpen(true);
-    };
 
     const handleEditSubmit = async () => {
         try {
+            // 1. Prepare FormData with updated fields
             const formData = new FormData();
             formData.append('name', editedProduct.name);
             formData.append('description', editedProduct.description);
             formData.append('category_id', editedProduct.category_id);
             formData.append('price', editedProduct.price);
-            console.log("FormData entries:", Array.from(formData.entries()));
 
-            for (const [key, value] of formData.entries()) {
-                console.log(key, value);
-            }
-
-            if (editedProduct.avatar) {
+            // Append the image file if it's a new File
+            if (editedProduct.avatar instanceof File) {
                 formData.append('image', editedProduct.avatar);
             }
 
-            console.log("FormData after:", Array.from(formData.entries()));
-
-
-            const updateAProduct = await ProductRequest.updateAProduct(
+            // 2. Send the request with the product ID and FormData
+            const updatedProduct = await ProductRequest.updateAProduct(
                 product.id,
                 formData
             );
-            console.log("Updated product:", updateAProduct);
-            onUpdate(updateAProduct);
+
+            // 3. Pass the updated product data to the parent component
+            onUpdate(updatedProduct); // Expect the API to return the full updated product
             setEditOpen(false);
             showToaster("Product updated successfully", "success");
         } catch (error) {
-            const errorMessage = error.response?.data
-                ? Object.values(error.response.data).flat().join(', ')
+            console.error("Update error:", error);
+            const errorMessage = error.response?.data?.errors
+                ? Object.values(error.response.data.errors).flat().join(', ')
                 : "Failed to update product";
             showToaster(errorMessage, "error");
         }
     };
+
 
     const handleFieldChange = (field, value) => {
         setEditedProduct((prev) => ({ ...prev, [field]: value }));
@@ -143,7 +138,7 @@ function ProductRow(props) {
                 >
                     {product.description || "No description"}
                 </TableCell>
-                <TableCell align="right">{getCategoryName(product.category_id)}</TableCell>
+                <TableCell align="right">{product.category?.name}</TableCell>
                 <TableCell align="right">
                     {product.price ? `$${product.price}` : "N/A"}
                 </TableCell>
@@ -192,7 +187,7 @@ function ProductRow(props) {
                                     </TableRow>
                                     <TableRow>
                                         <TableCell>Category ID:</TableCell>
-                                        <TableCell>{product.category_id}</TableCell>
+                                        <TableCell>{product.category?.name}</TableCell>
                                     </TableRow>
                                 </TableBody>
                             </Table>
@@ -238,8 +233,10 @@ function ProductRow(props) {
                         value={editedProduct.category_id}
                         onChange={(e) => handleFieldChange("category_id", Number(e.target.value))}
                     >
-                        <MenuItem value={1}>Food</MenuItem>
-                        <MenuItem value={2}>Beverage</MenuItem>
+                        {/* Single menu item showing the current category */}
+                        <MenuItem value={editedProduct.category_id}>
+                            {product.category?.name || "Unknown Category"}
+                        </MenuItem>
                     </TextField>
 
                     <input
