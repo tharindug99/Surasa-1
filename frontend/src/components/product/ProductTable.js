@@ -125,7 +125,9 @@ function ProductRow(props) {
     };
 
     const handleAddToMenu = () => {
-        console.log("Add to menu:", product.id);
+        
+        
+
     };
 
     return (

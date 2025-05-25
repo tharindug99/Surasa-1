@@ -26,11 +26,22 @@ DailyMenuItemRequest.getADailyMenuItem = (id) => {
   });
 };
 
-DailyMenuItemRequest.updateADailyMenuItem = (id, data) => {
+DailyMenuItemRequest.updateADailyMenuItem = (id, dailyMenuItemdata) => {
+
+  // const payload = {
+  //   name: dailyMenuItemdata.name || "",
+  //   description: dailyMenuItemdata.description || "",
+  //   date: dailyMenuItemdata.date || "",
+  //   price: dailyMenuItemdata.price || ""
+  // };
+  // if (dailyMenuItemdata.image) {
+  //   payload.append('image', dailyMenuItemdata.image);
+  // }
+
   return fetch({
     url: `${dailymenuitem}/${id}`,
     method: "put",
-    data: data
+    data: dailyMenuItemdata
   });
 };
 
