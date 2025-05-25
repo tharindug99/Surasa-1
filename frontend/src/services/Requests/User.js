@@ -96,21 +96,23 @@ UserRequest.logoutUser = async () => {
                 'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
             },
         });
+
         console.log("response", response);
         console.log("response.data", response.data);
-        if (!response.data.success) {
-            const errorResponse = await response();
-            throw new Error(errorResponse.message || 'Network response was not ok');
+
+        if (!response.data?.success) {
+            throw new Error(response.data?.message || 'Logout failed');
         }
+
         localStorage.clear();
-        // const data = response.parseJSON();
-        // return data;
+
+        return response.data; // ✅ return success message back to the component
     } catch (error) {
         console.error('An error occurred during logout:', error.message);
-        console.log("response");
         throw error;
     }
 };
+
 
 
 
