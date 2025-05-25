@@ -36,9 +36,6 @@ const DailyMenu = (props) => {
       const dailyMenuItems = await withLoading(
         DailyMenuItemRequest.getAllDailyMenuItem()
       );
-      // setDailyMenuItems(dailyMenuItems?.data);
-      // // console.log("Daily Menu Items from method:", menuItems.data);
-      // console.log("Daily Menu Items from props:", dailyMenuItems.data);
       setDailyMenuProducts(dailyMenuItems?.data);
       console.log("Daily Menu Products from method:", dailyMenuProducts);
     } catch (error) {

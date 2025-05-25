@@ -32,7 +32,6 @@ function ProductRow(props) {
     const [editedProduct, setEditedProduct] = React.useState({ ...product });
 
     useEffect(() => {
-        // Reset editedProduct when product changes or deleted or when toaster is closed
         setEditedProduct({ ...product });
     }, [onDelete, onUpdate]);
 
@@ -79,29 +78,36 @@ function ProductRow(props) {
                 // Add other fields
             });
             console.log("Edited Product (Before):", editedProduct); // Check initial data
-            const formData = new FormData();
-            formData.append('product.name', editedProduct.name || "");
-            formData.append('product.description', editedProduct.description || "");
-            formData.append('product.category_id', editedProduct.category_id || "");
-            formData.append('product.price', editedProduct.price || "");
+            // const formData = new FormData();
+            // formData.append('name', editedProduct.name || "");
+            // formData.append('description', editedProduct.description || "");
+            // formData.append('category_id', editedProduct.category_id || "");
+            // formData.append('price', editedProduct.price || "");
 
+            const payload = {
+                name: editedProduct.name || "",
+                description: editedProduct.description || "",
+                category_id: editedProduct.category_id || "",
+                price: editedProduct.price || ""
+            };
 
-            console.log("FormData in handleEditSubmit:", [...formData.entries()]);
 
 
             if (editedProduct.avatar instanceof File) {
-                formData.append('image', editedProduct.avatar);
+                payload.append('image', editedProduct.avatar);
             }
 
+            console.log("Payload before ", payload)
 
             const updatedProduct = await ProductRequest.updateAProduct(
                 product.id,
-                formData
+                payload
             );
 
-
             onUpdate(updatedProduct);
+
             console.log("Updated product:", updatedProduct);
+            
             setEditOpen(false);
             showToaster("Product updated successfully", "success");
         } catch (error) {

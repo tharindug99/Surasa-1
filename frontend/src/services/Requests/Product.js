@@ -29,30 +29,37 @@ ProductRequest.getAProduct = (id) => {
 ProductRequest.updateAProduct = (id, productData) => {
   // Create FormData object
 
-  console.log("Sending to server:", {
-    id: id,
-    formData: [...productData.entries()] // Convert FormData to readable array
-  });
+  // console.log("Sending to server:", {
+  //   id: id,
+  //   formData: [...productData.entries()] // Convert FormData to readable array
+  // });
 
-  const formData = new FormData();
 
-  formData.append('product.name', productData.name);
-  formData.append('product.description', productData.description);
-  formData.append('product.category_id', productData.category_id);
-  formData.append('product.price', productData.price);
+  // const formData = new FormData();
 
+  // formData.append('name', productData.name);
+  // formData.append('description', productData.description);
+  // formData.append('category_id', productData.category_id);
+  // formData.append('price', productData.price);
+
+  const payload = {
+    name: productData.name || "",
+    description: productData.description || "",
+    category_id: productData.category_id || "",
+    price: productData.price || ""
+  };
 
   if (productData.image) {
-    formData.append('image', productData.avatar);
+    payload.append('image', productData.avatar);
   }
+
+  console.log("Payload from redux request: ", payload);
+  console.log("productData from redux request: ", productData);
 
   return fetch({
     url: `${product}/${id}`,
     method: "put",
-    data: productData,
-    headers: {
-      'Content-Type': 'multipart/form-data'
-    }
+    data: productData
   });
 };
 
