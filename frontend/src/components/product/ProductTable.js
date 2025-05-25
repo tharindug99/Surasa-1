@@ -22,6 +22,7 @@ import {
 } from "@mui/material";
 import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
 import ProductRequest from "services/Requests/Product";
+import DailyMenuItemRequest from "services/Requests/DailyMenuItem";
 import Toaster from "../../components/Toaster/Toaster";
 import { useEffect } from "react";
 
@@ -33,7 +34,7 @@ function ProductRow(props) {
 
     useEffect(() => {
         setEditedProduct({ ...product });
-    }, [onDelete, onUpdate]);
+    }, [onDelete]);
 
 
     // Toaster state
@@ -125,9 +126,27 @@ function ProductRow(props) {
     };
 
     const handleAddToMenu = () => {
-        
-        
-
+        // Create a new daily menu item with the product details
+        const dailyMenuItem = {
+            product_id: product.id,
+            name: product.name,
+            price: product.price,
+            description: product.description,
+            image: product.image,
+            date: new Date().toISOString()
+        };
+        console.log("Product object:", dailyMenuItem);
+        DailyMenuItemRequest.addADailyMenuItem(dailyMenuItem)
+            .then((response) => {
+                showToaster("Product added to daily menu successfully", "success");
+            })
+            .catch((error) => {
+                console.error("Error adding product to daily menu:", error);
+                showToaster(
+                    error.response?.data?.error || "Failed to add product to daily menu",
+                    "error"
+                );
+            });
     };
 
     return (
