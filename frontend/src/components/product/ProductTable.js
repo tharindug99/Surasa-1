@@ -107,7 +107,7 @@ function ProductRow(props) {
             onUpdate(updatedProduct);
 
             console.log("Updated product:", updatedProduct);
-            
+
             setEditOpen(false);
             showToaster("Product updated successfully", "success");
         } catch (error) {
@@ -144,15 +144,17 @@ function ProductRow(props) {
                     {product.id}
                 </TableCell>
                 <TableCell align="right">{product.name}</TableCell>
-                <TableCell
-                    align="right"
-                    sx={{
-                        width: "250px",
-                        textAlign: "left",
-                    }}
-                >
-                    {product.description || "No description"}
-                </TableCell>
+                <TableCell align="right">{product.avatar ? (
+                    <img
+                        src={product.avatar}
+                        alt={product.name}
+                        style={{ width: 50, height: 50, borderRadius: '50%' }}
+                    />
+                ) : (
+                    <Typography variant="body2" color="textSecondary">
+                        No Image
+                    </Typography>
+                )}</TableCell>
                 <TableCell align="right">{product.category?.name}</TableCell>
                 <TableCell align="right">
                     {product.price ? `$${product.price}` : "N/A"}
@@ -327,7 +329,7 @@ export default function ProductsTable({ products, onDelete, onUpdate }) {
                         <TableCell />
                         <TableCell>ID</TableCell>
                         <TableCell align="right">Name</TableCell>
-                        <TableCell align="right">Description</TableCell>
+                        <TableCell align="right">Image</TableCell>
                         <TableCell align="right">Category</TableCell>
                         <TableCell align="right">Price</TableCell>
                         <TableCell align="right">Actions</TableCell>
