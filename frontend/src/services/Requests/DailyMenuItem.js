@@ -34,11 +34,10 @@ DailyMenuItemRequest.updateADailyMenuItem = (id, data) => {
   });
 };
 
-DailyMenuItemRequest.deleteADailyMenuItem = (params) => {
+DailyMenuItemRequest.deleteADailyMenuItem = (id) => {
   return fetch({
-    url: dailymenuitem,
+    url: `${dailymenuitem}/${id}`,
     method: "delete",
-    params: params
   });
 };
 
