@@ -27,11 +27,11 @@ const ReviewRequest = {
     });
   },
 
-  updateAReview: (params) => {
+  updateAReview: (id, data) => {
     return fetch({
-      url: review,
+      url: `${review}/${id}`,
       method: "put",
-      params: params,
+      data: data,
     });
   },
 

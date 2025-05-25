@@ -9,17 +9,25 @@ import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import Button from '@mui/material/Button';
+import Toaster from 'components/Toaster/Toaster';
 
 const columns = [
   { id: 'full_name', label: 'Name', minWidth: 170, width: 170 },
   { id: 'comment', label: 'Comment', minWidth: 85, width: 85 },
   { id: 'no_of_stars', label: 'Stars', minWidth: 100, width: 100, align: 'right' },
-  { id: 'actions', label: 'Actions', minWidth: 170, width: 170, align: 'right' },
+  { id: 'status', label: 'Status', minWidth: 100, width: 100, align: 'right' },
+  { id: 'actions', label: 'Actions', minWidth: 170, width: 170, align: 'right' }
 ];
 
 export default function StickyHeadTable({ rows, onStatusChange }) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [toaster, setToaster] = React.useState({
+    open: false,
+    message: '',
+    type: 'success',
+  });
+
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -33,8 +41,20 @@ export default function StickyHeadTable({ rows, onStatusChange }) {
   const handleStatusUpdate = async (reviewId, status) => {
     try {
       await onStatusChange(reviewId, status);
+      // Optionally, you can refresh the rows or show a success message here
+      setToaster({
+        open: true,
+        message: `Review ${status} successfully!`,
+        type: 'success',
+      });
+
     } catch (error) {
       console.error('Status update failed:', error);
+      setToaster({
+        open: true,
+        message: `Failed to update review status: ${error.message}`,
+        type: 'error',
+      });
     }
   };
 
