@@ -50,4 +50,12 @@ AdminRequest.loginAdmin = (data) => {
   });
 };
 
+AdminRequest.logoutAdmin = (params) => {
+  return fetch({
+    url: '/admin/logout',
+    method: "post",
+    params: params
+  })
+}
+
 export default AdminRequest;
