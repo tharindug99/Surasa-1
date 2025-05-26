@@ -42,4 +42,12 @@ AdminRequest.deleteAnAdmin = (params) => {
   });
 };
 
+AdminRequest.loginAdmin = (data) => {
+  return fetch({
+    url: 'admin/login', // Update with your actual admin login endpoint
+    method: "post",
+    data: data,
+  });
+};
+
 export default AdminRequest;

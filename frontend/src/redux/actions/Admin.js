@@ -1,4 +1,4 @@
-import { SAVE_ADMINS, SAVE_ADMIN, ADD_ADMIN, UPDATE_ADMIN, REMOVE_ADMIN } from "redux/constants/Admin";
+import { SAVE_ADMINS, SAVE_ADMIN, ADD_ADMIN, UPDATE_ADMIN, REMOVE_ADMIN, ADMIN_LOGIN, ADMIN_LOGOUT } from "redux/constants/Admin";
 
 export const setAdmins = (payload) => {
   return {
@@ -34,3 +34,13 @@ export const removeAdmin = (payload) => {
     payload,
   };
 };
+
+// In your Redux actions
+export const loginAdmin = (adminData) => ({
+  type: ADMIN_LOGIN,
+  payload: adminData
+});
+
+export const logoutAdmin = () => ({
+  type: ADMIN_LOGOUT,
+});

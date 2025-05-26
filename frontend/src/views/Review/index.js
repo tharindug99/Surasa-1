@@ -3,10 +3,10 @@ import { connect } from "react-redux";
 import { setReviews, updateReviewStatus } from "redux/actions";
 import ReviewRequest from "services/Requests/Review";
 import useLoading from "hooks/useLoading";
-import ReviewsTable from "./ReviewTableUI"; // Updated import
+import ReviewsTable from "./ReviewTableUI";
 
 const Review = (props) => {
-  const { setReviews, reviews, updateReviewStatus } = props;
+  const { setReviews, reviews } = props;
   const [loading, withLoading] = useLoading();
 
   const getAllReviews = async () => {
@@ -20,7 +20,10 @@ const Review = (props) => {
 
   const handleStatusChange = async (reviewId, status) => {
     try {
-      await updateReviewStatus(reviewId, status);
+      // Call the API first
+      await ReviewRequest.updateStatus(reviewId, status);
+      // Then dispatch the Redux action
+      props.updateReviewStatus(reviewId, status);
     } catch (error) {
       console.error('Status update failed:', error);
     }
@@ -29,23 +32,19 @@ const Review = (props) => {
   const handleDelete = async (reviewId) => {
     try {
       await ReviewRequest.deleteAReview(reviewId);
-      await getAllReviews(); // Refresh the list after deletion
+      await getAllReviews();
     } catch (error) {
       console.error('Delete failed:', error);
     }
   };
 
   useEffect(() => {
-    if (reviews?.length < 1) {
-      getAllReviews();
-    }
-  }, [reviews]); // Removed getAllReviews from deps array
+    if (reviews?.length < 1) getAllReviews();
+  }, []); // Empty dependency array to run only once
 
   return (
     <>
-      {loading ? (
-        "Loading Reviews"
-      ) : (
+      {loading ? "Loading Reviews" : (
         <ReviewsTable
           rows={reviews}
           onStatusChange={handleStatusChange}
@@ -60,9 +59,10 @@ const mapStateToProps = ({ review }) => ({
   reviews: review.reviews || []
 });
 
-const mapDispatchToProps = {
-  setReviews,
-  updateReviewStatus,
-};
+const mapDispatchToProps = (dispatch) => ({
+  setReviews: (reviews) => dispatch(setReviews(reviews)),
+  updateReviewStatus: (reviewId, status) =>
+    dispatch(updateReviewStatus(reviewId, status))
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Review);
