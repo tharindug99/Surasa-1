@@ -1,16 +1,13 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { setReviews, updateReviewStatus } from "redux/actions"; // Add updateReviewStatus import
+import { setReviews, updateReviewStatus } from "redux/actions";
 import ReviewRequest from "services/Requests/Review";
 import useLoading from "hooks/useLoading";
-import StickyHeadTable from "./ReviewTableUI";
-import { useDispatch } from 'react-redux';
-
+import ReviewsTable from "./ReviewTableUI"; // Updated import
 
 const Review = (props) => {
   const { setReviews, reviews, updateReviewStatus } = props;
   const [loading, withLoading] = useLoading();
-  const dispatch = useDispatch();
 
   const getAllReviews = async () => {
     try {
@@ -23,10 +20,18 @@ const Review = (props) => {
 
   const handleStatusChange = async (reviewId, status) => {
     try {
-      // Dispatch async action properly
-      await dispatch(updateReviewStatus(reviewId, status));
+      await updateReviewStatus(reviewId, status);
     } catch (error) {
       console.error('Status update failed:', error);
+    }
+  };
+
+  const handleDelete = async (reviewId) => {
+    try {
+      await ReviewRequest.deleteAReview(reviewId);
+      await getAllReviews(); // Refresh the list after deletion
+    } catch (error) {
+      console.error('Delete failed:', error);
     }
   };
 
@@ -34,14 +39,17 @@ const Review = (props) => {
     if (reviews?.length < 1) {
       getAllReviews();
     }
-  }, [reviews, getAllReviews]);
+  }, [reviews]); // Removed getAllReviews from deps array
 
   return (
     <>
-      {loading ? "Loading Reviews" : (
-        <StickyHeadTable
+      {loading ? (
+        "Loading Reviews"
+      ) : (
+        <ReviewsTable
           rows={reviews}
           onStatusChange={handleStatusChange}
+          onDelete={handleDelete}
         />
       )}
     </>
