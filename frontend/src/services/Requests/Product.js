@@ -26,19 +26,32 @@ ProductRequest.getAProduct = (id) => {
   });
 };
 
-ProductRequest.updateAProduct = (params) => {
+ProductRequest.updateAProduct = (id, productData) => {
+  const payload = {
+    name: productData.name || "",
+    description: productData.description || "",
+    category_id: productData.category_id || "",
+    price: productData.price || ""
+  };
+
+  if (productData.image) {
+    payload.append('image', productData.avatar);
+  }
+
+  console.log("Payload from redux request: ", payload);
+  console.log("productData from redux request: ", productData);
+
   return fetch({
-    url: product,
+    url: `${product}/${id}`,
     method: "put",
-    params: params
+    data: productData
   });
 };
 
-ProductRequest.deleteAProduct = (params) => {
+ProductRequest.deleteAProduct = (id) => {
   return fetch({
-    url: product,
-    method: "delete",
-    params: params
+    url: `${product}/${id}`,
+    method: "delete"
   });
 };
 

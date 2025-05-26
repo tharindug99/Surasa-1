@@ -26,19 +26,18 @@ DailyMenuItemRequest.getADailyMenuItem = (id) => {
   });
 };
 
-DailyMenuItemRequest.updateADailyMenuItem = (params) => {
+DailyMenuItemRequest.updateADailyMenuItem = (id, dailyMenuItemdata) => {
   return fetch({
-    url: dailymenuitem,
+    url: `${dailymenuitem}/${id}`,
     method: "put",
-    params: params
+    data: dailyMenuItemdata
   });
 };
 
-DailyMenuItemRequest.deleteADailyMenuItem = (params) => {
+DailyMenuItemRequest.deleteADailyMenuItem = (id) => {
   return fetch({
-    url: dailymenuitem,
+    url: `${dailymenuitem}/${id}`,
     method: "delete",
-    params: params
   });
 };
 

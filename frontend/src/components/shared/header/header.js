@@ -10,11 +10,14 @@ import logo from "../../../../src/assets/images/Surasa Logo.png";
 import { logoutUser } from "../../../redux/actions";
 import UserRequest from "../../../services/Requests/User";
 import "./NavBar.css";
+import PersonIcon from '@mui/icons-material/Person';
+import IconButton from "@mui/material/IconButton";
 
 const Header = () => {
     const [showDropdown, setShowDropdown] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
     const [userInfo, setUserInfo] = useState(null);
+    const [userId, setUserId] = useState(0);
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -54,6 +57,7 @@ const Header = () => {
 
     useEffect(() => {
         const storedUserInfo = localStorage.getItem("first_name");
+
         setUserInfo(storedUserInfo);
     }, [isLoggedIn]);
 
@@ -75,6 +79,7 @@ const Header = () => {
                 {label}
             </Link>
         );
+
 
     const UserActions = () =>
         userInfo ? (
@@ -98,6 +103,7 @@ const Header = () => {
             </>
         ) : (
             <>
+
                 <Button
                     disableElevation
                     variant="contained"
@@ -163,6 +169,7 @@ const Header = () => {
                                 {userInfo && (
                                     <>
                                         <li>Welcome back, {userInfo}</li>
+
                                         <li
                                             className="logout-button cursor-pointer text-red-600"
                                             onClick={handleLogout}

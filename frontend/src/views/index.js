@@ -23,6 +23,8 @@ import DashBoard from "./Dashboard/index";
 import AdminLogin from "./Admin/AdminLogin";
 import ForgotAdminPassword from "./Admin/ForgotAdminPassword";
 
+import AdminProtectedRoute from "components/Protected Routes/AdminProtectedRoutes";
+
 import Register from "./Register";
 
 const Views = () => {
@@ -53,9 +55,15 @@ const Views = () => {
         <Route path="/user" element={<User />} />
         <Route path="/user/:id/dashboard" element={<UserDashboard />} />
         <Route path="/orderItem" element={<OrderItem />} />
-        <Route path="/admin/dashboard" element={<DashBoard />} />
+
+
+
+        <Route path="/admin/dashboard" element={<AdminProtectedRoute>
+          <DashBoard />
+        </AdminProtectedRoute>} />
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin/reset-password" element={<ForgotAdminPassword />} />
+
       </Routes>
 
       {shouldRenderFooter && <Footer />}

@@ -37,7 +37,7 @@ function OrderRow(props) {
                 status: newStatus
             };
 
-            await OrderRequest.updateOrder(row.id, updatedOrder);
+            await OrderRequest.updateAnOrder(row.id, updatedOrder);
 
             dispatch({
                 type: 'UPDATE_ORDER',
@@ -83,7 +83,11 @@ function OrderRow(props) {
                         size="small"
                         sx={{
                             minWidth: 120,
-                            backgroundColor: 'background.paper',
+                            backgroundColor: status === 'Completed'
+                                ? '#4caf50'  // Green
+                                : status === 'Cancelled'
+                                    ? '#f44336' // Red 
+                                    : 'background.paper',
                             borderRadius: '4px',
                             '& .MuiSelect-select': {
                                 padding: '8px 32px 8px 12px'

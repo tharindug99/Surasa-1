@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Product;
+use Faker\Guesser\Name;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,8 +18,11 @@ class DailyMenuItemFactory extends Factory
      */
     public function definition(): array
     {
+        $product = Product::factory()->create();
         return [
-            'product_id' => Product::factory(), // Creates a new product and assigns its id
+            'product_id' => $product->id,
+            'name' => $product->name,
+            'price' => $product->price,
             'description' => $this->faker->paragraph, // Generates a random paragraph for the description
             'image' => 'https://placehold.co/300x200', // Placeholder image URL
             'date' => $this->faker->date() // Generates a random date

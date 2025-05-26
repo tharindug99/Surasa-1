@@ -27,25 +27,24 @@ const ReviewRequest = {
     });
   },
 
-  updateAReview: (params) => {
+  updateAReview: (id, data) => {
     return fetch({
-      url: review,
+      url: `${review}/${id}`,
       method: "put",
-      params: params,
+      data: data,
     });
   },
 
-  deleteAReview: (params) => {
+  deleteAReview: (id) => {
     return fetch({
-      url: review,
+      url: `${review}/${id}`,
       method: "delete",
-      params: params,
     });
   },
 
   updateStatus: (reviewId, data) => {
     return fetch({
-      url: `reviews/${reviewId}/status`,
+      url: `${review}/${reviewId}/status`,
       method: "put",
       data: data,
     });

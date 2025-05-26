@@ -19,7 +19,7 @@ class Review extends Model
         'status'
     ];
     protected $attributes = [
-        'status' => 'rejected', // Default status
+        'status' => 'pending', // Default status
     ];
 
     public function user()
