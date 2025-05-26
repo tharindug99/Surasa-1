@@ -74,6 +74,7 @@ function DailyMenuItemRow(props) {
                 editedItem
             );
             onUpdate(updatedItem.data);
+            console.log("Updated Item:", updatedItem.data);
             setEditOpen(false);
             showToaster("Menu item updated successfully", "success");
         } catch (error) {

@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import { BsJustify, BsBoxArrowRight } from "react-icons/bs";
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from "@mui/material";
+import { logoutAdmin } from "redux/actions";
+import { useDispatch } from "react-redux";
+import AdminRequest from "services/Requests/Admin";
 
 function DashBoardHeader({ OpenSidebar }) {
   const [logoutModalOpen, setLogoutModalOpen] = useState(false);
+  const dispatch = useDispatch();
 
   const formatDate = () => {
     const options = {
@@ -15,18 +19,27 @@ function DashBoardHeader({ OpenSidebar }) {
     return new Date().toLocaleDateString("en-US", options);
   };
 
-  const handleLogout = () => {
-    console.log("Admin logged out");
-    setLogoutModalOpen(false);
+  const handleLogout = async () => {
+    try {
+      // Call the API to invalidate the token on the backend
+      await AdminRequest.logoutAdmin({
+        token: localStorage.getItem('adminToken')
+      });
 
-    window.localStorage.removeItem("user");
-    window.localStorage.removeItem("token");
-    window.localStorage.removeItem("userType");
+      console.log("Admin logged out successfully");
+    } catch (error) {
+      console.error('Logout error:', error);
+    } finally {
+      window.localStorage.removeItem("adminAuthToken");
+      window.localStorage.removeItem("adminTokenType");
+      window.localStorage.removeItem("adminId");
+      window.localStorage.removeItem("adminTokenExpiration");
 
-    // Redirect to login page
-    window.location.href = '/admin/login';
+      dispatch(logoutAdmin());
 
-    // Alternatively: window.location.replace('/admin/login');
+      setLogoutModalOpen(false);
+      window.location.href = '/admin/login';
+    }
   };
 
   return (

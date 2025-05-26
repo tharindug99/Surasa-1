@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Carbon\Carbon;
 
 class AdminController extends Controller
 {
@@ -38,7 +39,7 @@ class AdminController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Admin created successfully.',
-            'admin' => $admin
+            'admin' => $admin,
         ], 201);
 
 
@@ -114,10 +115,14 @@ class AdminController extends Controller
             $admin = Auth::guard('admin')->user();
             $token = $admin->createToken('admin_auth_token')->plainTextToken;
 
+            $expiresAt = Carbon::now()->addHour();
+
             return response()->json([
                 'success' => true,
                 'token' => $token,
-                'admin' => $admin
+                'admin' => $admin,
+                'token_type' => 'Bearer',
+                'expires_in' => $expiresAt->diffInSeconds(now())
             ]);
         }
 

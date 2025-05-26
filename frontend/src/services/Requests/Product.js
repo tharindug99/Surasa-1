@@ -27,21 +27,6 @@ ProductRequest.getAProduct = (id) => {
 };
 
 ProductRequest.updateAProduct = (id, productData) => {
-  // Create FormData object
-
-  // console.log("Sending to server:", {
-  //   id: id,
-  //   formData: [...productData.entries()] // Convert FormData to readable array
-  // });
-
-
-  // const formData = new FormData();
-
-  // formData.append('name', productData.name);
-  // formData.append('description', productData.description);
-  // formData.append('category_id', productData.category_id);
-  // formData.append('price', productData.price);
-
   const payload = {
     name: productData.name || "",
     description: productData.description || "",

@@ -30,6 +30,8 @@ class DailyMenuItemRequest extends FormRequest
     {
         return [
             'product_id' => 'required|exists:products,id',
+            'name' => 'nullable|string|max:255',
+            'price' => 'nullable|numeric|min:0',
             'description' => 'nullable|string',
             'image' => 'nullable|string|max:255',
             'date' => 'nullable|date',
