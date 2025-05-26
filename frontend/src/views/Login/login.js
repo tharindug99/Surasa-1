@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Logo from '../../../src/assets/images/Surasa Logo.png';
 import bg from '../../assets/images/login.gif';
 import { useNavigate } from 'react-router-dom';
@@ -10,7 +10,7 @@ import Toaster from "../../components/Toaster/Toaster";
 
 const Login = (props) => {
     const navigate = useNavigate();
-    const [showToaster, setShowToaster] = useState(false); // Initially set to false
+    const [showToaster, setShowToaster] = useState(false);
     const [toasterMessage, setToasterMessage] = useState("");
     const [toasterType, setToasterType] = useState("error");
     const { title } = props;
@@ -18,13 +18,22 @@ const Login = (props) => {
     const dispatch = useDispatch();
     const currentUser = useSelector((state) => state.currentUser);
 
-    // State to store login form data
     const [formData, setFormData] = useState({
         email: '',
         password: '',
     });
 
-    // Handle form field changes
+    useEffect(() => {
+        const token = localStorage.getItem('authToken');
+        const tokenExpiration = localStorage.getItem('tokenExpiration');
+        const first_name = localStorage.getItem('first_name');
+
+        if (token && tokenExpiration && new Date().getTime() < Number(tokenExpiration)) {
+            navigate(`/?user=${encodeURIComponent(first_name)}`);
+            window.location.reload(); // Optional: force refresh
+        }
+    }, [navigate]);
+
     const handleChange = (event) => {
         const { name, value } = event.target;
         setFormData(prevState => ({
@@ -33,11 +42,8 @@ const Login = (props) => {
         }));
     };
 
-    // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(formData);
-
         try {
             const response = await UserRequest.loginUser(formData);
             const { success, message, userId, token, tokenType, expiresIn, first_name } = response;
@@ -45,30 +51,29 @@ const Login = (props) => {
             if (success) {
                 setShowToaster(true);
                 setToasterType("success");
+                setToasterMessage("Login successful!");
+
                 localStorage.setItem('authToken', token);
                 localStorage.setItem('tokenType', tokenType);
-                localStorage.setItem('userId',userId);
-                localStorage.setItem('first_name',first_name);
+                localStorage.setItem('userId', userId);
+                localStorage.setItem('first_name', first_name);
                 const expirationTime = new Date().getTime() + expiresIn * 60 * 1000;
                 localStorage.setItem('tokenExpiration', expirationTime.toString());
 
-                console.log(message);
-
                 dispatch(loginUser({ userId, token, tokenType, expiresIn, first_name }));
                 navigate(`/?user=${encodeURIComponent(first_name)}`);
-                setToasterMessage("Login successful!");
-                
+                window.location.reload();
             } else {
                 setShowToaster(true);
                 setToasterType("error");
-                console.error(message);
                 setToasterMessage(message);
+                console.error(message);
             }
         } catch (error) {
             setShowToaster(true);
             setToasterType("error");
-            console.error('An error occurred:', error);
             setToasterMessage(error.response?.data?.message || "An error occurred during login.");
+            console.error('An error occurred:', error);
         }
     };
 
@@ -100,20 +105,25 @@ const Login = (props) => {
                         </div>
                         <div className="flex items-center justify-center">
                             <button type="submit"
-                                className="bg-yellow-700 text-white w-full h-10 border-1  hover:bg-yellow-900 hover:border-yellow-800 hover:border-2 hover:text-yellow-800 focus:outline-none disabled:opacity-50"
-                            >
+                                className="bg-yellow-700 text-white w-full h-10 border-1 hover:bg-yellow-900 hover:border-yellow-800 hover:border-2 hover:text-yellow-800 focus:outline-none disabled:opacity-50">
                                 Login
                             </button>
                         </div>
                     </form>
                     <div>
-                        <span onClick={() => navigate('/register')}> <p
-                            className="text-center my-6 hover:text-yellow-700 hover:cursor-pointer">Create a new account.</p></span>
-
+                        <span onClick={() => navigate('/register')}>
+                            <p className="text-center my-6 hover:text-yellow-700 hover:cursor-pointer">Create a new account.</p>
+                        </span>
                     </div>
                 </div>
             </div>
-            {showToaster && <Toaster message={toasterMessage} type={toasterType} onClose={() => setShowToaster(false)} />}
+            {showToaster && (
+                <Toaster
+                    message={toasterMessage}
+                    type={toasterType}
+                    onClose={() => setShowToaster(false)}
+                />
+            )}
         </div>
     );
 };

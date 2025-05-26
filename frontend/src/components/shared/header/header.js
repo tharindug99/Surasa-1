@@ -1,10 +1,10 @@
-import React, {useState, useEffect} from "react";
-import {useNavigate, useLocation, Link} from "react-router-dom";
-import {Link as ScrollLink} from "react-scroll";
-import {useDispatch, useSelector} from "react-redux";
-import {GiHamburgerMenu} from "react-icons/gi";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation, Link } from "react-router-dom";
+import { Link as ScrollLink } from "react-scroll";
+import { useDispatch, useSelector } from "react-redux";
+import { GiHamburgerMenu } from "react-icons/gi";
 import Button from "@mui/material/Button";
-import {yellow} from "@mui/material/colors";
+import { yellow } from "@mui/material/colors";
 
 import logo from "../../../../src/assets/images/Surasa Logo.png";
 import { logoutUser } from "../../../redux/actions";
@@ -26,16 +26,21 @@ const Header = () => {
 
     const handleLogout = async () => {
         try {
-            const {success, message} = await UserRequest.logoutUser();
-            console.log("Logout is ok")
+            const result = await UserRequest.logoutUser();
+            if (!result) {
+                console.error("logoutUser() returned nothing.");
+                return;
+            }
+
+            const { success, message } = result;
+
             if (success) {
                 localStorage.clear();
-                console.log("logged out");
                 setUserInfo(null);
-                navigate("/login");
+                dispatch(logoutUser()); // if using Redux to manage auth
+                window.location.replace("/login"); // force full page refresh
             } else {
-                console.error(message);
-                console.log("Error in logging out");
+                console.error("Logout failed:", message);
             }
         } catch (error) {
             console.error("An error occurred during logout:", error);
@@ -52,12 +57,13 @@ const Header = () => {
 
     useEffect(() => {
         const storedUserInfo = localStorage.getItem("first_name");
-        const UserId = localStorage.getItem("userId")
-        setUserId(UserId);
-        setUserInfo(storedUserInfo);
-    }, [userInfo]);
 
-    const renderNavLink = (to, label) => (location.pathname === "/" ? (<ScrollLink
+        setUserInfo(storedUserInfo);
+    }, [isLoggedIn]);
+
+    const renderNavLink = (to, label) =>
+        location.pathname === "/" ? (
+            <ScrollLink
                 className="dropdown-link"
                 activeClass="active"
                 to={to}
@@ -67,23 +73,48 @@ const Header = () => {
                 duration={500}
             >
                 {label}
-            </ScrollLink>) : (<Link to={`/#${to}`} className="dropdown-link">
+            </ScrollLink>
+        ) : (
+            <Link to={`/#${to}`} className="dropdown-link">
                 {label}
-            </Link>));
+            </Link>
+        );
 
-    const UserActions = () => (userInfo ? (<span><PersonIcon onClick={handleProfileIconClick} sx={{ 
-      cursor: "pointer", // Show pointer on hover
-      "&:hover": {
-        color: "primary.main", // Optional: Change color on hover (MUI theme)
-      }
-    }}/></span>) : (<>
+
+    const UserActions = () =>
+        userInfo ? (
+            <>
+                <span>Welcome back, {userInfo}</span>
+                <Button
+                    disableElevation
+                    variant="outlined"
+                    sx={{
+                        borderColor: yellow[700],
+                        color: yellow[700],
+                        "&:hover": {
+                            bgcolor: yellow[700],
+                            color: "white",
+                        },
+                    }}
+                    onClick={handleLogout}
+                >
+                    Logout
+                </Button>
+            </>
+        ) : (
+            <>
+
                 <Button
                     disableElevation
                     variant="contained"
                     onClick={() => navigate("/register")}
                     sx={{
                         bgcolor: yellow[700],
-                        "&:hover": {bgcolor: "transparent", borderColor: yellow[800], color: yellow[800]},
+                        "&:hover": {
+                            bgcolor: "transparent",
+                            borderColor: yellow[800],
+                            color: yellow[800],
+                        },
                     }}
                 >
                     Register
@@ -92,60 +123,61 @@ const Header = () => {
                     disableElevation
                     variant="outlined"
                     sx={{
-                        borderColor: yellow[700], color: yellow[700], "&:hover": {bgcolor: yellow[700], color: "white"},
+                        borderColor: yellow[700],
+                        color: yellow[700],
+                        "&:hover": {
+                            bgcolor: yellow[700],
+                            color: "white",
+                        },
                     }}
                     onClick={() => navigate("/login")}
                 >
                     Login
                 </Button>
-            </>));
+            </>
+        );
 
-            const handleProfileIconClick = () => {
-                navigate(`/user/${userId}/dashboard`); // Navigate to profile
-                 };
-
-    return (<div
-            className={`bg-NavBarBG ${isScrolled ? "fixed  top-0 left-0 w-full z-50 bg-white opacity-75" : "top-0 left-0 w-full"}`}>
+    return (
+        <div
+            className={`bg-NavBarBG ${
+                isScrolled
+                    ? "fixed top-0 left-0 w-full z-50 bg-white opacity-75"
+                    : "top-0 left-0 w-full"
+            }`}
+        >
             <nav className="flex justify-between items-center w-full h-[60px] px-[12px] md:px-[20px]">
                 <div className="flex">
-                    <img className="h-[50px] w-[50px]" src={logo} alt="Surasa Logo"/>
+                    <img className="h-[50px] w-[50px]" src={logo} alt="Surasa Logo" />
                 </div>
 
                 <ul className="hidden lg:flex ml-24 space-x-4">
                     <li>{renderNavLink("home", "Home")}</li>
                     <li>{renderNavLink("about", "About Us")}</li>
                     <li>{renderNavLink("contact", "Contact Us")}</li>
-                    {userInfo && (<button className="logout-button" onClick={handleLogout}>
-                            Logout
-                        </button>)}
                 </ul>
 
                 <div className="hidden lg:flex items-center space-x-4">
-                    <UserActions/>
+                    <UserActions />
                 </div>
 
-
-                {/*Mobile Menu*/}
-                <div className="lg:hidden  z-50">
-                    <GiHamburgerMenu size={30} onClick={toggleDropdown}/>
-                    {showDropdown && (<div className="absolute top-[60px] right-0 bg-amber-50 shadow-md p-6 w-full opacity- ">
+                {/* Mobile Menu */}
+                <div className="lg:hidden z-50">
+                    <GiHamburgerMenu size={30} onClick={toggleDropdown} />
+                    {showDropdown && (
+                        <div className="absolute top-[60px] right-0 bg-amber-50 shadow-md p-6 w-full">
                             <ul className="flex flex-col space-y-2 items-center">
-                                {userInfo && (<>
-                                        {/* <li>Welcome back, {userInfo}</li> */}
-                                        <IconButton onClick={handleProfileIconClick} color="primary">
-                                                <PersonIcon/>
-                                        </IconButton>
-                                        
+                                {userInfo && (
+                                    <>
+                                        <li>Welcome back, {userInfo}</li>
+
                                         <li
-                                            className="logout-button"
-                                            onClick={() => {
-                                                localStorage.clear();
-                                                setUserInfo(null);
-                                            }}
+                                            className="logout-button cursor-pointer text-red-600"
+                                            onClick={handleLogout}
                                         >
                                             Logout
                                         </li>
-                                    </>)}
+                                    </>
+                                )}
                                 <li>{renderNavLink("home", "Home")}</li>
                                 <li>{renderNavLink("about", "About Us")}</li>
                                 <li>{renderNavLink("contact", "Contact Us")}</li>
@@ -156,8 +188,11 @@ const Header = () => {
                                             variant="contained"
                                             onClick={() => navigate("/register")}
                                             sx={{
-                                                bgcolor: yellow[700], "&:hover": {
-                                                    bgcolor: "transparent", borderColor: yellow[800], color: yellow[800]
+                                                bgcolor: yellow[700],
+                                                "&:hover": {
+                                                    bgcolor: "transparent",
+                                                    borderColor: yellow[800],
+                                                    color: yellow[800],
                                                 },
                                             }}
                                         >
@@ -169,18 +204,24 @@ const Header = () => {
                                             sx={{
                                                 borderColor: yellow[700],
                                                 color: yellow[700],
-                                                "&:hover": {bgcolor: yellow[700], color: "white"},
+                                                "&:hover": {
+                                                    bgcolor: yellow[700],
+                                                    color: "white",
+                                                },
                                             }}
                                             onClick={() => navigate("/login")}
                                         >
                                             Login
                                         </Button>
-                                    </>)}
+                                    </>
+                                )}
                             </ul>
-                        </div>)}
+                        </div>
+                    )}
                 </div>
             </nav>
-        </div>);
+        </div>
+    );
 };
 
 export default Header;

@@ -41,7 +41,7 @@ const Landing = props => {
               <CategoryCard category={category} key={category?.id}/>
             ))
             : 
-              !loading && <h4>No Category Available</h4>
+              !loading && <h4>No Category Available for now</h4>
               
       }
     </>
