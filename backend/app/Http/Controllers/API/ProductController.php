@@ -57,93 +57,93 @@ class ProductController extends Controller
 
 
 
-    public function update(ProductRequest $request, $id)
-{
-    $product = Product::findOrFail($id);
-
-    Log::info('Log 1', [
-        'request' => $request,
-        'product_id' => $id
-    ]);
-    
-    $newProduct = $product; // Use the existing product instance
-
-    // Validate and update category if provided
-    if ($request->has('category_id')) {
-        $category = Category::find($request->category_id);
-        if (!$category) {
-            return response()->json(['error' => 'Category not found'], 404);
-        }
-        $newProduct->category_id = $category->id;
-    }
-
-    Log::info('Log 2 ' . $newProduct);
-
-    // Update other fields only if present in the request
-    $newProduct->fill($request->only(['name', 'description', 'price']));
-
-    Log::info('Log 3' . $newProduct);
-    // Handle avatar upload
-    if ($request->hasFile('avatar')) {
-        $avatar = $request->file('avatar');
-        $filename = time() . '.' . $avatar->getClientOriginalExtension();
-        $avatar->storeAs('public/products', $filename);
-        $newProduct->avatar = $filename;
-    }
-
-       Log::info('Log 4' . $newProduct);
-
-    $newProduct->save();
-
-    return response()->json([
-        'success' => true,
-        'message' => 'Product updated successfully.',
-        'product' => $newProduct
-    ], 200);
-}
-
-
-// public function update(ProductRequest $request, $id)
+//     public function update(ProductRequest $request, $id)
 // {
 //     $product = Product::findOrFail($id);
 
-//     // Corrected log statement
-//     Log::info('Avatar uploaded for product', [
-//         'product_id' => $id,
-//         'request_data' => $request->all(),
-//         'product' => $product->toArray()
+//     Log::info('Log 1', [
+//         'request' => $request,
+//         'product_id' => $id
 //     ]);
+    
+//     $newProduct = $product; // Use the existing product instance
 
+//     // Validate and update category if provided
 //     if ($request->has('category_id')) {
 //         $category = Category::find($request->category_id);
 //         if (!$category) {
 //             return response()->json(['error' => 'Category not found'], 404);
 //         }
-//         $product->category_id = $category->id;
+//         $newProduct->category_id = $category->id;
 //     }
 
-//     $product->fill($request->only(['name', 'description', 'price']));
+//     Log::info('Log 2 ' . $newProduct);
 
-//     // Log after changes
-//     Log::info('After update', $product->toArray());
+//     // Update other fields only if present in the request
+//     $newProduct->fill($request->only(['name', 'description', 'price']));
 
+//     Log::info('Log 3' . $newProduct);
+//     // Handle avatar upload
 //     if ($request->hasFile('avatar')) {
 //         $avatar = $request->file('avatar');
 //         $filename = time() . '.' . $avatar->getClientOriginalExtension();
 //         $avatar->storeAs('public/products', $filename);
-//         $product->avatar = $filename;
+//         $newProduct->avatar = $filename;
 //     }
 
-//      Log::info('After update 2', $product->toArray());
+//        Log::info('Log 4' . $newProduct);
 
-//     $product->save(); // This will now execute
+//     $newProduct->save();
 
 //     return response()->json([
 //         'success' => true,
 //         'message' => 'Product updated successfully.',
-//         'product' => $product
+//         'product' => $newProduct
 //     ], 200);
 // }
+
+
+public function update(ProductRequest $request, $id)
+{
+    $product = Product::findOrFail($id);
+
+    // Corrected log statement
+    Log::info('Avatar uploaded for product', [
+        'product_id' => $id,
+        'request_data' => $request->all(),
+        'product' => $product->toArray()
+    ]);
+
+    if ($request->has('category_id')) {
+        $category = Category::find($request->category_id);
+        if (!$category) {
+            return response()->json(['error' => 'Category not found'], 404);
+        }
+        $product->category_id = $category->id;
+    }
+
+    $product->fill($request->only(['name', 'description', 'price']));
+
+    // Log after changes
+    Log::info('After update', $product->toArray());
+
+    if ($request->hasFile('avatar')) {
+        $avatar = $request->file('avatar');
+        $filename = time() . '.' . $avatar->getClientOriginalExtension();
+        $avatar->storeAs('public/products', $filename);
+        $product->avatar = $filename;
+    }
+
+     Log::info('After update 2', $product->toArray());
+
+    $product->save(); // This will now execute
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Product updated successfully.',
+        'product' => $product
+    ], 200);
+}
 
     public function destroy($id)
     {
