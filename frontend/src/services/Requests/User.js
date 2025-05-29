@@ -43,18 +43,26 @@ UserRequest.deleteAUser = (id) => {
 
 // New methods for adding and deducting points ------------ NEW--------------------------------
 UserRequest.addLoyaltyPoints = (userId, points) => {
+    const token = localStorage.getItem('authToken');
     return fetch({
         url: `users/${userId}/add-loyalty-points`,
         method: 'patch',
-        data: { points }
+        data: { points },
+        headers: {
+            'Authorization': `Bearer ${token}` // Add Authorization header
+        }
     });
 };
 
 UserRequest.deductLoyaltyPoints = (userId, points) => {
+    const token = localStorage.getItem('authToken');
     return fetch({
         url: `users/${userId}/deduct-loyalty-points`,
         method: 'patch',
-        data: { points }
+        data: { points },
+        headers: {
+            'Authorization': `Bearer ${token}` // Add Authorization header
+        }
     });
 };
 
