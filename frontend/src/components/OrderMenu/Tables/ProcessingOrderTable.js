@@ -17,9 +17,10 @@ import Paper from "@mui/material/Paper";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { useDispatch } from "react-redux";
-import OrderRequest from "services/Requests/Order"; // Update to your order service
+import OrderRequest from "services/Requests/Order";
 import Toaster from "../../Toaster/Toaster";
 
+// Reuse the same OrderRow component
 function OrderRow(props) {
     const { row } = props;
     const [open, setOpen] = React.useState(false);
@@ -49,7 +50,7 @@ function OrderRow(props) {
             setShowToaster(true);
 
         } catch (error) {
-            console.error("Update failed:", error.response?.data);
+            console.error("Update failed:", error);
             setStatus(row.status);
             setToasterMessage('Order Status Update Failed!');
             setToasterType('error');
@@ -83,12 +84,11 @@ function OrderRow(props) {
                         size="small"
                         sx={{
                             minWidth: 120,
-                            backgroundColor: 'purple',
+                            backgroundColor: 'limegreen',
                             borderRadius: '4px',
                             '& .MuiSelect-select': {
                                 padding: '8px 32px 8px 12px'
-                            },
-                            color: 'white'
+                            }
                         }}
                     >
                         <MenuItem value="Ready">Ready</MenuItem>
@@ -151,13 +151,14 @@ OrderRow.propTypes = {
     }).isRequired,
 };
 
-export default function OutforDeliveryTable({ orders }) {
-    // Filter only OutforDelivery orders
-    const outforDeliveryOrders = orders.filter(order => order.status === 'OutforDelivery');
+// Processing Orders Table
+export function ProcessingOrdersTable({ orders }) {
+    // Filter only Processing orders
+    const processingOrders = orders.filter(order => order.status === 'Processing');
 
     return (
         <TableContainer component={Paper}>
-            <Table aria-label="OutforDelivery-orders-table">
+            <Table aria-label="processing-orders-table">
                 <TableHead>
                     <TableRow>
                         <TableCell />
@@ -170,7 +171,36 @@ export default function OutforDeliveryTable({ orders }) {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {outforDeliveryOrders.map((order) => (
+                    {processingOrders.map((order) => (
+                        <OrderRow key={order.id} row={order} />
+                    ))}
+                </TableBody>
+            </Table>
+        </TableContainer>
+    );
+}
+
+// Keep your existing ProcessingOrdersTable
+export default function ProcessingTable({ orders }) {
+    // Filter only Processing orders
+    const ProcessingOrders = orders.filter(order => order.status === 'Processing');
+
+    return (
+        <TableContainer component={Paper}>
+            <Table aria-label="processing-orders-table">
+                <TableHead>
+                    <TableRow>
+                        <TableCell />
+                        <TableCell>Order ID</TableCell>
+                        <TableCell align="right">Full Name</TableCell>
+                        <TableCell align="right">Mobile Number</TableCell>
+                        <TableCell align="right">Order Time</TableCell>
+                        <TableCell align="right">Price</TableCell>
+                        <TableCell align="right">Status</TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {ProcessingOrders.map((order) => (
                         <OrderRow key={order.id} row={order} />
                     ))}
                 </TableBody>
