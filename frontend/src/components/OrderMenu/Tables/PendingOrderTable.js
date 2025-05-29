@@ -21,13 +21,15 @@ import OrderRequest from "services/Requests/Order";
 import Toaster from "../../Toaster/Toaster";
 
 function OrderRow(props) {
-    const { row } = props;
+    const { row, items } = props;  // Add items prop
     const [open, setOpen] = React.useState(false);
     const [status, setStatus] = React.useState(row.status);
     const dispatch = useDispatch();
     const [showToaster, setShowToaster] = useState(false);
     const [toasterMessage, setToasterMessage] = useState("");
     const [toasterType, setToasterType] = useState("error");
+
+    // console.log(`OrderRow ${row.id} received items:`, items);
 
     const handleStatusChange = async (event) => {
         const newStatus = event.target.value;
@@ -56,6 +58,11 @@ function OrderRow(props) {
             setShowToaster(true);
         }
     };
+
+    // Get items for this specific order
+    const orderItems = items || [];
+
+    //console.log("items from pending", orderItems)
 
     return (
         <React.Fragment>
@@ -103,6 +110,7 @@ function OrderRow(props) {
                 <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>
                     <Collapse in={open} timeout="auto" unmountOnExit>
                         <Box sx={{ margin: 1 }}>
+                            {/* Order Details Section */}
                             <Typography variant="h6" gutterBottom component="div">
                                 Order Details
                             </Typography>
@@ -112,7 +120,47 @@ function OrderRow(props) {
                                         <TableCell>Address:</TableCell>
                                         <TableCell>{row.address}</TableCell>
                                     </TableRow>
-                                    {/* Add more details as needed */}
+                                    <TableRow>
+                                        <TableCell>Total Order Price:</TableCell>
+                                        <TableCell>${row.price}</TableCell>
+                                    </TableRow>
+                                </TableBody>
+                            </Table>
+
+                            {/* Products Section */}
+                            <Typography variant="h6" gutterBottom component="div" sx={{ mt: 2 }}>
+                                Products
+                            </Typography>
+                            <Table size="small" aria-label="products">
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>Product ID</TableCell>
+                                        <TableCell align="right">Unit Price</TableCell>
+                                        <TableCell align="right">Quantity</TableCell>
+                                        <TableCell align="right">Total</TableCell>
+                                        <TableCell align="right">Created At</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {orderItems.length > 0 ? (
+                                        orderItems.map((item) => (
+                                            <TableRow key={item.id}>
+                                                <TableCell>{item.product_id}</TableCell>
+                                                <TableCell align="right">${item.price}</TableCell>
+                                                <TableCell align="right">{item.quantity}</TableCell>
+                                                <TableCell align="right">${item.total_cost}</TableCell>
+                                                <TableCell align="right">
+                                                    {new Date(item.created_at).toLocaleString()}
+                                                </TableCell>
+                                            </TableRow>
+                                        ))
+                                    ) : (
+                                        <TableRow>
+                                            <TableCell colSpan={5} align="center">
+                                                No products found
+                                            </TableCell>
+                                        </TableRow>
+                                    )}
                                 </TableBody>
                             </Table>
                         </Box>
@@ -148,11 +196,21 @@ OrderRow.propTypes = {
         ]).isRequired,
         status: PropTypes.string.isRequired,
     }).isRequired,
+    items: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        product_id: PropTypes.number.isRequired,
+        price: PropTypes.number.isRequired,
+        quantity: PropTypes.number.isRequired,
+        total_cost: PropTypes.number.isRequired,
+        created_at: PropTypes.string.isRequired,
+    }))
 };
 
-export default function PendingOrdersTable({ orders }) {
+export default function PendingOrdersTable({ orders, orderItems = {} }) {
     // Filter only pending orders
     const pendingOrders = orders.filter(order => order.status === 'Pending');
+    console.log("PendingOrdersTable received orderItems:", orderItems);
+    console.log("PendingOrdersTable orders:", orders);
 
     return (
         <TableContainer component={Paper}>
@@ -169,9 +227,19 @@ export default function PendingOrdersTable({ orders }) {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {pendingOrders.map((order) => (
-                        <OrderRow key={order.id} row={order} />
-                    ))}
+                    {pendingOrders.map((order) => {
+                        // Get items for this specific order
+                        const orderId = String(order.id);
+                        const itemsForOrder = orderItems[orderId] || []; // Use string key
+                        //console.log(`Order ${order.id} items:`, itemsForOrder);
+                        return (
+                            <OrderRow
+                                key={order.id}
+                                row={order}
+                                items={itemsForOrder}  // Pass items to OrderRow
+                            />
+                        );
+                    })}
                 </TableBody>
             </Table>
         </TableContainer>
