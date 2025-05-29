@@ -1,6 +1,6 @@
 import * as React from "react";
 import PropTypes from "prop-types";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
     Paper,
     Table,
@@ -22,14 +22,21 @@ import {
     MenuItem
 } from "@mui/material";
 import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
+import useLoading from "hooks/useLoading";
 import DailyMenuItemRequest from "services/Requests/DailyMenuItem";
 import Toaster from "../../components/Toaster/Toaster";
+import { setCategories as setCategoriesAction } from "redux/actions";
+import CategoryRequest from "services/Requests/Category";
+import { useDispatch } from "react-redux";
 
 function DailyMenuItemRow(props) {
+    const dispatch = useDispatch();
     const { dailyMenuItem, onDelete, onUpdate } = props;
     const [open, setOpen] = React.useState(false);
+    const [loading, withLoading] = useLoading();
     const [editOpen, setEditOpen] = React.useState(false);
     const [editedItem, setEditedItem] = React.useState({ ...dailyMenuItem });
+    const [categories, setCategories] = useState([]);
 
     const [toaster, setToaster] = React.useState({
         open: false,
@@ -87,6 +94,17 @@ function DailyMenuItemRow(props) {
 
     const handleFieldChange = (field, value) => {
         setEditedItem(prev => ({ ...prev, [field]: value }));
+    };
+
+    const getAllCategories = async () => {
+        try {
+            const response = await withLoading(CategoryRequest.getAllCategories());
+            const categoriesData = response?.data || [];
+            setCategories(categoriesData); // Store categories in local state
+            dispatch(setCategoriesAction(categoriesData)); // Update Redux store if needed
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     const formatDate = (dateString) => {
@@ -185,6 +203,21 @@ function DailyMenuItemRow(props) {
                         onChange={(e) => handleFieldChange("name", e.target.value)}
                         sx={{ mt: 2 }}
                     />
+                    <TextField
+                        select
+                        margin="dense"
+                        label="Category"
+                        fullWidth
+                        value={editedItem.category}
+                        onChange={(e) => handleFieldChange("category", e.target.value)}
+                        sx={{ mt: 2 }}
+                    >
+                        {categories.map((category) => (
+                            <MenuItem key={category.id} value={category.id}>
+                                {category.name}
+                            </MenuItem>
+                        ))}
+                    </TextField>
                     <TextField
                         margin="dense"
                         label="Description"
