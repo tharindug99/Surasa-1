@@ -134,6 +134,7 @@ const Order = props => {
         <div className="overflow-x-auto">
           <ProcessingOrdersTable
             orders={orders.filter(order => order.status === 'Processing')}
+            orderItems={testItems}
           />
         </div>
       </div>
