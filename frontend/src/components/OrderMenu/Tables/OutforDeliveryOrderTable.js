@@ -21,7 +21,7 @@ import OrderRequest from "services/Requests/Order"; // Update to your order serv
 import Toaster from "../../Toaster/Toaster";
 
 function OrderRow(props) {
-    const { row } = props;
+    const { row, items } = props;
     const [open, setOpen] = React.useState(false);
     const [status, setStatus] = React.useState(row.status);
     const dispatch = useDispatch();
@@ -57,6 +57,8 @@ function OrderRow(props) {
         }
     };
 
+    const orderItems = items;
+
     return (
         <React.Fragment>
             <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
@@ -75,7 +77,7 @@ function OrderRow(props) {
                 <TableCell align="right">{row.full_name}</TableCell>
                 <TableCell align="right">{row.mobile_number}</TableCell>
                 <TableCell align="right">{row.order_time}</TableCell>
-                <TableCell align="right">${row.price}</TableCell>
+                <TableCell align="right">LKR {row.total}</TableCell>
                 <TableCell align="right">
                     <Select
                         value={status}
@@ -113,9 +115,49 @@ function OrderRow(props) {
                                         <TableCell>Address:</TableCell>
                                         <TableCell>{row.address}</TableCell>
                                     </TableRow>
-                                    {/* Add more details as needed */}
+                                    <TableRow>
+                                        <TableCell>Total Order Price:</TableCell>
+                                        <TableCell>${row.total}</TableCell>
+                                    </TableRow>
                                 </TableBody>
                             </Table>
+                            {/* Products Section */}
+                            <Typography variant="h6" gutterBottom component="div" sx={{ mt: 2 }}>
+                                Products
+                            </Typography>
+                            <Table size="small" aria-label="products">
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>Product ID</TableCell>
+                                        <TableCell align="right">Unit Price</TableCell>
+                                        <TableCell align="right">Quantity</TableCell>
+                                        <TableCell align="right">Total</TableCell>
+                                        <TableCell align="right">Created At</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {orderItems.length > 0 ? (
+                                        orderItems.map((item) => (
+                                            <TableRow key={item.id}>
+                                                <TableCell>{item.product_id}</TableCell>
+                                                <TableCell align="right">LKR {item.price}</TableCell>
+                                                <TableCell align="right">{item.quantity}</TableCell>
+                                                <TableCell align="right">LKR {item.total_cost}</TableCell>
+                                                <TableCell align="right">
+                                                    {new Date(item.created_at).toLocaleString()}
+                                                </TableCell>
+                                            </TableRow>
+                                        ))
+                                    ) : (
+                                        <TableRow>
+                                            <TableCell colSpan={5} align="center">
+                                                No products found
+                                            </TableCell>
+                                        </TableRow>
+                                    )}
+                                </TableBody>
+                            </Table>
+
                         </Box>
                     </Collapse>
                 </TableCell>
@@ -149,9 +191,23 @@ OrderRow.propTypes = {
         ]).isRequired,
         status: PropTypes.string.isRequired,
     }).isRequired,
+    items: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        product_id: PropTypes.number.isRequired,
+        price: PropTypes.oneOfType([
+            PropTypes.number,
+            PropTypes.string
+        ]).isRequired,
+        quantity: PropTypes.number.isRequired,
+        total_cost: PropTypes.oneOfType([
+            PropTypes.number,
+            PropTypes.string
+        ]).isRequired,
+        created_at: PropTypes.string.isRequired,
+    }))
 };
 
-export default function OutforDeliveryTable({ orders }) {
+export default function OutforDeliveryTable({ orders, orderItems }) {
     // Filter only OutforDelivery orders
     const outforDeliveryOrders = orders.filter(order => order.status === 'OutforDelivery');
 
@@ -170,9 +226,19 @@ export default function OutforDeliveryTable({ orders }) {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {outforDeliveryOrders.map((order) => (
-                        <OrderRow key={order.id} row={order} />
-                    ))}
+                    {outforDeliveryOrders.map((order) => {
+                        // Get items for this specific order
+                        const orderId = String(order.id);
+                        const itemsForOrder = orderItems[orderId] || []; // Use string key
+                        //console.log(`Order ${order.id} items:`, itemsForOrder);
+                        return (
+                            <OrderRow
+                                key={order.id}
+                                row={order}
+                                items={itemsForOrder}  // Pass items to OrderRow
+                            />
+                        );
+                    })}
                 </TableBody>
             </Table>
         </TableContainer>

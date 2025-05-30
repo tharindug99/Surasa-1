@@ -126,10 +126,10 @@ function OrderRow(props) {
                             </Table>
 
                             {/* Products Section */}
-                            <Typography variant="h6" gutterBottom component="div" sx={{ mt: 2 }}>
+                            <Typography variant="h6" gutterBottom component="div" sx={{ mt: 2, backgroundColor: "gray" }}>
                                 Products
                             </Typography>
-                            <Table size="small" aria-label="products">
+                            <Table size="small" aria-label="products" sx={{ backgroundColor: "gray", padding: '20%' }}>
                                 <TableHead>
                                     <TableRow>
                                         <TableCell>Product ID</TableCell>
@@ -144,9 +144,9 @@ function OrderRow(props) {
                                         orderItems.map((item) => (
                                             <TableRow key={item.id}>
                                                 <TableCell>{item.product_id}</TableCell>
-                                                <TableCell align="right">${item.price}</TableCell>
+                                                <TableCell align="right">LKR {item.price}</TableCell>
                                                 <TableCell align="right">{item.quantity}</TableCell>
-                                                <TableCell align="right">${item.total_cost}</TableCell>
+                                                <TableCell align="right">LKR {item.total_cost}</TableCell>
                                                 <TableCell align="right">
                                                     {new Date(item.created_at).toLocaleString()}
                                                 </TableCell>
@@ -213,8 +213,6 @@ OrderRow.propTypes = {
 export default function PendingOrdersTable({ orders, orderItems }) {
     // Filter only pending orders
     const pendingOrders = orders.filter(order => order.status === 'Pending');
-    console.log("PendingOrdersTable received orderItems:", orderItems);
-    console.log("PendingOrdersTable orders:", orders);
 
     return (
         <TableContainer component={Paper}>

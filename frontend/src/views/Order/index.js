@@ -153,7 +153,7 @@ const Order = props => {
         <div className="overflow-x-auto">
           <ReadyOrdersTable
             orders={orders.filter(order => order.status === 'Ready')}
-            orderItems={orderItems}
+            orderItems={testItems}
           />
         </div>
       </div>
@@ -171,8 +171,8 @@ const Order = props => {
       <div className="flex flex-col w-full mt-6">
         <div className="overflow-x-auto">
           <OutforDeliveryTable
-            orders={orders.filter(order => order.status === 'Out for Delivery')}
-            orderItems={orderItems}
+            orders={orders.filter(order => order.status === 'OutforDelivery')}
+            orderItems={testItems}
           />
         </div>
       </div>
@@ -193,7 +193,7 @@ const Order = props => {
             orders={orders.filter(order =>
               order.status === 'Completed' || order.status === 'Cancelled'
             )}
-            orderItems={orderItems}
+            orderItems={testItems}
           />
         </div>
       </div>

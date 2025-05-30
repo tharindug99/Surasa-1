@@ -78,7 +78,7 @@ function OrderRow(props) {
                 <TableCell align="right">{row.full_name}</TableCell>
                 <TableCell align="right">{row.mobile_number}</TableCell>
                 <TableCell align="right">{row.order_time}</TableCell>
-                <TableCell align="right"> LKR {row.price}</TableCell>
+                <TableCell align="right"> LKR {row.total}</TableCell>
                 <TableCell align="right">
                     <Select
                         value={status}
