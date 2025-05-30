@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import backgroundImg from "../../assets/vectors/Contact Us Image.png";
 import styled from "styled-components";
-import Button from "@mui/material/Button"; // Import Material UI Button component
+import ContactUsRequest from "services/Requests/ContactUs"; // Import contact service
+import Toaster from "../../components/Toaster/Toaster"; // Import Toaster component
 
 // Styled component for input field without shadow
 const InputField = styled.input`
@@ -14,18 +15,96 @@ const InputField = styled.input`
   }
 `;
 
-function ContactField({ label, id, type }) {
+const TextAreaField = styled.textarea`
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+  height: 100px;
+  resize: vertical;
+  &:focus {
+    border-color: #3182ce;
+  }
+`;
+
+function ContactField({ label, id, type, value, onChange }) {
   return (
     <div className="flex flex-col justify-center mt-4">
       <label className="mb-2 text-gray-700 font-bold" htmlFor={id}>
         {label}
       </label>
-      <InputField id={id} type={type} placeholder={label} aria-label={label} />
+      {type === "textarea" ? (
+        <TextAreaField
+          id={id}
+          placeholder={label}
+          aria-label={label}
+          value={value}
+          onChange={onChange}
+        />
+      ) : (
+        <InputField
+          id={id}
+          type={type}
+          placeholder={label}
+          aria-label={label}
+          value={value}
+          onChange={onChange}
+        />
+      )}
     </div>
   );
 }
 
 const Contact = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: ""
+  });
+
+  const [showToaster, setShowToaster] = useState(false);
+  const [toasterMessage, setToasterMessage] = useState("");
+  const [toasterType, setToasterType] = useState("success");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [id]: value
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      // Send contact form data to the API
+      await ContactUsRequest.addAContactUs(formData);
+
+      // Show success message
+      setToasterMessage("Your message has been sent successfully!");
+      setToasterType("success");
+      setShowToaster(true);
+
+      // Reset form
+      setFormData({
+        name: "",
+        email: "",
+        message: ""
+      });
+
+    } catch (error) {
+      console.error("Error submitting contact form:", error);
+      setToasterMessage("Failed to send message. Please try again.");
+      setToasterType("error");
+      setShowToaster(true);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <>
       <section>
@@ -49,44 +128,40 @@ const Contact = () => {
                   </h1>
                 </header>
                 <p className="flex flex-col justify-center mt-11 text-sm tracking-normal leading-6 text-black max-md:mt-10 max-md:max-w-full">
-                  Enim tempor eget pharetra facilisis sed maecenas adipiscing.
-                  Eu leo molestie vel, ornare non id blandit netus.
+                  Have questions or feedback? Reach out to us and we'll get back to you as soon as possible.
                 </p>
-                <form className="flex flex-col mt-10">
+                <form className="flex flex-col mt-10" onSubmit={handleSubmit}>
                   <ContactField
                     label="Contact Name"
-                    id="contactName"
+                    id="name"
                     type="text"
+                    value={formData.name}
+                    onChange={handleChange}
                   />
                   <ContactField
-                    label="Contact Phone"
-                    id="contactPhone"
-                    type="tel"
+                    label="E-mail"
+                    id="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={handleChange}
                   />
-                  <ContactField label="E-mail" id="email" type="email" />
-
-                  <fieldset className="flex flex-col py-3 mt-11">
-                    <legend className="text-gray-700 font-bold mb-4">
-                      Let’s talk about your idea
-                    </legend>
-                    <div className="h-px bg-gray-400 mb-4"></div>
-                    <label className="flex items-center">
-                      <input
-                        type="checkbox"
-                        className="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
-                      />
-                      <span className="ml-2 text-gray-700">
-                        I agree to the terms and conditions
-                      </span>
-                    </label>
-                  </fieldset>
-
+                  <ContactField
+                    label="Your Message"
+                    id="message"
+                    type="textarea"
+                    value={formData.message}
+                    onChange={handleChange}
+                  />
 
                   <button
                     type="submit"
-                    className="flex justify-center items-center px-6 py-3 mt-6 text-sm font-bold text-white uppercase bg-SurasaYellow rounded-lg hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
+                    disabled={isSubmitting}
+                    className={`flex justify-center items-center px-6 py-3 mt-6 text-sm font-bold text-white uppercase rounded-lg hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 ${isSubmitting
+                      ? "bg-gray-400 cursor-not-allowed"
+                      : "bg-SurasaYellow"
+                      }`}
                   >
-                    Submit
+                    {isSubmitting ? "Sending..." : "Submit"}
                   </button>
                 </form>
               </div>
@@ -116,6 +191,21 @@ const Contact = () => {
             </div>
           </section>
         </div>
+
+        {/* Toaster for notifications */}
+        {showToaster && (
+          <Toaster
+            message={toasterMessage}
+            type={toasterType}
+            onClose={() => setShowToaster(false)}
+            style={{
+              position: 'fixed',
+              top: '20px',
+              right: '20px',
+              zIndex: 9999
+            }}
+          />
+        )}
       </section>
     </>
   );
