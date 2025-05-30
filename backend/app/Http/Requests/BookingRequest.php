@@ -34,7 +34,7 @@ class BookingRequest extends FormRequest
             'phone_num' => 'required|string|max:20',
             'email' => 'required|string|email|max:255',
             'faculty' => 'required|in:Agricultural Sciences,Applied Sciences,Computing,Geomatics,Management Studies,Medicine,Social Sciences & Languages,Technology,Graduate Studies',
-            'status'=> 'required| in: Pending,Confirmed,Rejected,Completed',
+            'status'=> 'required| in:Pending,Confirmed,Rejected,Completed',
             'start_time' => 'required|date|before:end_time',
             'end_time' => 'required|date|after:start_time',
             'event_name' => 'required|string|max:255',
