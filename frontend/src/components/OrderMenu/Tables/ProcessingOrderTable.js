@@ -20,16 +20,15 @@ import { useDispatch } from "react-redux";
 import OrderRequest from "services/Requests/Order";
 import Toaster from "../../Toaster/Toaster";
 
-
+// Reuse the same OrderRow component
 function OrderRow(props) {
-    const { row, items } = props;  // Add items prop
+    const { row, items } = props;
     const [open, setOpen] = React.useState(false);
     const [status, setStatus] = React.useState(row.status);
     const dispatch = useDispatch();
     const [showToaster, setShowToaster] = useState(false);
     const [toasterMessage, setToasterMessage] = useState("");
     const [toasterType, setToasterType] = useState("error");
-
 
     const handleStatusChange = async (event) => {
         const newStatus = event.target.value;
@@ -59,7 +58,6 @@ function OrderRow(props) {
         }
     };
 
-
     const orderItems = items;
 
     return (
@@ -88,18 +86,18 @@ function OrderRow(props) {
                         size="small"
                         sx={{
                             minWidth: 120,
-                            backgroundColor: 'yellow',
+                            backgroundColor: 'limegreen',
                             borderRadius: '4px',
                             '& .MuiSelect-select': {
                                 padding: '8px 32px 8px 12px'
                             }
                         }}
                     >
-                        <MenuItem value="Pending">Pending</MenuItem>
                         <MenuItem value="Ready">Ready</MenuItem>
                         <MenuItem value="Processing">Processing</MenuItem>
                         <MenuItem value="Completed">Completed</MenuItem>
                         <MenuItem value="Cancelled">Cancelled</MenuItem>
+                        <MenuItem value="OutforDelivery">Out for Delivery</MenuItem>
                     </Select>
                 </TableCell>
             </TableRow>
@@ -108,7 +106,6 @@ function OrderRow(props) {
                 <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>
                     <Collapse in={open} timeout="auto" unmountOnExit>
                         <Box sx={{ margin: 1 }}>
-                            {/* Order Details Section */}
                             <Typography variant="h6" gutterBottom component="div">
                                 Order Details
                             </Typography>
@@ -126,10 +123,10 @@ function OrderRow(props) {
                             </Table>
 
                             {/* Products Section */}
-                            <Typography variant="h6" gutterBottom component="div" sx={{ mt: 2, backgroundColor: "gray" }}>
+                            <Typography variant="h6" gutterBottom component="div" sx={{ mt: 2 }}>
                                 Products
                             </Typography>
-                            <Table size="small" aria-label="products" sx={{ backgroundColor: "gray", padding: '20%' }}>
+                            <Table size="small" aria-label="products">
                                 <TableHead>
                                     <TableRow>
                                         <TableCell>Product ID</TableCell>
@@ -144,9 +141,9 @@ function OrderRow(props) {
                                         orderItems.map((item) => (
                                             <TableRow key={item.id}>
                                                 <TableCell>{item.product_id}</TableCell>
-                                                <TableCell align="right">LKR {item.price}</TableCell>
+                                                <TableCell align="right">${item.price}</TableCell>
                                                 <TableCell align="right">{item.quantity}</TableCell>
-                                                <TableCell align="right">LKR {item.total_cost}</TableCell>
+                                                <TableCell align="right">${item.total_cost}</TableCell>
                                                 <TableCell align="right">
                                                     {new Date(item.created_at).toLocaleString()}
                                                 </TableCell>
@@ -210,13 +207,14 @@ OrderRow.propTypes = {
     }))
 };
 
-export default function PendingOrdersTable({ orders, orderItems }) {
-    // Filter only pending orders
-    const pendingOrders = orders.filter(order => order.status === 'Pending');
+// Processing Orders Table
+export default function ProcessingOrdersTable({ orders, orderItems }) {
+    // Filter only Processing orders
+    const processingOrders = orders.filter(order => order.status === 'Processing');
 
     return (
         <TableContainer component={Paper}>
-            <Table aria-label="pending-orders-table">
+            <Table aria-label="processing-orders-table">
                 <TableHead>
                     <TableRow>
                         <TableCell />
@@ -224,12 +222,12 @@ export default function PendingOrdersTable({ orders, orderItems }) {
                         <TableCell align="right">Full Name</TableCell>
                         <TableCell align="right">Mobile Number</TableCell>
                         <TableCell align="right">Order Time</TableCell>
-                        <TableCell align="right">Total Price</TableCell>
+                        <TableCell align="right">Price</TableCell>
                         <TableCell align="right">Status</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {pendingOrders.map((order) => {
+                    {processingOrders.map((order) => {
                         // Get items for this specific order
                         const orderId = String(order.id);
                         const itemsForOrder = orderItems[orderId] || []; // Use string key

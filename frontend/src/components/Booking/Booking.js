@@ -13,27 +13,35 @@ function Booking(props) {
   const [contactNumber, setContactNumber] = useState("");
   const [email, setEmail] = useState("");
   const [faculty, setFaculty] = useState("");
+  const [status, setStatus] = useState("Pending");
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [confirmationMessage, setConfirmationMessage] = useState("");
   const [eventInfo, setEventInfo] = useState(null);
   const [bookedEvents, setBookedEvents] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false); // Added submitting state
 
+  //Fetch The bookings
   useEffect(() => {
     async function fetchBookings() {
       try {
         const response = await BookingRequest.getAllBookings();
-        setBookedEvents(response.data);
+
+        const confirmedBookings = response.data.filter(
+          booking => booking.status === "Confirmed"
+        );
+        console.log("Confirmed bookings", confirmedBookings);
+
+        setBookedEvents(confirmedBookings);
       } catch (error) {
         console.error("Error fetching bookings:", error);
       }
     }
-
     fetchBookings();
   }, []);
 
   // Format bookedEvents into the required format for react-big-calendar
   const formattedEvents = bookedEvents.map((event) => ({
-    id: event.id, // Ensure each event has a unique ID
+    id: event.id,
     title: event.event_name,
     start: new Date(event.start_time),
     end: new Date(event.end_time),
@@ -41,17 +49,53 @@ function Booking(props) {
     createdAt: moment(event.created_at).format("YYYY-MM-DD HH:mm:ss"),
   }));
 
-  const handleBooking = (e) => {
+  const handleBooking = async (e) => {
     e.preventDefault();
-    // Perform booking logic here, using the collected data
-    console.log("Booking Request Sent:", {
-      fullName,
-      contactNumber,
-      email,
-      faculty,
-      selectedSlot,
-    });
-    setConfirmationMessage("Booking Request Sent....");
+
+    if (!selectedSlot) {
+      setConfirmationMessage("Please select a time slot first.");
+      return;
+    }
+
+    setIsSubmitting(true); // Start submission
+    setConfirmationMessage("Processing your booking...");
+
+    try {
+      // FIX: Convert dates to MySQL-compatible format
+      const startTime = moment(selectedSlot.start).format("YYYY-MM-DD HH:mm:ss");
+      const endTime = moment(selectedSlot.end).format("YYYY-MM-DD HH:mm:ss");
+
+      const bookingData = {
+        name: fullName,
+        phone_num: contactNumber,
+        email,
+        faculty,
+        status,
+        event_name: `Booking by ${fullName}`,
+        start_time: startTime, // Use formatted time
+        end_time: endTime,     // Use formatted time
+      };
+
+      await BookingRequest.addABooking(bookingData);
+
+      setConfirmationMessage("Booking confirmed successfully!");
+
+      // Reset form fields
+      setFullName("");
+      setContactNumber("");
+      setEmail("");
+      setFaculty("");
+      setSelectedSlot(null);
+
+      // Refresh bookings
+      const response = await BookingRequest.getAllBookings();
+      setBookedEvents(response.data);
+    } catch (error) {
+      console.error("Booking failed:", error);
+      setConfirmationMessage("Booking failed. Please try again.");
+    } finally {
+      setIsSubmitting(false); // End submission
+    }
   };
 
   const eventStyleGetter = (event, start, end, isSelected) => {
@@ -104,26 +148,26 @@ function Booking(props) {
             localizer={localizer}
             events={formattedEvents}
             selectable
-            min={new Date().setHours(8, 0, 0)} // Set minimum time
-            max={new Date().setHours(18, 0, 0)} // Set maximum time
-            defaultView="week" // Set default view to week
+            min={new Date().setHours(8, 0, 0)}
+            max={new Date().setHours(18, 0, 0)}
+            defaultView="week"
             onSelectSlot={(slotInfo) => {
               if (!isSlotBooked(slotInfo.start, slotInfo.end)) {
                 setSelectedSlot(slotInfo);
                 setConfirmationMessage(
                   "Confirm booking for " +
-                    moment(slotInfo.start).format("LT") +
-                    " - " +
-                    moment(slotInfo.end).format("LT") +
-                    "?"
+                  moment(slotInfo.start).format("LT") +
+                  " - " +
+                  moment(slotInfo.end).format("LT") +
+                  "?"
                 );
               } else {
                 setConfirmationMessage("This slot is already booked.");
               }
             }}
-            views={["week", "day"]} // Only show week and day views
-            eventPropGetter={eventStyleGetter} // Apply custom styles to events
-            onSelectEvent={handleEventClick} // Handle event clicks
+            views={["week", "day"]}
+            eventPropGetter={eventStyleGetter}
+            onSelectEvent={handleEventClick}
             components={{
               week: {
                 header: ({ date, label }) => {
@@ -187,34 +231,36 @@ function Booking(props) {
                 <option value="" disabled>
                   Select Faculty
                 </option>
-                <option value="Faculty of Social Sciences and Languages">
+                <option value="Social Sciences & Languages">
                   Faculty of Social Sciences and Languages
                 </option>
-                <option value="Faculty of Management Studies">
+                <option value="Management Studies">
                   Faculty of Management Studies
                 </option>
-                <option value="Faculty of Agricultural Sciences">
+                <option value="Agricultural Sciences">
                   Faculty of Agricultural Sciences
                 </option>
                 <option value="Faculty of Applied Sciences">
                   Faculty of Applied Sciences
                 </option>
-                <option value="Faculty of Technology">
+                <option value="Technology">
                   Faculty of Technology
                 </option>
-                <option value="Faculty of Computing">
+                <option value="Computing">
                   Faculty of Computing
                 </option>
-                <option value="Faculty of Geomatics">
+                <option value="Geomatics">
                   Faculty of Geomatics
                 </option>
               </select>
             </label>
             <button
               type="submit"
-              className="px-4 py-2 mt-4 font-bold text-white bg-SurasaBrown rounded hover:bg-SurasaYellow"
+              disabled={isSubmitting}
+              className={`px-4 py-2 mt-4 font-bold text-white bg-SurasaBrown rounded hover:bg-SurasaYellow ${isSubmitting ? "opacity-50 cursor-not-allowed" : ""
+                }`}
             >
-              Confirm Booking
+              {isSubmitting ? "Processing..." : "Confirm Booking"}
             </button>
           </form>
           {confirmationMessage && (

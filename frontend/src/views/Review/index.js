@@ -20,10 +20,8 @@ const Review = (props) => {
 
   const handleStatusChange = async (reviewId, status) => {
     try {
-      // Call the API first
-      await ReviewRequest.updateStatus(reviewId, status);
-      // Then dispatch the Redux action
-      props.updateReviewStatus(reviewId, status);
+      await ReviewRequest.updateAReview(reviewId, status);
+      props.updateAReview(reviewId, status);
     } catch (error) {
       console.error('Status update failed:', error);
     }

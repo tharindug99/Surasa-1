@@ -41,14 +41,6 @@ const ReviewRequest = {
       method: "delete",
     });
   },
-
-  updateStatus: (reviewId, data) => {
-    return fetch({
-      url: `${review}/${reviewId}/status`,
-      method: "put",
-      data: data,
-    });
-  }
 };
 
 export default ReviewRequest;

@@ -4,12 +4,13 @@ import DailyMenu from "../DailyMenuItem/index";
 import { useDispatch } from "react-redux";
 import UserRequest from "services/Requests/User";
 import useLoading from "hooks/useLoading";
-import { setUsers as setUsersAction, setBookings } from "redux/actions";
+import { setUsers as setUsersAction, setBookings, setCategories as setCategoriesAction } from "redux/actions";
 import BookingRequest from "services/Requests/Booking";
 import MainStatistics from "../../components/Dashboard/Home/MainStatistics";
 import ReviewRequest from "../../services/Requests/Review";
 import OrderRequest from 'services/Requests/Order';
 import ProductRequest from '../../services/Requests/Product';
+import CategoryRequest from "services/Requests/Category";
 import Toaster from "../../components/Toaster/Toaster";
 
 function DashboardHome() {
@@ -24,6 +25,7 @@ function DashboardHome() {
   const [showToaster, setShowToaster] = useState(false);
   const [toasterMessage, setToasterMessage] = useState("");
   const [toasterType, setToasterType] = useState("error");
+  const [categories, setCategories] = useState([]);
 
   const [modalData, setModalData] = useState({
     category_id: '',
@@ -73,11 +75,23 @@ function DashboardHome() {
     }
   };
 
+  const getAllCategories = async () => {
+    try {
+      const response = await withLoading(CategoryRequest.getAllCategories());
+      const categoriesData = response?.data || [];
+      setCategories(categoriesData); // Store categories in local state
+      dispatch(setCategoriesAction(categoriesData)); // Update Redux store if needed
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     getAllUsers();
     getAllBookings();
     getAllOrders();
     getAllReviews();
+    getAllCategories();
   }, []);
 
   // Modal Handlers
@@ -147,14 +161,14 @@ function DashboardHome() {
       />
 
       <div className="flex justify-between items-center mt-10">
-        <h1 className="text-white font-semibold text-[48px]">Today's Menu Items</h1>
+        <h1 className="text-white font-semibold text-[48px]">Add new Product</h1>
         <FiPlusCircle onClick={handleOpenModal} className="text-white text-[48px] cursor-pointer" />
       </div>
 
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white p-10 rounded-md shadow-lg w-full max-w-lg">
-            <h2 className="text-2xl font-semibold mb-4 text-black">Add Menu Item</h2>
+            <h2 className="text-2xl font-semibold mb-4 text-black">Add New Product</h2>
             <form>
               <div className="mb-4 flex flex-row">
                 <div className="w-1/3">
@@ -165,8 +179,11 @@ function DashboardHome() {
                     className="shadow border rounded w-full py-2 px-3 text-gray-700 focus:outline-none"
                   >
                     <option value="">Select</option>
-                    <option value="1">Food</option>
-                    <option value="2">Beverage</option>
+                    {categories.map((category) => (
+                      <option key={category.id} value={category.id}>
+                        {category.name}
+                      </option>
+                    ))}
                   </select>
                 </div>
                 <div className="mx-6 w-2/3">
