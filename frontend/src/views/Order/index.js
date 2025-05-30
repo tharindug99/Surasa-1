@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { setOrders, setOrderItems } from 'redux/actions'; // You need to create setOrders action
+import { setOrders, setOrderItems } from 'redux/actions';
 import OrderRequest from 'services/Requests/Order';
 import OrderItemRequest from 'services/Requests/OrderItem';
 import { useEffect } from 'react';
@@ -13,12 +13,13 @@ import FinalizedOrdersTable from 'components/OrderMenu/Tables/FinalizedOrderTabl
 import ProcessingOrdersTable from 'components/OrderMenu/Tables/ProcessingOrderTable';
 
 const Order = props => {
-  const { setOrders, orders = [], orderItems = {}, setOrderItems } = props;
+  const { setOrders, orders = [], setOrderItems, orderItems = [] } = props;
   const [loading, withLoading] = useLoading();
   const [orderCount, setOrderCount] = React.useState(0);
   const [rejectedCount, setRejectedCount] = React.useState(0);
   const [completedCount, setCompletedCount] = React.useState(0);
   const [deliveredCount, setDeliveredCount] = React.useState(0);
+  const [testItems, setTestItems] = React.useState([{}]);
 
   const getAllOrders = async () => {
     try {
@@ -53,8 +54,10 @@ const Order = props => {
       });
 
       // Update Redux
+      console.log("Dispatching groupedItems:", groupedItems);
       setOrders(ordersWithTotals);
       setOrderItems(groupedItems);
+      setTestItems(groupedItems);
 
       // Update counts
       setOrderCount(ordersData.length);
@@ -64,7 +67,7 @@ const Order = props => {
 
       console.log("Redux state updated:", {
         orders: ordersWithTotals,
-        orderItems: groupedItems
+        orderItems: orderItems
       });
 
       console.log("orderItems", orderItems)
@@ -85,6 +88,7 @@ const Order = props => {
       getAllOrders();
     }
   }, []);
+
 
   return (
     <>
@@ -111,7 +115,7 @@ const Order = props => {
         <div className="overflow-x-auto">
           <PendingOrdersTable
             orders={orders.filter(order => order.status === 'Pending')}
-            orderItems={orderItems}
+            orderItems={testItems}
           />
         </div>
       </div>
@@ -130,7 +134,6 @@ const Order = props => {
         <div className="overflow-x-auto">
           <ProcessingOrdersTable
             orders={orders.filter(order => order.status === 'Processing')}
-            orderItems={orderItems}
           />
         </div>
       </div>
@@ -210,5 +213,6 @@ const mapDispatchToProps = {
   setOrders,
   setOrderItems
 };
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(Order);

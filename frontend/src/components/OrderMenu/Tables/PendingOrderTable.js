@@ -20,6 +20,7 @@ import { useDispatch } from "react-redux";
 import OrderRequest from "services/Requests/Order";
 import Toaster from "../../Toaster/Toaster";
 
+
 function OrderRow(props) {
     const { row, items } = props;  // Add items prop
     const [open, setOpen] = React.useState(false);
@@ -29,7 +30,6 @@ function OrderRow(props) {
     const [toasterMessage, setToasterMessage] = useState("");
     const [toasterType, setToasterType] = useState("error");
 
-    // console.log(`OrderRow ${row.id} received items:`, items);
 
     const handleStatusChange = async (event) => {
         const newStatus = event.target.value;
@@ -59,10 +59,8 @@ function OrderRow(props) {
         }
     };
 
-    // Get items for this specific order
-    const orderItems = items || [];
 
-    //console.log("items from pending", orderItems)
+    const orderItems = items;
 
     return (
         <React.Fragment>
@@ -82,7 +80,7 @@ function OrderRow(props) {
                 <TableCell align="right">{row.full_name}</TableCell>
                 <TableCell align="right">{row.mobile_number}</TableCell>
                 <TableCell align="right">{row.order_time}</TableCell>
-                <TableCell align="right">${row.price}</TableCell>
+                <TableCell align="right">${row.total}</TableCell>
                 <TableCell align="right">
                     <Select
                         value={status}
@@ -122,7 +120,7 @@ function OrderRow(props) {
                                     </TableRow>
                                     <TableRow>
                                         <TableCell>Total Order Price:</TableCell>
-                                        <TableCell>${row.price}</TableCell>
+                                        <TableCell>${row.total}</TableCell>
                                     </TableRow>
                                 </TableBody>
                             </Table>
@@ -199,14 +197,20 @@ OrderRow.propTypes = {
     items: PropTypes.arrayOf(PropTypes.shape({
         id: PropTypes.number.isRequired,
         product_id: PropTypes.number.isRequired,
-        price: PropTypes.number.isRequired,
+        price: PropTypes.oneOfType([
+            PropTypes.number,
+            PropTypes.string
+        ]).isRequired,
         quantity: PropTypes.number.isRequired,
-        total_cost: PropTypes.number.isRequired,
+        total_cost: PropTypes.oneOfType([
+            PropTypes.number,
+            PropTypes.string
+        ]).isRequired,
         created_at: PropTypes.string.isRequired,
     }))
 };
 
-export default function PendingOrdersTable({ orders, orderItems = {} }) {
+export default function PendingOrdersTable({ orders, orderItems }) {
     // Filter only pending orders
     const pendingOrders = orders.filter(order => order.status === 'Pending');
     console.log("PendingOrdersTable received orderItems:", orderItems);
@@ -222,7 +226,7 @@ export default function PendingOrdersTable({ orders, orderItems = {} }) {
                         <TableCell align="right">Full Name</TableCell>
                         <TableCell align="right">Mobile Number</TableCell>
                         <TableCell align="right">Order Time</TableCell>
-                        <TableCell align="right">Price</TableCell>
+                        <TableCell align="right">Total Price</TableCell>
                         <TableCell align="right">Status</TableCell>
                     </TableRow>
                 </TableHead>
