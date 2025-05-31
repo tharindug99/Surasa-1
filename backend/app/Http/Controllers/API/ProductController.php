@@ -29,7 +29,7 @@ class ProductController extends Controller
     public function store(ProductRequest $request)
     {
         $category = Category::where('id', $request->category_id)->first();
-        if(!$category){
+        if (!$category) {
             return response()->json(['error' => 'Category not found'], 404);
         }
 
@@ -55,96 +55,6 @@ class ProductController extends Controller
         ], 201);
     }
 
-
-
-//     public function update(ProductRequest $request, $id)
-// {
-//     $product = Product::findOrFail($id);
-
-//     Log::info('Log 1', [
-//         'request' => $request,
-//         'product_id' => $id
-//     ]);
-    
-//     $newProduct = $product; // Use the existing product instance
-
-//     // Validate and update category if provided
-//     if ($request->has('category_id')) {
-//         $category = Category::find($request->category_id);
-//         if (!$category) {
-//             return response()->json(['error' => 'Category not found'], 404);
-//         }
-//         $newProduct->category_id = $category->id;
-//     }
-
-//     Log::info('Log 2 ' . $newProduct);
-
-//     // Update other fields only if present in the request
-//     $newProduct->fill($request->only(['name', 'description', 'price']));
-
-//     Log::info('Log 3' . $newProduct);
-//     // Handle avatar upload
-//     if ($request->hasFile('avatar')) {
-//         $avatar = $request->file('avatar');
-//         $filename = time() . '.' . $avatar->getClientOriginalExtension();
-//         $avatar->storeAs('public/products', $filename);
-//         $newProduct->avatar = $filename;
-//     }
-
-//        Log::info('Log 4' . $newProduct);
-
-//     $newProduct->save();
-
-//     return response()->json([
-//         'success' => true,
-//         'message' => 'Product updated successfully.',
-//         'product' => $newProduct
-//     ], 200);
-// }
-
-
-public function update(ProductRequest $request, $id)
-{
-    $product = Product::findOrFail($id);
-
-    // Corrected log statement
-    Log::info('Avatar uploaded for product', [
-        'product_id' => $id,
-        'request_data' => $request->all(),
-        'product' => $product->toArray()
-    ]);
-
-    if ($request->has('category_id')) {
-        $category = Category::find($request->category_id);
-        if (!$category) {
-            return response()->json(['error' => 'Category not found'], 404);
-        }
-        $product->category_id = $category->id;
-    }
-
-    $product->fill($request->only(['name', 'description', 'price']));
-
-    // Log after changes
-    Log::info('After update', $product->toArray());
-
-    if ($request->hasFile('avatar')) {
-        $avatar = $request->file('avatar');
-        $filename = time() . '.' . $avatar->getClientOriginalExtension();
-        $avatar->storeAs('public/products', $filename);
-        $product->avatar = $filename;
-    }
-
-     Log::info('After update 2', $product->toArray());
-
-    $product->save(); // This will now execute
-
-    return response()->json([
-        'success' => true,
-        'message' => 'Product updated successfully.',
-        'product' => $product
-    ], 200);
-}
-
     public function destroy($id)
     {
         $product = Product::find($id);
@@ -155,5 +65,69 @@ public function update(ProductRequest $request, $id)
         $product->delete();
 
         return response()->json(['message' => 'product deleted']);
+    }
+
+
+
+    /**
+     * Update the specified resource in storage.
+     */
+
+    public function update(ProductRequest $request, $id)
+    {
+        $product = Product::find($id);
+        if (!$product) {
+            return response()->json(['error' => 'Product not found'], 404);
+        }
+
+        // Validate category if provided
+        if ($request->has('category_id')) {
+            $category = Category::find($request->category_id);
+            if (!$category) {
+                return response()->json(['error' => 'Category not found'], 404);
+            }
+            $product->category_id = $request->category_id;
+        }
+
+        // Update fields - handle both JSON and form-data
+        $product->name = $request->input('name', $product->name);
+        $product->description = $request->input('description', $product->description);
+        $product->price = $request->input('price', $product->price);
+
+        // Handle image update
+        if ($request->hasFile('avatar')) {
+            // Get raw filename without URL
+            $oldAvatar = $product->getRawOriginal('avatar');
+
+            // Delete old image if exists
+            if ($oldAvatar) {
+                $oldPath = storage_path('app/public/products/' . $oldAvatar);
+                if (file_exists($oldPath)) {
+                    unlink($oldPath);
+                }
+            }
+
+            // Store new image
+            $avatar = $request->file('avatar');
+            $filename = time() . '.' . $avatar->getClientOriginalExtension();
+            $avatar->storeAs('public/products', $filename);
+            $product->avatar = $filename;
+        }
+
+        $product->save();
+
+        Log::debug('Update Request:', [
+            'method' => $request->method(),
+            'content_type' => $request->header('Content-Type'),
+            'all_data' => $request->all(),
+            'files' => $request->file() ? array_keys($request->file()) : 'none',
+            'avatar_exists' => $request->hasFile('avatar') ? 'yes' : 'no'
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Product updated successfully',
+            'product' => $product
+        ]);
     }
 }
