@@ -47,7 +47,7 @@ function Food() {
               <div className="flex justify-center items-center p-4">
                 <img
                   className="h-32 w-32 object-cover rounded-lg"
-                  src={item.image_url}
+                  src={item.image}
                   alt={item.name}
                 />
               </div>
