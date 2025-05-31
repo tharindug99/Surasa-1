@@ -36,6 +36,7 @@ class OrderItemController extends Controller
         $orderItems->price = $validated['price'];
         $orderItems->quantity = $validated['quantity'];
         $orderItems->total_cost = $validated['total_cost'];
+        $orderItems->user_id = $validated['user_id'];
 
         // Update the order's total price
         $order->price = $order->orderItems()->sum('total_cost');
