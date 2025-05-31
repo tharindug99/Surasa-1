@@ -1,198 +1,327 @@
-import React, { useState } from "react";
-import Toaster from "../../components/Toaster/Toaster";
+import React, { useEffect, useState } from "react";
+import DailyMenuItemRequest from "services/Requests/DailyMenuItem";
+import OrderRequest from "services/Requests/Order";
+import OrderItemRequest from "services/Requests/OrderItem";
 
-const foodItems = [
-  {
-    id: 1,
-    name: "Margherita Pizza",
-    description:
-      "Classic pizza with tomatoes, mozzarella cheese, fresh basil, salt, and extra-virgin olive oil.",
-    price: 8.99,
-    image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTumoMickQs_jcLYaMyiQhNG4FsxB2VeluN3XtCQhLvqg&s",
-    ratings: 4.5,
-  },
-  {
-    id: 2,
-    name: "Caesar Salad",
-    description:
-      "Crisp romaine lettuce with Caesar dressing, croutons, and Parmesan cheese.",
-    price: 5.99,
-    image:
-      "https://www.seriouseats.com/thmb/Fi_FEyVa3_-_uzfXh6OdLrzal2M=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/the-best-caesar-salad-recipe-06-40e70f549ba2489db09355abd62f79a9.jpg",
-    ratings: 4.3,
-  },
-  {
-    id: 3,
-    name: "Pasta Carbonara",
-    description:
-      "Classic Italian pasta with eggs, cheese, pancetta, and pepper.",
-    price: 10.99,
-    image:
-      "https://www.allrecipes.com/thmb/a_0W8yk_LLCtH-VPqg2uLD9I5Pk=/0x512/filters:no_upscale():max_bytes(150000):strip_icc()/11973-spaghetti-carbonara-ii-DDMFS-4x3-6edea51e421e4457ac0c3269f3be5157.jpg",
-    ratings: 4.7,
-  },
-  {
-    id: 4,
-    name: "Mushroom Burger",
-    description:
-      "Classic Italian pasta with eggs, cheese, pancetta, and pepper.",
-    price: 10.99,
-    image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkJv-PoBgECzVVvK-cxL8PiaHpmJmsIrJujGd06xCA1Q&s",
-    ratings: 4.7,
-  },
-];
+// Swiper imports
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
-const beverageItems = [
-  {
-    id: 1,
-    name: "Iced Coffee",
-    description:
-      "Chilled coffee with a splash of milk and a touch of sweetness.",
-    price: 3.49,
-    image:
-      "https://www.cookingclassy.com/wp-content/uploads/2022/07/iced-coffee-05.jpg",
-    ratings: 4.6,
-  },
-  // Other beverage items...
-];
+function FoodOrder() {
 
-function Order() {
-  const [showToaster, setShowToaster] = useState(false);
-  const [quantities, setQuantities] = useState({});
-  const [address, setAddress] = useState("");
+  // Get user info from localStorage
+  const user_id = localStorage.getItem("userId");
+  const authToken = localStorage.getItem("authToken");
+  const userName = localStorage.getItem("first_name");
 
-  const handleQuantityChange = (id, quantity) => {
-    if (quantity < 0) return;
-    setQuantities((prevQuantities) => ({
-      ...prevQuantities,
-      [id]: quantity,
-    }));
+  const [categoryOneItems, setCategoryOneItems] = useState([]);
+  const [cart, setCart] = useState([]);
+  const [formData, setFormData] = useState({
+    full_name: userName,
+    mobile_number: "",
+    address: ""
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(false);
+
+
+
+  useEffect(() => {
+    const getAllDailyMenuItems = async () => {
+      try {
+        const dailyMenuItems = await DailyMenuItemRequest.getAllDailyMenuItem();
+        setCategoryOneItems(dailyMenuItems?.data || []);
+      } catch (error) {
+        console.error("Error fetching daily menu items:", error);
+      }
+    };
+
+    getAllDailyMenuItems();
+  }, []);
+
+  const addToCart = (item) => {
+    setCart(prevCart => {
+      const existingItem = prevCart.find(cartItem => cartItem.id === item.id);
+      if (existingItem) {
+        return prevCart.map(cartItem =>
+          cartItem.id === item.id
+            ? { ...cartItem, quantity: cartItem.quantity + 1 }
+            : cartItem
+        );
+      } else {
+        return [...prevCart, { ...item, quantity: 1 }];
+      }
+    });
   };
 
-  const totalCost = Object.entries(quantities).reduce(
-    (total, [id, quantity]) => {
-      const foodItem = foodItems.find((item) => item.id === parseInt(id));
-      const beverageItem = beverageItems.find(
-        (item) => item.id === parseInt(id)
+  const removeFromCart = (itemId) => {
+    setCart(prevCart => prevCart.filter(item => item.id !== itemId));
+  };
+
+  const updateQuantity = (itemId, quantity) => {
+    if (quantity < 1) return;
+    setCart(prevCart =>
+      prevCart.map(item =>
+        item.id === itemId ? { ...item, quantity } : item
+      )
+    );
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleConfirmOrder = async () => {
+    if (!authToken || !user_id) {
+      setError("User not authenticated");
+      return;
+    }
+
+    if (cart.length === 0) {
+      setError("Your cart is empty");
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      // Calculate total order price
+      const totalPrice = cart.reduce(
+        (sum, item) => sum + item.price * item.quantity,
+        0
       );
 
-      if (foodItem) {
+      // Create order payload
+      const orderPayload = {
+        user_id,
+        ...formData,
+        price: totalPrice,
+        status: "Pending",
+        order_time: new Date().toISOString()
+      };
 
-      } else if (beverageItem) {
-        total += parseFloat(beverageItem.price) * quantity;
+      console.log("Sending order payload:", orderPayload);
+
+      // Create order
+      const orderResponse = await OrderRequest.addAnOrder(orderPayload);
+      console.log("Order creation response:", orderResponse);
+
+      // Extract the created order from the response
+      const createdOrder = orderResponse.data.dailyMenuItem;
+
+      if (!createdOrder || !createdOrder.id) {
+        console.error("Invalid order response structure:", orderResponse.data);
+        throw new Error("Failed to get order ID from response. Created order not found in dailyMenuItem property.");
       }
 
-      return total;
-    },
-    0
-  );
+      const orderId = createdOrder.id;
+      console.log("Created order ID:", orderId);
 
-  const handleConfirmOrder = () => {
-    const confirm = window.confirm(
-      "Are you sure you want to confirm this order?"
-    );
-    if (confirm) {
-      setShowToaster(true);
-      // You can add further logic here for order submission, API calls, etc.
-      setTimeout(() => {
-        setShowToaster(false);
-        // Redirect to home screen after a delay
-        window.location.href = "/";
-      }, 3000); // 3000 milliseconds (3 seconds) delay
+      // Create order items
+      const orderItemPromises = cart.map(item =>
+        OrderItemRequest.addAnOrderItem({
+          order_id: orderId,
+          product_id: item.id,
+          price: item.price,
+          quantity: item.quantity,
+          total_cost: item.price * item.quantity,
+          user_id: user_id,
+          status: "Pending"
+        })
+      );
+
+      await Promise.all(orderItemPromises);
+
+      setSuccess(true);
+      setCart([]);
+      // Reset form after successful order
+      setFormData({ full_name: "", mobile_number: "", address: "" });
+      setTimeout(() => setSuccess(false), 3000);
+    } catch (err) {
+      setError("Failed to place order: " + err.message);
+      console.error("Order creation error:", err);
+    } finally {
+      setLoading(false);
     }
   };
 
+  const foodItems = categoryOneItems;
+  const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-4">Order Summary</h1>
-      <div className="container mx-auto p-4">
-        {/* Display food items */}
-        <div className="flex flex-wrap justify-center gap-4">
+    <div className="container mx-auto px-4 py-8">
+      {/* Food Items Slider */}
+      <div className="mb-12">
+        <h2 className="text-3xl font-bold text-center mb-8">Today's Specials</h2>
+        <Swiper
+          modules={[Navigation, Pagination]}
+          spaceBetween={20}
+          slidesPerView={4}
+          navigation
+          pagination={{ clickable: true }}
+          breakpoints={{
+            320: { slidesPerView: 1 },
+            640: { slidesPerView: 2 },
+            1024: { slidesPerView: 3 },
+            1280: { slidesPerView: 4 },
+          }}
+        >
           {foodItems.map((item) => (
-            <div
-              key={item.id}
-              className="max-w-xs w-full sm:w-1/2 md:w-1/3 lg:w-1/6 flex-grow flex-shrink-0 bg-white rounded-lg shadow-md overflow-hidden m-2"
-            >
-              <div className="flex justify-center items-center p-4">
-                <img
-                  className="h-32 w-32 object-cover rounded-lg"
-                  src={item.image}
-                  alt={item.name}
-                />
-              </div>
-              <div className="px-6 py-4">
-                <div className="font-bold text-xl mb-2">{item.name}</div>
-                <p className="text-gray-700 text-base">{item.description}</p>
-              </div>
-              <div className="px-6 pt-4 pb-2">
-                <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">
-                  LKR {item.price}
-                </span>
-                <span className="inline-block bg-white rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">
-                  ⭐ {item.ratings}
-                </span>
-              </div>
-              <div className="px-6 pt-4 pb-4 flex justify-between items-center">
-                <div className="flex items-center">
-                  <span className="mr-2">Quantity:</span>
+            <SwiperSlide key={item.id}>
+              <div className="bg-white rounded-lg shadow-md overflow-hidden h-[30rem] border-brown-800 border-1">
+                <div className="flex justify-center items-center p-4">
+                  <img
+                    className="h-32 w-32 object-cover rounded-lg"
+                    src={item.image}
+                    alt={item.name}
+                  />
+                </div>
+                <div className="px-6 py-4 h-[12rem]">
+                  <div className="font-bold text-xl mb-2">{item.name}</div>
+                  <p className="text-gray-700 text-base">{item.description}</p>
+                </div>
+                <div className="px-6 pt-4 pb-2">
+                  <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">
+                    ${item.price}
+                  </span>
+                  <span className="inline-block bg-yellow-300 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">
+                    ⭐ {item.rating || 4.5}
+                  </span>
+                </div>
+                <div className="p-4">
                   <button
-                    onClick={() =>
-                      handleQuantityChange(
-                        item.id,
-                        (quantities[item.id] || 0) - 1
-                      )
-                    }
-                    className="bg-gray-200 text-gray-700 px-3 py-1 rounded-full hover:bg-gray-300 focus:outline-none"
+                    onClick={() => addToCart(item)}
+                    className="w-full bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg transition"
                   >
-                    -
-                  </button>
-                  <span className="mx-2">{quantities[item.id] || 0}</span>
-                  <button
-                    onClick={() =>
-                      handleQuantityChange(
-                        item.id,
-                        (quantities[item.id] || 0) + 1
-                      )
-                    }
-                    className="bg-gray-200 text-gray-700 px-3 py-1 rounded-full hover:bg-gray-300 focus:outline-none"
-                  >
-                    +
+                    Add to Cart
                   </button>
                 </div>
               </div>
-            </div>
+            </SwiperSlide>
           ))}
+        </Swiper>
+      </div>
+
+      {/* Order Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Cart Items */}
+        <div className="lg:col-span-2">
+          <h2 className="text-2xl font-bold mb-4">Your Order</h2>
+          {cart.length === 0 ? (
+            <p className="text-gray-500">Your cart is empty</p>
+          ) : (
+            <div className="bg-white rounded-lg shadow-md p-6">
+              {cart.map(item => (
+                <div key={item.id} className="flex items-center justify-between py-4 border-b">
+                  <div>
+                    <h3 className="font-semibold">{item.name}</h3>
+                    <p className="text-gray-600">${item.price} × {item.quantity}</p>
+                  </div>
+                  <div className="flex items-center">
+                    <button
+                      onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                      className="bg-gray-200 px-3 py-1 rounded-l"
+                    >
+                      -
+                    </button>
+                    <span className="px-3 py-1 bg-gray-100">{item.quantity}</span>
+                    <button
+                      onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                      className="bg-gray-200 px-3 py-1 rounded-r"
+                    >
+                      +
+                    </button>
+                    <button
+                      onClick={() => removeFromCart(item.id)}
+                      className="ml-4 text-red-500 hover:text-red-700"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                </div>
+              ))}
+              <div className="mt-6 pt-4 border-t">
+                <div className="flex justify-between font-bold text-xl">
+                  <span>Total:</span>
+                  <span>${totalPrice.toFixed(2)}</span>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
-        {/* Display beverage items */}
+
+        {/* Order Form */}
+        <div>
+          <h2 className="text-2xl font-bold mb-4">Delivery Information</h2>
+          <div className="bg-white rounded-lg shadow-md p-6">
+            <div className="mb-4">
+              <label className="block text-gray-700 mb-2">Full Name</label>
+              <input
+                type="text"
+                name="full_name"
+                value={formData.full_name}
+                disabled
+                onChange={handleInputChange}
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-gray-700 mb-2">Mobile Number</label>
+              <input
+                type="tel"
+                name="mobile_number"
+                value={formData.mobile_number}
+                onChange={handleInputChange}
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required
+              />
+            </div>
+            <div className="mb-6">
+              <label className="block text-gray-700 mb-2">Delivery Address</label>
+              <textarea
+                name="address"
+                value={formData.address}
+                onChange={handleInputChange}
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                rows="3"
+                required
+              ></textarea>
+            </div>
+
+            {error && (
+              <div className="mb-4 text-red-500 bg-red-100 p-2 rounded">
+                {error}
+              </div>
+            )}
+
+            {success && (
+              <div className="mb-4 text-green-500 bg-green-100 p-2 rounded">
+                Order placed successfully!
+              </div>
+            )}
+
+            <button
+              onClick={handleConfirmOrder}
+              disabled={loading || cart.length === 0}
+              className={`w-full py-3 rounded-lg font-bold ${loading || cart.length === 0
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-blue-600 hover:bg-blue-700"
+                } text-white transition`}
+            >
+              {loading ? "Processing..." : "Confirm Order"}
+            </button>
+          </div>
+        </div>
       </div>
-      <div className="mt-6">
-        <h2 className="text-2xl font-bold">
-          Total Cost: LKR {totalCost.toFixed(2)}
-        </h2>
-      </div>
-      <div className="mt-4">
-        <h2 className="text-xl font-bold">Delivery Address</h2>
-        <input
-          type="text"
-          value={address}
-          onChange={(e) => setAddress(e.target.value)}
-          className="w-full p-2 border rounded mt-2"
-          placeholder="Enter your address"
-        />
-      </div>
-      <div className="flex justify-center mt-8">
-        <button
-          onClick={handleConfirmOrder}
-          className="px-6 py-3 mb-20 bg-SurasaBrown text-white font-semibold rounded-lg shadow-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-opacity-75"
-        >
-          Confirm Order
-        </button>
-      </div>
-      {showToaster && <Toaster message="Order placed successfully!" />}
     </div>
   );
 }
 
-export default Order;
+export default FoodOrder;

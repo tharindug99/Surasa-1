@@ -33,12 +33,14 @@ class OrderItemRequest extends FormRequest
             'price' => 'required|numeric|min:0',
             'quantity' => 'required|integer|min:1',
             'total_cost' => 'required|numeric|min:0',
+            'user_id' => 'required|integer|exists:users,id',
         ];
     }
 
     public function messages(): array
     {
         return [
+            'user_id.required' => 'The User ID is required',
             'order_id.required' => 'The order ID is required.',
             'order_id.exists' => 'The selected order ID is invalid.',
             'product_id.required' => 'The product ID is required.',
