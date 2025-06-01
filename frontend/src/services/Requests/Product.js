@@ -27,24 +27,14 @@ ProductRequest.getAProduct = (id) => {
 };
 
 ProductRequest.updateAProduct = (id, productData) => {
-  const payload = {
-    name: productData.name || "",
-    description: productData.description || "",
-    category_id: productData.category_id || "",
-    price: productData.price || ""
-  };
-
-  if (productData.image) {
-    payload.append('image', productData.avatar);
-  }
-
-  console.log("Payload from redux request: ", payload);
-  console.log("productData from redux request: ", productData);
-
   return fetch({
     url: `${product}/${id}`,
     method: "put",
-    data: productData
+    data: productData,
+    headers: {
+      'Accept': 'application/json',
+      // Don't set Content-Type header - let the browser set it with the boundary
+    }
   });
 };
 
