@@ -73,42 +73,27 @@ function ProductRow(props) {
 
     const handleEditSubmit = async () => {
         try {
-            console.log("Edited Product:", {
-                name: editedProduct.name,
-                price: editedProduct.price,
-                // Add other fields
-            });
-            console.log("Edited Product (Before):", editedProduct); // Check initial data
-            // const formData = new FormData();
-            // formData.append('name', editedProduct.name || "");
-            // formData.append('description', editedProduct.description || "");
-            // formData.append('category_id', editedProduct.category_id || "");
-            // formData.append('price', editedProduct.price || "");
-
-            const payload = {
-                name: editedProduct.name || "",
-                description: editedProduct.description || "",
-                category_id: editedProduct.category_id || "",
-                price: editedProduct.price || ""
-            };
-
-
+            const formData = new FormData();
+            formData.append('name', editedProduct.name || "");
+            formData.append('description', editedProduct.description || "");
+            formData.append('category_id', editedProduct.category_id || "");
+            formData.append('price', editedProduct.price || "");
 
             if (editedProduct.avatar instanceof File) {
-                payload.append('image', editedProduct.avatar);
+                formData.append('avatar', editedProduct.avatar);
             }
 
-            console.log("Payload before ", payload)
+            console.log("FormData contents:");
+            for (let pair of formData.entries()) {
+                console.log(pair[0] + ': ' + pair[1]);
+            }
 
             const updatedProduct = await ProductRequest.updateAProduct(
                 product.id,
-                payload
+                formData
             );
 
-            onUpdate(updatedProduct);
-
-            console.log("Updated product:", updatedProduct);
-
+            onUpdate(updatedProduct.data);
             setEditOpen(false);
             showToaster("Product updated successfully", "success");
         } catch (error) {

@@ -98,28 +98,41 @@ public function store(ProductRequest $request)
             return response()->json(['error' => 'Product not found'], 404);
         }
 
-        // Validate category if provided
-        if ($request->has('category_id')) {
-            $category = Category::find($request->category_id);
+        // Log raw request data
+        Log::info('Raw Request Data:', [
+            'all_data' => $request->all(),
+            'content_type' => $request->header('Content-Type'),
+            'method' => $request->method(),
+            'has_file' => $request->hasFile('avatar')
+        ]);
+
+        // Get data directly from request
+        $data = $request->all();
+        Log::info('Request Data:', $data);
+
+        // Update fields if they exist in the request
+        if (isset($data['name'])) {
+            $product->name = $data['name'];
+        }
+        if (isset($data['description'])) {
+            $product->description = $data['description'];
+        }
+        if (isset($data['price'])) {
+            $product->price = $data['price'];
+        }
+        if (isset($data['category_id'])) {
+            $category = Category::find($data['category_id']);
             if (!$category) {
                 return response()->json(['error' => 'Category not found'], 404);
             }
-            $product->category_id = $request->category_id;
+            $product->category_id = $data['category_id'];
         }
-
-        // Update fields - handle both JSON and form-data
-        $product->name = $request->input('name', $product->name);
-        $product->description = $request->input('description', $product->description);
-        $product->price = $request->input('price', $product->price);
 
         // Handle image update
         if ($request->hasFile('avatar')) {
-            // Get raw filename without URL
-            $oldAvatar = $product->getRawOriginal('avatar');
-
             // Delete old image if exists
-            if ($oldAvatar) {
-                $oldPath = storage_path('app/public/products/' . $oldAvatar);
+            if ($product->avatar) {
+                $oldPath = storage_path('app/public/products/' . $product->avatar);
                 if (file_exists($oldPath)) {
                     unlink($oldPath);
                 }
@@ -132,20 +145,18 @@ public function store(ProductRequest $request)
             $product->avatar = $filename;
         }
 
+        // Log the product data before saving
+        Log::info('Product Data Before Save:', $product->toArray());
+
         $product->save();
 
-        Log::debug('Update Request:', [
-            'method' => $request->method(),
-            'content_type' => $request->header('Content-Type'),
-            'all_data' => $request->all(),
-            'files' => $request->file() ? array_keys($request->file()) : 'none',
-            'avatar_exists' => $request->hasFile('avatar') ? 'yes' : 'no'
-        ]);
+        // Log the product data after saving
+        Log::info('Product Data After Save:', $product->fresh()->toArray());
 
         return response()->json([
             'success' => true,
             'message' => 'Product updated successfully',
-            'product' => $product
+            'product' => $product->fresh()
         ]);
     }
 }

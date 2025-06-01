@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Support\Facades\Log;
 
 class ProductRequest extends FormRequest
 {
@@ -28,29 +29,36 @@ class ProductRequest extends FormRequest
      */
     public function rules(): array
     {
-        $productId = $this->route('id'); // Use this instead of $this->route('id')
+        $productId = $this->route('id');
+
+        // Log the request data for debugging
+        \Log::info('ProductRequest Validation:', [
+            'all_data' => $this->all(),
+            'has_file' => $this->hasFile('avatar'),
+            'content_type' => $this->header('Content-Type'),
+            'method' => $this->method()
+        ]);
 
         return [
-            'name' => 'sometimes|unique:products,name,' . $productId,
-            'description' => 'nullable',
-            'category_id' => 'nullable|numeric|exists:categories,id',
-            'price' => 'nullable|numeric',
-            'avatar' => 'nullable|image|max:2048',
+            'name' => 'sometimes|string|max:255|unique:products,name,' . $productId,
+            'description' => 'sometimes|string|nullable',
+            'category_id' => 'sometimes|exists:categories,id|nullable',
+            'price' => 'sometimes|numeric|nullable',
+            'avatar' => 'sometimes|image|max:2048|nullable',
         ];
     }
 
     public function messages(): array
     {
         return [
-            'name' => 'sometimes|unique:products,name,' . $this->route('id'),
-            'name.unique' => 'The Product name has already been taken.',
-            'description.required' => 'The Product description is required.',
-            'avatar.image' => 'The Product avatar must be an image file.',
-            'avatar.max' => 'The Product avatar may not be greater than 2MB.',
-            'category_id.required' => 'The Product must have a category',
-            'price.required' => 'The Product must have a price',
-            'category_id.numeric' => 'The Category Id must be a numeric value',
-            'price.numeric' => 'The Product Price must be a numeric value',
+            'name.string' => 'The product name must be a string.',
+            'name.unique' => 'This product name has already been taken.',
+            'name.max' => 'The product name cannot exceed 255 characters.',
+            'description.string' => 'The description must be a string.',
+            'category_id.exists' => 'The selected category does not exist.',
+            'price.numeric' => 'The price must be a number.',
+            'avatar.image' => 'The file must be an image.',
+            'avatar.max' => 'The image size cannot exceed 2MB.',
         ];
     }
 }
