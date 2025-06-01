@@ -16,7 +16,8 @@ class ProductRequest extends FormRequest
         return true;
     }
 
-    protected function failedValidation(Validator $validator) {
+    protected function failedValidation(Validator $validator)
+    {
         throw new HttpResponseException(response()->json($validator->errors()->getMessages(), 422));
     }
 
@@ -27,10 +28,12 @@ class ProductRequest extends FormRequest
      */
     public function rules(): array
     {
+        $productId = $this->route('id'); // Use this instead of $this->route('id')
+
         return [
-            'name' => 'nullable|unique:products,name,' . $this->route('id'),
+            'name' => 'sometimes|unique:products,name,' . $productId,
             'description' => 'nullable',
-            'category_id' => 'nullable|numeric',
+            'category_id' => 'nullable|numeric|exists:categories,id',
             'price' => 'nullable|numeric',
             'avatar' => 'nullable|image|max:2048',
         ];
@@ -39,7 +42,7 @@ class ProductRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required' => 'The Product name is required.',
+            'name' => 'sometimes|unique:products,name,' . $this->route('id'),
             'name.unique' => 'The Product name has already been taken.',
             'description.required' => 'The Product description is required.',
             'avatar.image' => 'The Product avatar must be an image file.',

@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -62,16 +64,48 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UserRequest $request, string $id)
+    public function update(Request $request, string $id)
     {
         $user = User::find($id);
-
         if (!$user) {
             return response()->json(['error' => 'User not found'], 404);
         }
 
-        $validated = $request->validated();
+        $rules = [
+            'first_name' => 'nullable|string',
+            'last_name' => 'nullable|string',
+            'email' => 'nullable|string|email|unique:users,email,' . $id,
+            'phone_num' => 'nullable|string|max:20|unique:users,phone_num,' . $id,
+            'password' => 'nullable|string|min:8',
+            'loyalty_points' => 'nullable|integer|min:0',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ];
 
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $validated = $validator->validated();
+
+        // Handle image upload separately
+        if ($request->hasFile('image')) {
+            // Delete old image if it exists
+            if ($user->image && $user->image !== 'https://placehold.co/40x40') {
+                Storage::disk('public')->delete($user->image);
+            }
+            // Store new image
+            $path = $request->file('image')->store('users', 'public');
+            $validated['image'] = $path;
+        } else {
+            // Only remove 'image' key if it exists in validated data
+            if (array_key_exists('image', $validated)) {
+                unset($validated['image']);
+            }
+        }
+
+        // Hash password if provided
         if (isset($validated['password'])) {
             $validated['password'] = Hash::make($validated['password']);
         }
@@ -82,9 +116,8 @@ class UserController extends Controller
             'success' => true,
             'message' => 'User updated successfully.',
             'user' => $user
-        ], 200);
+        ]);
     }
-
     /**
      * Remove the specified resource from storage.
      */
@@ -198,12 +231,12 @@ class UserController extends Controller
     {
         $user = User::findOrFail($userId);
         // Admin check
-//        if (!auth()->user()->is_admin) {
-//            return response()->json([
-//                'success' => false,
-//                'message' => 'Unauthorized - Admin access required'
-//            ], 403);
-//        }
+        //        if (!auth()->user()->is_admin) {
+        //            return response()->json([
+        //                'success' => false,
+        //                'message' => 'Unauthorized - Admin access required'
+        //            ], 403);
+        //        }
 
 
         $request->validate([
@@ -224,13 +257,13 @@ class UserController extends Controller
      */
     public function deductLoyaltyPoints(Request $request, User $user)
     {
-//        // Admin check
-//        if (!auth()->user()->is_admin) {
-//            return response()->json([
-//                'success' => false,
-//                'message' => 'Unauthorized - Admin access required'
-//            ], 403);
-//        }
+        //        // Admin check
+        //        if (!auth()->user()->is_admin) {
+        //            return response()->json([
+        //                'success' => false,
+        //                'message' => 'Unauthorized - Admin access required'
+        //            ], 403);
+        //        }
 
 
         $request->validate([
@@ -252,5 +285,4 @@ class UserController extends Controller
             'user' => $user->fresh()
         ]);
     }
-
 }
