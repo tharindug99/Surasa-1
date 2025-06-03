@@ -26,14 +26,24 @@ ProductRequest.getAProduct = (id) => {
   });
 };
 
+// ProductRequest.updateAProduct = (id, productData) => {
+//   return fetch({
+//     url: `${product}/${id}`,
+//     method: "put",
+//     data: productData,
+//     headers: {
+//       'Accept': 'application/json',
+//     }
+//   });
+// };
+
+// 1. Fix the ProductRequest.updateAProduct function
 ProductRequest.updateAProduct = (id, productData) => {
-  return fetch({
-    url: `${product}/${id}`,
-    method: "put",
+  return fetch(`${product}/${id}`, {
+    method: "post", // Must be POST for FormData
     data: productData,
     headers: {
       'Accept': 'application/json',
-      // Don't set Content-Type header - let the browser set it with the boundary
     }
   });
 };

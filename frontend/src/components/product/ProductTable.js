@@ -34,7 +34,7 @@ function ProductRow(props) {
 
     useEffect(() => {
         setEditedProduct({ ...product });
-    }, [onDelete]);
+    }, [onDelete, onUpdate]);
 
 
     // Toaster state
@@ -70,41 +70,88 @@ function ProductRow(props) {
         }
     };
 
+    //     try {
+    //         const formData = new FormData();
+    //         formData.append('name', editedProduct.name || "");
+    //         formData.append('description', editedProduct.description || "");
+    //         formData.append('category_id', editedProduct.category_id || "");
+    //         formData.append('price', editedProduct.price || "");
 
+    //         if (editedProduct.avatar instanceof File) {
+    //             formData.append('avatar', editedProduct.avatar);
+    //         }
+
+    //         console.log("FormData contents:");
+    //         for (let pair of formData.entries()) {
+    //             console.log(pair[0] + ': ' + pair[1]);
+    //         }
+
+    //         const updatedProduct = await ProductRequest.updateAProduct(
+    //             product.id,
+    //             formData
+    //         );
+
+    //         onUpdate(updatedProduct.data);
+    //         setEditOpen(false);
+    //         showToaster("Product updated successfully", "success");
+    //     } catch (error) {
+    //         console.error("Update error:", error);
+    //         const errorMessage = error.response?.data?.errors
+    //             ? Object.values(error.response.data.errors).flat().join(', ')
+    //             : "Failed to update product";
+    //         showToaster(errorMessage, "error");
+    //     }
+    // };
+    // 2. Fix the handleEditSubmit function
     const handleEditSubmit = async () => {
         try {
             const formData = new FormData();
+            formData.append('_method', 'PUT'); // Laravel method override
             formData.append('name', editedProduct.name || "");
             formData.append('description', editedProduct.description || "");
-            formData.append('category_id', editedProduct.category_id || "");
-            formData.append('price', editedProduct.price || "");
+
+            // Only append if value exists
+            if (editedProduct.category_id) {
+                formData.append('category_id', editedProduct.category_id);
+            }
+
+            // Only append if value exists
+            if (editedProduct.price) {
+                formData.append('price', editedProduct.price);
+            }
 
             if (editedProduct.avatar instanceof File) {
                 formData.append('avatar', editedProduct.avatar);
             }
 
-            console.log("FormData contents:");
-            for (let pair of formData.entries()) {
-                console.log(pair[0] + ': ' + pair[1]);
-            }
-
-            const updatedProduct = await ProductRequest.updateAProduct(
+            const response = await ProductRequest.updateAProduct(
                 product.id,
                 formData
             );
 
-            onUpdate(updatedProduct.data);
-            setEditOpen(false);
-            showToaster("Product updated successfully", "success");
+            // Now response is already parsed JSON
+            console.log("API Response:", response);
+
+            const status = response.data.success
+
+            // Check for success flag in response
+            if (status) {
+                onUpdate(response.product);
+                setEditOpen(false);
+                showToaster("Product updated successfully", "success");
+            } else {
+                throw new Error(response.message || "Update failed");
+                setEditOpen(false);
+            }
         } catch (error) {
             console.error("Update error:", error);
             const errorMessage = error.response?.data?.errors
                 ? Object.values(error.response.data.errors).flat().join(', ')
-                : "Failed to update product";
+                : error.message || "Failed to update product";
             showToaster(errorMessage, "error");
+            setEditOpen(false);
         }
     };
-
 
     const handleFieldChange = (field, value) => {
         setEditedProduct((prev) => ({ ...prev, [field]: value }));
@@ -134,6 +181,7 @@ function ProductRow(props) {
             });
     };
 
+
     return (
         <React.Fragment>
             <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
@@ -150,11 +198,11 @@ function ProductRow(props) {
                     {product.id}
                 </TableCell>
                 <TableCell align="right">{product.name}</TableCell>
-                <TableCell align="right">{product.avatar ? (
+                <TableCell align="center">{product.avatar ? (
                     <img
                         src={product.avatar}
                         alt={product.name}
-                        style={{ width: 50, height: 50, borderRadius: '50%' }}
+                        style={{ width: 70, height: 70, borderRadius: '10%', marginLeft: '55%' }}
                     />
                 ) : (
                     <Typography variant="body2" color="textSecondary">
