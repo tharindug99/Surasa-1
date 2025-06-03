@@ -24,17 +24,29 @@ import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
 import ProductRequest from "services/Requests/Product";
 import DailyMenuItemRequest from "services/Requests/DailyMenuItem";
 import Toaster from "../../components/Toaster/Toaster";
-import { useEffect } from "react";
+import { setCategories as setCategoriesAction } from "redux/actions";
+import CategoryRequest from "services/Requests/Category";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import useLoading from "hooks/useLoading";
 
 function ProductRow(props) {
+    const dispatch = useDispatch();
     const { product, onDelete, onUpdate } = props;
     const [open, setOpen] = React.useState(false);
     const [editOpen, setEditOpen] = React.useState(false);
     const [editedProduct, setEditedProduct] = React.useState({ ...product });
+    const [categories, setCategories] = useState([]);
+    const [loading, withLoading] = useLoading();
 
     useEffect(() => {
         setEditedProduct({ ...product });
+
     }, [onDelete, onUpdate]);
+
+    useEffect(() => {
+        getAllCategories();
+    }, [])
 
 
     // Toaster state
@@ -43,7 +55,17 @@ function ProductRow(props) {
         message: "",
         type: "success",
     });
-
+    const getAllCategories = async () => {
+        try {
+            const response = await withLoading(CategoryRequest.getAllCategories());
+            const categoriesData = response.data;
+            setCategories(categoriesData); // Store categories in local state
+            console.log(categories);
+            dispatch(setCategoriesAction(categoriesData)); // Update Redux store if needed
+        } catch (error) {
+            console.error(error);
+        }
+    };
     const handleCloseToaster = () => {
         setToaster(prev => ({ ...prev, open: false }));
     };
@@ -280,10 +302,11 @@ function ProductRow(props) {
                         value={editedProduct.category_id}
                         onChange={(e) => handleFieldChange("category_id", Number(e.target.value))}
                     >
-                        {/* Single menu item showing the current category */}
-                        <MenuItem value={editedProduct.category_id}>
-                            {product.category?.name || "Unknown Category"}
-                        </MenuItem>
+                        {categories.map((category) => (
+                            <MenuItem key={editedProduct.category_id} value={category.id}>
+                                {category.name}
+                            </MenuItem>
+                        ))}
                     </TextField>
 
                     <input

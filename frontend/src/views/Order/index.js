@@ -61,9 +61,9 @@ const Order = props => {
 
       // Update counts
       setOrderCount(ordersData.length);
-      setRejectedCount(ordersData.filter(order => order.status === 'Rejected').length);
+      setRejectedCount(ordersData.filter(order => order.status === 'Cancelled').length);
       setCompletedCount(ordersData.filter(order => order.status === 'Completed').length);
-      setDeliveredCount(ordersData.filter(order => order.status === 'Delivered').length);
+      setDeliveredCount(ordersData.filter(order => order.status === 'OutforDelivery').length);
 
       console.log("Redux state updated:", {
         orders: ordersWithTotals,

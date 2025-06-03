@@ -90,7 +90,11 @@ function ReviewRow(props) {
           <Typography
             variant="body2"
             sx={{
-              color: review.status === 'approved' ? 'green' : 'orange',
+              color: review.status === 'approved'
+                ? 'green'
+                : review.status === 'rejected'
+                  ? 'red'
+                  : 'orange',
               fontWeight: 'bold'
             }}
           >
