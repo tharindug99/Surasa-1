@@ -70,52 +70,17 @@ function ProductRow(props) {
         }
     };
 
-    //     try {
-    //         const formData = new FormData();
-    //         formData.append('name', editedProduct.name || "");
-    //         formData.append('description', editedProduct.description || "");
-    //         formData.append('category_id', editedProduct.category_id || "");
-    //         formData.append('price', editedProduct.price || "");
-
-    //         if (editedProduct.avatar instanceof File) {
-    //             formData.append('avatar', editedProduct.avatar);
-    //         }
-
-    //         console.log("FormData contents:");
-    //         for (let pair of formData.entries()) {
-    //             console.log(pair[0] + ': ' + pair[1]);
-    //         }
-
-    //         const updatedProduct = await ProductRequest.updateAProduct(
-    //             product.id,
-    //             formData
-    //         );
-
-    //         onUpdate(updatedProduct.data);
-    //         setEditOpen(false);
-    //         showToaster("Product updated successfully", "success");
-    //     } catch (error) {
-    //         console.error("Update error:", error);
-    //         const errorMessage = error.response?.data?.errors
-    //             ? Object.values(error.response.data.errors).flat().join(', ')
-    //             : "Failed to update product";
-    //         showToaster(errorMessage, "error");
-    //     }
-    // };
-    // 2. Fix the handleEditSubmit function
     const handleEditSubmit = async () => {
         try {
             const formData = new FormData();
-            formData.append('_method', 'PUT'); // Laravel method override
+            formData.append('_method', 'PUT');
             formData.append('name', editedProduct.name || "");
             formData.append('description', editedProduct.description || "");
 
-            // Only append if value exists
             if (editedProduct.category_id) {
                 formData.append('category_id', editedProduct.category_id);
             }
 
-            // Only append if value exists
             if (editedProduct.price) {
                 formData.append('price', editedProduct.price);
             }
@@ -129,25 +94,36 @@ function ProductRow(props) {
                 formData
             );
 
-            // Now response is already parsed JSON
             console.log("API Response:", response);
 
-            const status = response.data.success
+            // CORRECTED: Access response.data (the actual API response)
+            const responseData = response.data;
 
-            // Check for success flag in response
-            if (status) {
-                onUpdate(response.product);
+            // CORRECTED: Check the success flag in the actual response data
+            if (responseData.success) {
+                // CORRECTED: Use responseData.product which contains the updated product
+                onUpdate(responseData.product);
                 setEditOpen(false);
-                showToaster("Product updated successfully", "success");
+                showToaster(responseData.message || "Product updated successfully", "success");
             } else {
-                throw new Error(response.message || "Update failed");
-                setEditOpen(false);
+                throw new Error(responseData.message || "Update failed");
             }
         } catch (error) {
             console.error("Update error:", error);
-            const errorMessage = error.response?.data?.errors
-                ? Object.values(error.response.data.errors).flat().join(', ')
-                : error.message || "Failed to update product";
+            let errorMessage = "Failed to update product";
+
+            // CORRECTED: Handle Axios error structure
+            if (error.response && error.response.data) {
+                const errorData = error.response.data;
+                if (errorData.errors) {
+                    errorMessage = Object.values(errorData.errors).flat().join(', ');
+                } else if (errorData.message) {
+                    errorMessage = errorData.message;
+                }
+            } else if (error.message) {
+                errorMessage = error.message;
+            }
+
             showToaster(errorMessage, "error");
             setEditOpen(false);
         }
