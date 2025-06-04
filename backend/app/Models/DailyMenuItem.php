@@ -15,11 +15,16 @@ class DailyMenuItem extends Model
         'name',
         'price',
         'image',
+        'category_id',
         'date'
     ];
 
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+    public function category()
+    {
+        return $this->belongsTo(Category::class); 
     }
 }
