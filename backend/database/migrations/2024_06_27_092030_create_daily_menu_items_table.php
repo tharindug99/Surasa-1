@@ -11,20 +11,28 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('daily_menu_items', function (Blueprint $table) {
-            $table->id(); // id INT AUTO_INCREMENT PRIMARY KEY
-            $table->unsignedBigInteger('product_id'); // product_id INT NOT NULL
+            $table->id();
+            $table->unsignedBigInteger('product_id');
+            $table->unsignedBigInteger('category_id')->nullable(); // Added category_id
             $table->decimal('price', 8, 2);
-            $table->string('name'); // name VARCHAR(255) NOT NULL
-            $table->text('description'); // description TEXT NOT NULL
-            $table->string('image'); // image VARCHAR(255) NOT NULL
-            $table->date('date'); //  DATE NOT NULL
-            $table->timestamps(); // created_at and updated_at timestamps
+            $table->string('name');
+            $table->text('description');
+            $table->string('image');
+            $table->date('date');
+            $table->timestamps();
 
             $table->foreign('product_id')
                 ->references('id')
                 ->on('products')
-                ->onDelete('cascade') // Cascade on delete
-                ->onUpdate('cascade'); // Cascade on update
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+
+            // Foreign key for category_id
+            $table->foreign('category_id')
+                ->references('id')
+                ->on('categories') // Assuming your categories table is named 'categories'
+                ->onDelete('set null') // Or 'cascade'/'restrict' based on your needs
+                ->onUpdate('cascade');
         });
     }
 

@@ -23,6 +23,7 @@ class DailyMenuItemFactory extends Factory
             'product_id' => $product->id,
             'name' => $product->name,
             'price' => $product->price,
+            'category_id' => $product->category_id,
             'description' => $this->faker->paragraph, // Generates a random paragraph for the description
             'image' => 'https://placehold.co/300x200', // Placeholder image URL
             'date' => $this->faker->date() // Generates a random date
