@@ -1,17 +1,17 @@
 import useLoading from 'hooks/useLoading';
-import React from 'react';
-import { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { setCurrentUser } from 'redux/actions';
 import UserRequest from 'services/Requests/User';
+import OrderRequest from 'services/Requests/Order';
 import {
-  Box, Grid, Paper, Typography, Avatar
+  Box, Grid, Paper, Typography, Avatar, Button, TextField
 } from "@mui/material";
 import { styled } from "@mui/system";
-import { CheckCircle } from "@mui/icons-material";
+import { CheckCircle, Edit, Save, Cancel } from "@mui/icons-material";
 
-// Styled components from UserDashboard
+// Styled components
 const SurasaPaper = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(3),
   borderRadius: "16px",
@@ -33,7 +33,11 @@ const UserDetail = props => {
   const { setCurrentUser } = props;
   const [loading, withLoading] = useLoading();
   const { id } = useParams();
-  const [userData, setUserData] = React.useState(null);
+  const [userData, setUserData] = useState(null);
+  const [editMode, setEditMode] = useState(false);
+  const [editedData, setEditedData] = useState({});
+  const [userOrders, setUserOrders] = useState([]);
+
 
   const handleGetUser = async () => {
     try {
@@ -45,8 +49,42 @@ const UserDetail = props => {
     }
   };
 
+  const handleGetOrders = async () => {
+    try {
+      const response = await withLoading(OrderRequest.getAllOrders());
+      const filteredOrders = response?.data?.filter(order => String(order.user_id) === String(id));
+      setUserOrders(filteredOrders || ["No Orders"]);
+      console.log(userOrders);
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+    }
+  };
+
+  const handleEditToggle = () => {
+    setEditMode(!editMode);
+    setEditedData(userData);
+  };
+
+  const handleInputChange = (field, value) => {
+    setEditedData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleSave = async () => {
+    try {
+      const response = await withLoading(UserRequest.updateAUser(id, editedData));
+      setUserData(response);
+      setCurrentUser(response);
+      setEditMode(false);
+      console.log('Edited Data:', editedData, typeof editedData);
+    } catch (error) {
+      console.log('Edited Data:', editedData, typeof editedData);
+      console.error("Error updating user:", error);
+    }
+  };
+
   useEffect(() => {
     handleGetUser();
+    handleGetOrders();
   }, []);
 
   return (
@@ -73,7 +111,7 @@ const UserDetail = props => {
                   }}
                 />
                 <Typography variant="h5" mt={2} fontWeight="bold">
-                  {userData.first_name}
+                  {userData.first_name} {userData.last_name}
                 </Typography>
                 <Typography color="textSecondary" mt={1}>
                   User ID: {userData.id}
@@ -86,12 +124,11 @@ const UserDetail = props => {
               </Box>
             </SurasaPaper>
 
-            {/* Loyalty Points */}
             <SurasaPaper sx={{ mt: 3 }}>
               <Typography variant="h6" gutterBottom fontWeight="bold" color="#7D4A0A">
                 Loyalty Information
               </Typography>
-              <Box display="flex" alignItems="center" justifyContent="space-between">
+              <Box display="flex" justifyContent="space-between">
                 <Typography>Current Points:</Typography>
                 <Typography fontWeight="bold" color="#E6B325">
                   {userData.loyalty_points} pts
@@ -105,29 +142,66 @@ const UserDetail = props => {
             </SurasaPaper>
           </Grid>
 
-          {/* Main Content */}
+          {/* Editable Form Section */}
           <Grid item xs={12} md={8}>
-            {/* Personal Details */}
             <SurasaPaper>
-              <Typography variant="h5" fontWeight="bold" mb={3} color="#7D4A0A">
-                Personal Details
-              </Typography>
+              <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
+                <Typography variant="h5" fontWeight="bold" color="#7D4A0A">
+                  Personal Details
+                </Typography>
+                {editMode ? (
+                  <>
+                    <Button
+                      variant="contained"
+                      color="success"
+                      startIcon={<Save />}
+                      onClick={handleSave}
+                      sx={{ mr: 1 }}
+                    >
+                      Save
+                    </Button>
+                    <Button
+                      variant="outlined"
+                      color="error"
+                      startIcon={<Cancel />}
+                      onClick={() => setEditMode(false)}
+                    >
+                      Cancel
+                    </Button>
+                  </>
+                ) : (
+                  <Button
+                    variant="contained"
+                    startIcon={<Edit />}
+                    onClick={handleEditToggle}
+                  >
+                    Edit
+                  </Button>
+                )}
+              </Box>
 
               <Grid container spacing={2}>
-                <Grid item xs={12} md={6}>
-                  <Typography variant="subtitle1" fontWeight="bold">Name</Typography>
-                  <Typography>{userData.first_name}</Typography>
-                </Grid>
-
-                <Grid item xs={12} md={6}>
-                  <Typography variant="subtitle1" fontWeight="bold">Email Address</Typography>
-                  <Typography>{userData.email}</Typography>
-                </Grid>
-
-                <Grid item xs={12} md={6}>
-                  <Typography variant="subtitle1" fontWeight="bold">Phone Number</Typography>
-                  <Typography>{userData.phone_num}</Typography>
-                </Grid>
+                {[
+                  { label: "First Name", field: "first_name" },
+                  { label: "Last Name", field: "last_name" },
+                  { label: "Email Address", field: "email" },
+                  { label: "Phone Number", field: "phone_num" }
+                ].map(({ label, field }) => (
+                  <Grid item xs={12} md={6} key={field}>
+                    <Typography variant="subtitle1" fontWeight="bold">{label}</Typography>
+                    {editMode ? (
+                      <TextField
+                        fullWidth
+                        variant="outlined"
+                        size="small"
+                        value={editedData[field] || ""}
+                        onChange={(e) => handleInputChange(field, e.target.value)}
+                      />
+                    ) : (
+                      <Typography>{userData[field]}</Typography>
+                    )}
+                  </Grid>
+                ))}
 
                 <Grid item xs={12}>
                   <Typography variant="subtitle1" fontWeight="bold">Account Status</Typography>
@@ -140,7 +214,6 @@ const UserDetail = props => {
               </Grid>
             </SurasaPaper>
 
-            {/* Additional Information */}
             <SurasaPaper sx={{ mt: 3 }}>
               <Typography variant="h5" fontWeight="bold" mb={3} color="#7D4A0A">
                 Account Information
@@ -153,7 +226,6 @@ const UserDetail = props => {
                     {new Date(userData.updated_at).toLocaleString()}
                   </Typography>
                 </Grid>
-
                 <Grid item xs={12} md={6}>
                   <Typography variant="subtitle1" fontWeight="bold">Account Created</Typography>
                   <Typography>
@@ -173,13 +245,7 @@ const UserDetail = props => {
   );
 };
 
-const mapStateToProps = ({ user }) => {
-  const { currentUser } = user;
-  return { currentUser };
-};
-
-const mapDispatchToProps = {
-  setCurrentUser
-};
+const mapStateToProps = ({ user }) => ({ currentUser: user.currentUser });
+const mapDispatchToProps = { setCurrentUser };
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserDetail);
