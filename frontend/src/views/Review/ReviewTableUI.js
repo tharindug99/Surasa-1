@@ -55,7 +55,7 @@ function ReviewRow(props) {
     }
   };
 
-  const handleStatusUpdate = (status) => {
+  const handleStatusUpdate = (id, status) => {
     onStatusChange(review.id, status);
     console.log(review.id, status, " From UI Table ")
     showToaster(`Review ${status} successfully`, "success");
@@ -100,7 +100,7 @@ function ReviewRow(props) {
             variant="contained"
             color="success"
             size="small"
-            onClick={() => handleStatusUpdate("approved")}
+            onClick={() => handleStatusUpdate(review.id, "approved")}
             sx={{ mr: 1 }}
           >
             Approve

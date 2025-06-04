@@ -21,7 +21,9 @@ const Review = (props) => {
   const handleStatusChange = async (reviewId, status) => {
     try {
       await withLoading(ReviewRequest.updateAReview(reviewId, status));
+      console.log(reviewId, status, "from index.js");
       props.updateReview(reviewId, status); // Use updateReview here
+      await getAllReviews();
     } catch (error) {
       console.error('Status update failed:', error);
     }
@@ -38,7 +40,7 @@ const Review = (props) => {
 
   useEffect(() => {
     if (reviews?.length < 1) getAllReviews();
-  }, []); // Empty dependency array to run only once
+  }, []);
 
   return (
     <>
