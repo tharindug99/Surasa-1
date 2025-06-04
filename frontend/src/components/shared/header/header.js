@@ -11,7 +11,7 @@ import { logoutUser } from "../../../redux/actions";
 import UserRequest from "../../../services/Requests/User";
 import "./NavBar.css";
 import PersonIcon from '@mui/icons-material/Person';
-import IconButton from "@mui/material/IconButton";
+
 
 const Header = () => {
     const [showDropdown, setShowDropdown] = useState(false);
@@ -37,8 +37,8 @@ const Header = () => {
             if (success) {
                 localStorage.clear();
                 setUserInfo(null);
-                dispatch(logoutUser()); // if using Redux to manage auth
-                window.location.replace("/login"); // force full page refresh
+                dispatch(logoutUser());
+                window.location.replace("/login");
             } else {
                 console.error("Logout failed:", message);
             }
@@ -57,7 +57,6 @@ const Header = () => {
 
     useEffect(() => {
         const storedUserInfo = localStorage.getItem("first_name");
-
         setUserInfo(storedUserInfo);
     }, [isLoggedIn]);
 
@@ -80,11 +79,24 @@ const Header = () => {
             </Link>
         );
 
+    const handleProfileClick = () => {
+        const userId = localStorage.getItem("userId");
+        if (userId) {
+            navigate(`/user/${userId}/dashboard`);
+        } else {
+            console.error("User ID not found in localStorage");
+            navigate("/login");
+        }
+    };
 
     const UserActions = () =>
         userInfo ? (
             <>
-                <span>Welcome back, {userInfo}</span>
+                {/* <span>Welcome back, {userInfo}</span> */}
+                <PersonIcon
+                    onClick={handleProfileClick}
+                    sx={{ "&:hover": { cursor: "pointer" } }}
+                />
                 <Button
                     disableElevation
                     variant="outlined"
@@ -139,11 +151,10 @@ const Header = () => {
 
     return (
         <div
-            className={`bg-NavBarBG ${
-                isScrolled
-                    ? "fixed top-0 left-0 w-full z-50 bg-white opacity-75"
-                    : "top-0 left-0 w-full"
-            }`}
+            className={`bg-NavBarBG ${isScrolled
+                ? "fixed top-0 left-0 w-full z-50 bg-white opacity-75"
+                : "top-0 left-0 w-full"
+                }`}
         >
             <nav className="flex justify-between items-center w-full h-[60px] px-[12px] md:px-[20px]">
                 <div className="flex">
