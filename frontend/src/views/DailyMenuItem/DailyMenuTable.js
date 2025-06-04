@@ -133,7 +133,7 @@ function DailyMenuItemRow(props) {
                         <img
                             src={dailyMenuItem.image}
                             alt={dailyMenuItem.name}
-                            style={{ width: 50, height: 50, borderRadius: '50%' }}
+                            style={{ width: 70, height: 70, borderRadius: '10%', marginLeft: '55%' }}
                         />
                     ) : (
                         <Typography variant="body2" color="textSecondary">

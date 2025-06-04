@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { setReviews, updateReviewStatus } from "redux/actions";
+import { setReviews, updateReview } from "redux/actions";
 import ReviewRequest from "services/Requests/Review";
 import useLoading from "hooks/useLoading";
 import ReviewsTable from "./ReviewTableUI";
@@ -20,8 +20,8 @@ const Review = (props) => {
 
   const handleStatusChange = async (reviewId, status) => {
     try {
-      await ReviewRequest.updateAReview(reviewId, status);
-      props.updateAReview(reviewId, status);
+      await withLoading(ReviewRequest.updateAReview(reviewId, status));
+      props.updateReview(reviewId, status); // Use updateReview here
     } catch (error) {
       console.error('Status update failed:', error);
     }
@@ -59,8 +59,8 @@ const mapStateToProps = ({ review }) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   setReviews: (reviews) => dispatch(setReviews(reviews)),
-  updateReviewStatus: (reviewId, status) =>
-    dispatch(updateReviewStatus(reviewId, status))
+  updateReview: (reviewId, status) =>
+    dispatch(updateReview(reviewId, status)) // Use updateReview here
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Review);

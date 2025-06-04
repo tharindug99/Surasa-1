@@ -1,131 +1,540 @@
-import React, { useState } from "react";
-import ProfilePic from "../../../assets/vectors/profilePic.png";
+import useLoading from 'hooks/useLoading';
+import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { setCurrentUser } from 'redux/actions';
+import UserRequest from 'services/Requests/User';
+import OrderRequest from 'services/Requests/Order';
+import OrderItemRequest from 'services/Requests/OrderItem';
+import ProductRequest from 'services/Requests/Product';
+import ReviewRequest from 'services/Requests/Review';
+import {
+  Box, Grid, Paper, Typography, Avatar, Button, TextField,
+  Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
+  Collapse, IconButton, Dialog, DialogTitle, DialogContent, DialogActions,
+  Rating, TextareaAutosize
+} from "@mui/material";
+import { styled } from "@mui/system";
+import {
+  CheckCircle, Edit, Save, Cancel,
+  KeyboardArrowDown, KeyboardArrowUp
+} from "@mui/icons-material";
 
-function UserDashboard() {
-  const [profilePic, setProfilePic] = useState(ProfilePic);
-  const [userData, setUserData] = useState({
-    fullName: "John Doe",
-    contactNumber: "123-456-7890",
-    email: "john.doe@example.com",
-    password: "password123",
-    loyaltyPoints: 150,
-  });
+// Styled components
+const SurasaPaper = styled(Paper)(({ theme }) => ({
+  padding: theme.spacing(3),
+  borderRadius: "16px",
+  boxShadow: "0px 8px 24px rgba(149, 157, 165, 0.2)",
+  backgroundColor: "#FFF9F0"
+}));
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setUserData({ ...userData, [name]: value });
-  };
+const StatusBadge = styled(Box)(({ status }) => ({
+  display: "inline-flex",
+  alignItems: "center",
+  padding: "4px 12px",
+  borderRadius: "20px",
+  backgroundColor: "orange",
+  color: "white",
+  fontWeight: 600
+}));
 
-  const handleProfilePicChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setProfilePic(URL.createObjectURL(file));
+const StatusIndicator = styled(Box)(({ status }) => ({
+  display: "inline-block",
+  padding: "4px 10px",
+  borderRadius: "12px",
+  fontSize: "0.75rem",
+  fontWeight: 600,
+  backgroundColor:
+    status === 'completed' ? '#4CAF50' :
+      status === 'pending' ? '#FFC107' :
+        status === 'cancelled' ? '#F44336' : '#9E9E9E',
+  color: "white"
+}));
+
+const NestedTableContainer = styled(Box)(({ theme }) => ({
+  margin: theme.spacing(2, 0),
+  padding: theme.spacing(2),
+  backgroundColor: "#FFF5E6",
+  borderRadius: "8px",
+  boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.1)"
+}));
+
+const UserDetail = props => {
+  const { setCurrentUser } = props;
+  const { id } = useParams();
+  const [loading, withLoading] = useLoading();
+  const [userData, setUserData] = useState(null);
+  const [orders, setOrders] = useState([]);
+  const [editMode, setEditMode] = useState(false);
+  const [editedData, setEditedData] = useState({});
+  const [expandedOrders, setExpandedOrders] = useState({});
+  const [orderItems, setOrderItems] = useState({}); // Store items grouped by order ID
+  const [productsMap, setProductsMap] = useState({});
+  const [reviewModalOpen, setReviewModalOpen] = useState(false);
+  const [currentReviewItem, setCurrentReviewItem] = useState(null);
+  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState('');
+
+  const handleGetUser = async () => {
+    try {
+      const response = await withLoading(UserRequest.getAUser(id));
+      setUserData(response?.data);
+      setCurrentUser(response?.data);
+    } catch (error) {
+      console.error("Error fetching user:", error);
     }
   };
 
+  const handleGetOrders = async () => {
+    try {
+      const response = await withLoading(OrderRequest.getAllOrders());
+      const filteredOrders = response?.data?.filter(order => String(order.user_id) === String(id));
+      setOrders(filteredOrders || []);
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+    }
+  };
+
+  const handleGetProducts = async () => {
+    try {
+      const response = await withLoading(ProductRequest.getAllProducts());
+      const productsData = response?.data || [];
+
+      // Create mapping object {id: name}
+      const productNameMap = {};
+      productsData.forEach(product => {
+        productNameMap[product.id] = product.name;
+      });
+
+      setProductsMap(productNameMap);
+      console.log("Products Map:", productNameMap);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  };
+
+  // CORRECTED: Group order items by order ID
+  const handleGetOrderItems = async () => {
+    try {
+      const response = await withLoading(OrderItemRequest.getAllOrderItems());
+      const userItems = response?.data?.filter(item => String(item.user_id) === String(id));
+
+      // Group items by order_id
+      const groupedItems = {};
+      userItems.forEach(item => {
+        if (!groupedItems[item.order_id]) {
+          groupedItems[item.order_id] = [];
+        }
+        groupedItems[item.order_id].push(item);
+      });
+
+      setOrderItems(groupedItems);
+    } catch (error) {
+      console.error("Error fetching order items:", error);
+      setOrderItems({});
+    }
+  };
+
+  const toggleOrderExpansion = (orderId) => {
+    setExpandedOrders(prev => ({
+      ...prev,
+      [orderId]: !prev[orderId]
+    }));
+  };
+
+  const handleEditToggle = () => {
+    setEditMode(!editMode);
+    setEditedData(userData);
+  };
+
+  const handleInputChange = (field, value) => {
+    setEditedData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleSave = async () => {
+    try {
+      const response = await withLoading(UserRequest.updateAUser(id, editedData));
+      setUserData(response);
+      setCurrentUser(response);
+      setEditMode(false);
+    } catch (error) {
+      console.error("Error updating user:", error);
+    }
+  };
+
+  useEffect(() => {
+    handleGetUser();
+    handleGetOrders();
+    handleGetOrderItems();
+    handleGetProducts();
+  }, []);
+
+  const handleOpenReviewModal = (item) => {
+    setCurrentReviewItem(item);
+    setRating(item.rating || 0);  // Pre-populate if review exists
+    setComment(item.comment || ''); // Pre-populate if review exists
+    setReviewModalOpen(true);
+  };
+
+  const handleCloseReviewModal = () => {
+    setReviewModalOpen(false);
+    setCurrentReviewItem(null);
+    setRating(0);
+    setComment('');
+  };
+
+  const handleSubmitReview = async () => {
+    if (!currentReviewItem) return;
+
+    try {
+      // Create review payload
+      const reviewData = {
+        user_id: id,
+        status: "pending",
+        product_id: currentReviewItem.product_id,
+        no_of_stars: rating,
+        full_name: userData.first_name,
+        comment: comment
+      };
+      console.log('Review before submitted:', reviewData);
+      // Submit review - you'll need to implement this API call
+      await withLoading(ReviewRequest.addAReview(reviewData));
+      console.log('Review submitted:', reviewData);
+      handleCloseReviewModal();
+    } catch (error) {
+      console.error("Error submitting review:", error);
+    }
+  };
+
+  // Format currency
+  const formatCurrency = (amount) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+    }).format(amount);
+  };
+
   return (
-    <div className="flex h-screen">
-      {/* Left Navigation Bar */}
-      <div className="bg-SurasaBrown w-1/6 hidden lg:flex h-screen -z-0">
-        <div className="m-5">
-          <img src={profilePic} alt="Profile Pic" className="rounded-full" />
-          <label className="block mt-5 text-white">
-            Upload Profile Picture:
-            <input
-              type="file"
-              onChange={handleProfilePicChange}
-              className="block w-full mt-1"
-            />
-          </label>
-        </div>
-      </div>
+    <Box sx={{
+      background: "linear-gradient(135deg, #FFF9F0 0%, #FFEEDB 100%)",
+      minHeight: "100vh",
+      py: 4,
+      px: { xs: 2, md: 8 }
+    }}>
+      {loading ? (
+        <Typography variant="h4" textAlign="center">Loading User...</Typography>
+      ) : userData ? (
+        <Grid container spacing={4}>
+          {/* Profile Section */}
+          <Grid item xs={12} md={4}>
+            <SurasaPaper>
+              <Box display="flex" flexDirection="column" alignItems="center">
+                <Typography variant="h5" mt={2} fontWeight="bold">
+                  {userData.first_name}
+                </Typography>
+                <Typography color="textSecondary" mt={1}>
+                  User ID: {userData.id}
+                </Typography>
 
-      {/* Main Content Area */}
-      <div className="bg-SurasaYellow w-full flex flex-col items-center justify-start p-5 gap-5 overflow-y-auto">
-        <div className="bg-white w-full p-5">
-          <h2 className="text-lg font-bold mb-4 text-center text-yellow-800">
-            Personal Details
-          </h2>
-          <label className="block mb-2">
-            Full Name:
-            <input
-              type="text"
-              name="fullName"
-              value={userData.fullName}
-              onChange={handleInputChange}
-              className="block w-full mt-1"
-            />
-          </label>
-          <label className="block mb-2">
-            Contact Number:
-            <input
-              type="text"
-              name="contactNumber"
-              value={userData.contactNumber}
-              onChange={handleInputChange}
-              className="block w-full mt-1"
-            />
-          </label>
-          <label className="block mb-2">
-            Email:
-            <input
-              type="email"
-              name="email"
-              value={userData.email}
-              onChange={handleInputChange}
-              className="block w-full mt-1"
-            />
-          </label>
-          <label className="block mb-2">
-            Password:
-            <input
-              type="password"
-              name="password"
-              value={userData.password}
-              onChange={handleInputChange}
-              className="block w-full mt-1"
-            />
-          </label>
-          <label className="block mb-2">
-            Loyalty Points:
-            <input
-              type="text"
-              name="loyaltyPoints"
-              value={userData.loyaltyPoints}
-              readOnly
-              className="block w-full mt-1 bg-gray-200"
-            />
-          </label>
-        </div>
+                <StatusBadge status="Active" sx={{ mt: 2 }}>
+                  <CheckCircle sx={{ fontSize: 16, mr: 0.5 }} />
+                  Verified Account
+                </StatusBadge>
+              </Box>
+            </SurasaPaper>
 
-        <div className="bg-white w-full p-5">
-          <h2 className="text-lg font-bold mb-4 text-center bg text-yellow-800">
-            Order History
-          </h2>
-          {/* Order History Content */}
-          <ul>
-            <li>Order #1: Product A - $100</li>
-            <li>Order #2: Product B - $200</li>
-            <li>Order #3: Product C - $150</li>
-            {/* Add more orders as needed */}
-          </ul>
-        </div>
+            <SurasaPaper sx={{ mt: 3 }}>
+              <Typography variant="h6" gutterBottom fontWeight="bold" color="#7D4A0A">
+                Loyalty Information
+              </Typography>
+              <Box display="flex" justifyContent="space-between">
+                <Typography>Current Points:</Typography>
+                <Typography fontWeight="bold" color="#E6B325">
+                  {userData.loyalty_points} pts
+                </Typography>
+              </Box>
+              <Box mt={2}>
+                <Typography variant="body2" color="textSecondary">
+                  Member since: {new Date(userData.created_at).toLocaleDateString()}
+                </Typography>
+              </Box>
+            </SurasaPaper>
+          </Grid>
 
-        <div className="bg-white w-full p-5">
-          <h2 className="text-lg font-bold mb-4 text-center text-yellow-800">
-            Add a Review
-          </h2>
-          <label className="block mb-2">
-            Review:
-            <textarea className="block w-full mt-1"></textarea>
-          </label>
-          <button className="bg-blue-500 text-white px-4 py-2 mt-2 rounded">
-            Submit Review
-          </button>
-        </div>
-      </div>
-    </div>
+          {/* Editable Form Section */}
+          <Grid item xs={12} md={8}>
+            <SurasaPaper>
+              <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
+                <Typography variant="h5" fontWeight="bold" color="#7D4A0A">
+                  Personal Details
+                </Typography>
+                {editMode ? (
+                  <>
+                    <Button
+                      variant="contained"
+                      color="success"
+                      startIcon={<Save />}
+                      onClick={handleSave}
+                      sx={{ mr: 1 }}
+                    >
+                      Save
+                    </Button>
+                    <Button
+                      variant="outlined"
+                      color="error"
+                      startIcon={<Cancel />}
+                      onClick={() => setEditMode(false)}
+                    >
+                      Cancel
+                    </Button>
+                  </>
+                ) : (
+                  <Button
+                    variant="contained"
+                    startIcon={<Edit />}
+                    onClick={handleEditToggle}
+                  >
+                    Edit
+                  </Button>
+                )}
+              </Box>
+
+              <Grid container spacing={2}>
+                {[
+                  { label: "First Name", field: "first_name" },
+                  { label: "Last Name", field: "last_name" },
+                  { label: "Email Address", field: "email" },
+                  { label: "Phone Number", field: "phone_num" }
+                ].map(({ label, field }) => (
+                  <Grid item xs={12} md={6} key={field}>
+                    <Typography variant="subtitle1" fontWeight="bold">{label}</Typography>
+                    {editMode ? (
+                      <TextField
+                        fullWidth
+                        variant="outlined"
+                        size="small"
+                        value={editedData[field] || ""}
+                        onChange={(e) => handleInputChange(field, e.target.value)}
+                      />
+                    ) : (
+                      <Typography>{userData[field]}</Typography>
+                    )}
+                  </Grid>
+                ))}
+
+                <Grid item xs={12}>
+                  <Typography variant="subtitle1" fontWeight="bold">Account Status</Typography>
+                  <Typography>
+                    {userData.email_verified_at
+                      ? "Verified (" + new Date(userData.email_verified_at).toLocaleDateString() + ")"
+                      : "Not Verified"}
+                  </Typography>
+                </Grid>
+              </Grid>
+            </SurasaPaper>
+
+            <SurasaPaper sx={{ mt: 3 }}>
+              <Typography variant="h5" fontWeight="bold" mb={3} color="#7D4A0A">
+                Account Information
+              </Typography>
+
+              <Grid container spacing={2}>
+                <Grid item xs={12} md={6}>
+                  <Typography variant="subtitle1" fontWeight="bold">Last Updated</Typography>
+                  <Typography>
+                    {new Date(userData.updated_at).toLocaleString()}
+                  </Typography>
+                </Grid>
+                <Grid item xs={12} md={6}>
+                  <Typography variant="subtitle1" fontWeight="bold">Account Created</Typography>
+                  <Typography>
+                    {new Date(userData.created_at).toLocaleDateString()}
+                  </Typography>
+                </Grid>
+              </Grid>
+            </SurasaPaper>
+
+            {/* Review Modal */}
+            <Dialog open={reviewModalOpen} onClose={handleCloseReviewModal}>
+              <DialogTitle>Review Product</DialogTitle>
+              <DialogContent>
+                {currentReviewItem && (
+                  <>
+                    <Box mb={2}>
+                      <Typography variant="h6" mb={1}>
+                        {productsMap[currentReviewItem.product_id] || `Product ${currentReviewItem.product_id}`}
+                      </Typography>
+                      <Rating
+                        value={rating}
+                        onChange={(event, newValue) => setRating(newValue)}
+                        size="large"
+                      />
+                    </Box>
+
+                    <TextField
+                      label="Your Review"
+                      multiline
+                      fullWidth
+                      rows={4}
+                      variant="outlined"
+                      value={comment}
+                      onChange={(e) => setComment(e.target.value)}
+                      sx={{ mt: 2 }}
+                    />
+                  </>
+                )}
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleCloseReviewModal} color="secondary">
+                  Cancel
+                </Button>
+                <Button
+                  onClick={handleSubmitReview}
+                  variant="contained"
+                  color="primary"
+                  disabled={rating === 0}
+                >
+                  Submit Review
+                </Button>
+              </DialogActions>
+            </Dialog>
+
+            {/* Orders Section */}
+            <SurasaPaper sx={{ mt: 3 }}>
+              <Typography variant="h5" fontWeight="bold" mb={3} color="#7D4A0A">
+                Order History
+              </Typography>
+
+              {orders.length > 0 ? (
+                <TableContainer>
+                  <Table>
+                    <TableHead>
+                      <TableRow sx={{ backgroundColor: '#FFEEDB' }}>
+                        <TableCell width="5%"></TableCell>
+                        <TableCell width="10%"><b>Order ID</b></TableCell>
+                        <TableCell width="20%"><b>Date</b></TableCell>
+                        <TableCell width="15%"><b>Amount</b></TableCell>
+                        <TableCell width="15%"><b>Items</b></TableCell>
+                        <TableCell width="15%"><b>Status</b></TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {orders.map(order => (
+                        <React.Fragment key={order.id}>
+                          <TableRow hover>
+                            <TableCell>
+                              <IconButton
+                                size="small"
+                                onClick={() => toggleOrderExpansion(order.id)}
+                              >
+                                {expandedOrders[order.id] ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
+                              </IconButton>
+                            </TableCell>
+                            <TableCell>#{order.id}</TableCell>
+                            <TableCell>
+                              {new Date(order.created_at).toLocaleDateString()}
+                            </TableCell>
+                            <TableCell>
+                              {formatCurrency(order.total_amount)}
+                            </TableCell>
+                            <TableCell>{order.items_count}</TableCell>
+                            <TableCell>
+                              <StatusIndicator status={order.status.toLowerCase()}>
+                                {order.status}
+                              </StatusIndicator>
+                            </TableCell>
+                          </TableRow>
+
+                          {/* Order Items Nested Table */}
+                          <TableRow>
+                            <TableCell colSpan={6} style={{ padding: 0, borderBottom: 'none' }}>
+                              <Collapse in={expandedOrders[order.id]} timeout="auto" unmountOnExit>
+                                <NestedTableContainer>
+                                  <Typography variant="subtitle1" fontWeight="bold" mb={1}>
+                                    Order Items
+                                  </Typography>
+
+                                  {orderItems[order.id] ? (
+                                    orderItems[order.id].length > 0 ? (
+                                      <TableContainer>
+                                        <Table size="small">
+                                          <TableHead>
+                                            <TableRow>
+                                              <TableCell>Product ID</TableCell>
+                                              <TableCell align="center">Quantity</TableCell>
+                                              <TableCell align="right">Price</TableCell>
+                                              <TableCell align="right">Total</TableCell>
+                                              <TableCell align="center">Review</TableCell>
+                                            </TableRow>
+                                          </TableHead>
+                                          <TableBody>
+                                            {orderItems[order.id].map(item => (
+                                              <TableRow key={item.id}>
+                                                <TableCell>
+                                                  <Box display="flex" alignItems="center">
+                                                    <Box>
+                                                      <Typography fontWeight="500">{productsMap[item.product_id] || `Product ${item.product_id}`}</Typography>
+                                                    </Box>
+                                                  </Box>
+                                                </TableCell>
+                                                <TableCell align="center">{item.quantity}</TableCell>
+                                                <TableCell align="right">{formatCurrency(item.price)}</TableCell>
+                                                <TableCell align="right">
+                                                  {formatCurrency(item.price * item.quantity)}
+                                                </TableCell>
+                                                <TableCell align="center">
+                                                  <Button
+                                                    variant="outlined"
+                                                    size="small"
+                                                    onClick={() => handleOpenReviewModal(item)}
+                                                  >
+                                                    Review
+                                                  </Button>
+                                                </TableCell>
+                                              </TableRow>
+                                            ))}
+                                          </TableBody>
+                                        </Table>
+                                      </TableContainer>
+                                    ) : (
+                                      <Typography variant="body2" textAlign="center" py={2}>
+                                        No items found for this order
+                                      </Typography>
+                                    )
+                                  ) : (
+                                    <Box textAlign="center" py={2}>
+                                      <Typography variant="body2">No items found for this order</Typography>
+                                    </Box>
+                                  )}
+                                </NestedTableContainer>
+                              </Collapse>
+                            </TableCell>
+                          </TableRow>
+                        </React.Fragment>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              ) : (
+                <Box textAlign="center" py={4}>
+                  <Typography variant="body1" color="textSecondary">
+                    No orders found for this user
+                  </Typography>
+                </Box>
+              )}
+            </SurasaPaper>
+          </Grid>
+        </Grid>
+      ) : (
+        <Typography variant="h5" textAlign="center" py={10}>
+          User not found
+        </Typography>
+      )}
+    </Box>
   );
-}
+};
 
-export default UserDashboard;
+const mapStateToProps = ({ user }) => ({ currentUser: user.currentUser });
+const mapDispatchToProps = { setCurrentUser };
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserDetail);

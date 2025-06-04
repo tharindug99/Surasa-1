@@ -24,17 +24,29 @@ import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
 import ProductRequest from "services/Requests/Product";
 import DailyMenuItemRequest from "services/Requests/DailyMenuItem";
 import Toaster from "../../components/Toaster/Toaster";
-import { useEffect } from "react";
+import { setCategories as setCategoriesAction } from "redux/actions";
+import CategoryRequest from "services/Requests/Category";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import useLoading from "hooks/useLoading";
 
 function ProductRow(props) {
+    const dispatch = useDispatch();
     const { product, onDelete, onUpdate } = props;
     const [open, setOpen] = React.useState(false);
     const [editOpen, setEditOpen] = React.useState(false);
     const [editedProduct, setEditedProduct] = React.useState({ ...product });
+    const [categories, setCategories] = useState([]);
+    const [loading, withLoading] = useLoading();
 
     useEffect(() => {
         setEditedProduct({ ...product });
-    }, [onDelete]);
+
+    }, [onDelete, onUpdate]);
+
+    useEffect(() => {
+        getAllCategories();
+    }, [])
 
 
     // Toaster state
@@ -43,7 +55,17 @@ function ProductRow(props) {
         message: "",
         type: "success",
     });
-
+    const getAllCategories = async () => {
+        try {
+            const response = await withLoading(CategoryRequest.getAllCategories());
+            const categoriesData = response.data;
+            setCategories(categoriesData); // Store categories in local state
+            console.log(categories);
+            dispatch(setCategoriesAction(categoriesData)); // Update Redux store if needed
+        } catch (error) {
+            console.error(error);
+        }
+    };
     const handleCloseToaster = () => {
         setToaster(prev => ({ ...prev, open: false }));
     };
@@ -70,41 +92,64 @@ function ProductRow(props) {
         }
     };
 
-
     const handleEditSubmit = async () => {
         try {
             const formData = new FormData();
+            formData.append('_method', 'PUT');
             formData.append('name', editedProduct.name || "");
             formData.append('description', editedProduct.description || "");
-            formData.append('category_id', editedProduct.category_id || "");
-            formData.append('price', editedProduct.price || "");
+
+            if (editedProduct.category_id) {
+                formData.append('category_id', editedProduct.category_id);
+            }
+
+            if (editedProduct.price) {
+                formData.append('price', editedProduct.price);
+            }
 
             if (editedProduct.avatar instanceof File) {
                 formData.append('avatar', editedProduct.avatar);
             }
 
-            console.log("FormData contents:");
-            for (let pair of formData.entries()) {
-                console.log(pair[0] + ': ' + pair[1]);
-            }
-
-            const updatedProduct = await ProductRequest.updateAProduct(
+            const response = await ProductRequest.updateAProduct(
                 product.id,
                 formData
             );
 
-            onUpdate(updatedProduct.data);
-            setEditOpen(false);
-            showToaster("Product updated successfully", "success");
+            console.log("API Response:", response);
+
+            // CORRECTED: Access response.data (the actual API response)
+            const responseData = response.data;
+
+            // CORRECTED: Check the success flag in the actual response data
+            if (responseData.success) {
+                // CORRECTED: Use responseData.product which contains the updated product
+                onUpdate(responseData.product);
+                setEditOpen(false);
+                showToaster(responseData.message || "Product updated successfully", "success");
+            } else {
+                throw new Error(responseData.message || "Update failed");
+            }
         } catch (error) {
             console.error("Update error:", error);
-            const errorMessage = error.response?.data?.errors
-                ? Object.values(error.response.data.errors).flat().join(', ')
-                : "Failed to update product";
+            let errorMessage = "Failed to update product";
+
+            // CORRECTED: Handle Axios error structure
+            if (error.response && error.response.data) {
+                const errorData = error.response.data;
+                if (errorData.errors) {
+                    errorMessage = Object.values(errorData.errors).flat().join(', ');
+                } else if (errorData.message) {
+                    errorMessage = errorData.message;
+                }
+            } else if (error.message) {
+                errorMessage = error.message;
+            }
+
             showToaster(errorMessage, "error");
+            setEditOpen(false);
         }
     };
-
 
     const handleFieldChange = (field, value) => {
         setEditedProduct((prev) => ({ ...prev, [field]: value }));
@@ -134,6 +179,7 @@ function ProductRow(props) {
             });
     };
 
+
     return (
         <React.Fragment>
             <TableRow sx={{ "& > *": { borderBottom: "unset" } }}>
@@ -150,11 +196,11 @@ function ProductRow(props) {
                     {product.id}
                 </TableCell>
                 <TableCell align="right">{product.name}</TableCell>
-                <TableCell align="right">{product.avatar ? (
+                <TableCell align="center">{product.avatar ? (
                     <img
                         src={product.avatar}
                         alt={product.name}
-                        style={{ width: 50, height: 50, borderRadius: '50%' }}
+                        style={{ width: 70, height: 70, borderRadius: '10%', marginLeft: '55%' }}
                     />
                 ) : (
                     <Typography variant="body2" color="textSecondary">
@@ -256,10 +302,11 @@ function ProductRow(props) {
                         value={editedProduct.category_id}
                         onChange={(e) => handleFieldChange("category_id", Number(e.target.value))}
                     >
-                        {/* Single menu item showing the current category */}
-                        <MenuItem value={editedProduct.category_id}>
-                            {product.category?.name || "Unknown Category"}
-                        </MenuItem>
+                        {categories.map((category) => (
+                            <MenuItem key={editedProduct.category_id} value={category.id}>
+                                {category.name}
+                            </MenuItem>
+                        ))}
                     </TextField>
 
                     <input

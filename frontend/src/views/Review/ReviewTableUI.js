@@ -55,16 +55,10 @@ function ReviewRow(props) {
     }
   };
 
-  const handleStatusUpdate = async (status) => {
-    try {
-      await onStatusChange(review.id, status);
-      showToaster(`Review ${status} successfully`, "success");
-    } catch (error) {
-      showToaster(
-        error.response?.data?.error || "Failed to update status",
-        "error"
-      );
-    }
+  const handleStatusUpdate = (status) => {
+    onStatusChange(review.id, status);
+    console.log(review.id, status, " From UI Table ")
+    showToaster(`Review ${status} successfully`, "success");
   };
 
   return (
@@ -90,7 +84,11 @@ function ReviewRow(props) {
           <Typography
             variant="body2"
             sx={{
-              color: review.status === 'approved' ? 'green' : 'orange',
+              color: review.status === 'approved'
+                ? 'green'
+                : review.status === 'rejected'
+                  ? 'red'
+                  : 'orange',
               fontWeight: 'bold'
             }}
           >

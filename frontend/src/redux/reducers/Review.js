@@ -43,13 +43,13 @@ const Review = (state = initState, action) => {
         currentReview: state.currentReview?.id === action.payload.id ? null : state.currentReview,
       };
 
-    case UPDATE_REVIEW_STATUS:
-      return {
-        ...state,
-        reviews: state.reviews.map(review =>
-          review.id === action.payload.id ? action.payload : review
-        )
-      };
+    // case UPDATE_REVIEW_STATUS:
+    //   return {
+    //     ...state,
+    //     reviews: state.reviews.map(review =>
+    //       review.id === action.payload.id ? action.payload : review
+    //     )
+    //   };
 
     default:
       return state;
