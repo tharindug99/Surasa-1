@@ -20,8 +20,8 @@ const Review = (props) => {
 
   const handleStatusChange = async (reviewId, status) => {
     try {
-      await ReviewRequest.updateAReview(reviewId, status);
-      props.updateAReview(reviewId, status);
+      const response = await withLoading(ReviewRequest.updateAReview(reviewId, status));
+      console.log(response);
     } catch (error) {
       console.error('Status update failed:', error);
     }

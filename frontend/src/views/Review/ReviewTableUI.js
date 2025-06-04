@@ -57,7 +57,8 @@ function ReviewRow(props) {
 
   const handleStatusUpdate = async (status) => {
     try {
-      await onStatusChange(review.id, status);
+      await ReviewRequest.updateAReview(review.id, status);
+      console.log(review.id, status);
       showToaster(`Review ${status} successfully`, "success");
     } catch (error) {
       showToaster(

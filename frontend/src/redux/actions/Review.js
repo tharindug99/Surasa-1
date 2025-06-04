@@ -38,7 +38,7 @@ export const removeReview = (payload) => {
 
 export const updateReviewStatus = (reviewId, status) => async (dispatch) => {
   try {
-    const response = await ReviewRequest.updateReviewStatus(reviewId, { status });
+    const response = await ReviewRequest.updateAReview(reviewId, { status });
 
     dispatch({
       type: UPDATE_REVIEW_STATUS,

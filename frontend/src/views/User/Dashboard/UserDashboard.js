@@ -189,11 +189,14 @@ const UserDetail = props => {
     try {
       // Create review payload
       const reviewData = {
-        order_item_id: currentReviewItem.id,
-        rating: rating,
+        user_id: id,
+        status: "pending",
+        product_id: currentReviewItem.product_id,
+        no_of_stars: rating,
+        full_name: userData.first_name,
         comment: comment
       };
-
+      console.log('Review before submitted:', reviewData);
       // Submit review - you'll need to implement this API call
       await withLoading(ReviewRequest.addAReview(reviewData));
       console.log('Review submitted:', reviewData);
@@ -227,7 +230,7 @@ const UserDetail = props => {
             <SurasaPaper>
               <Box display="flex" flexDirection="column" alignItems="center">
                 <Typography variant="h5" mt={2} fontWeight="bold">
-                  {userData.first_name} {userData.last_name}
+                  {userData.first_name}
                 </Typography>
                 <Typography color="textSecondary" mt={1}>
                   User ID: {userData.id}
