@@ -5,11 +5,20 @@ import { useParams } from 'react-router-dom';
 import { setCurrentUser } from 'redux/actions';
 import UserRequest from 'services/Requests/User';
 import OrderRequest from 'services/Requests/Order';
+import OrderItemRequest from 'services/Requests/OrderItem';
+import ProductRequest from 'services/Requests/Product';
+import ReviewRequest from 'services/Requests/Review';
 import {
-  Box, Grid, Paper, Typography, Avatar, Button, TextField
+  Box, Grid, Paper, Typography, Avatar, Button, TextField,
+  Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
+  Collapse, IconButton, Dialog, DialogTitle, DialogContent, DialogActions,
+  Rating, TextareaAutosize
 } from "@mui/material";
 import { styled } from "@mui/system";
-import { CheckCircle, Edit, Save, Cancel } from "@mui/icons-material";
+import {
+  CheckCircle, Edit, Save, Cancel,
+  KeyboardArrowDown, KeyboardArrowUp
+} from "@mui/icons-material";
 
 // Styled components
 const SurasaPaper = styled(Paper)(({ theme }) => ({
@@ -29,15 +38,42 @@ const StatusBadge = styled(Box)(({ status }) => ({
   fontWeight: 600
 }));
 
+const StatusIndicator = styled(Box)(({ status }) => ({
+  display: "inline-block",
+  padding: "4px 10px",
+  borderRadius: "12px",
+  fontSize: "0.75rem",
+  fontWeight: 600,
+  backgroundColor:
+    status === 'completed' ? '#4CAF50' :
+      status === 'pending' ? '#FFC107' :
+        status === 'cancelled' ? '#F44336' : '#9E9E9E',
+  color: "white"
+}));
+
+const NestedTableContainer = styled(Box)(({ theme }) => ({
+  margin: theme.spacing(2, 0),
+  padding: theme.spacing(2),
+  backgroundColor: "#FFF5E6",
+  borderRadius: "8px",
+  boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.1)"
+}));
+
 const UserDetail = props => {
   const { setCurrentUser } = props;
-  const [loading, withLoading] = useLoading();
   const { id } = useParams();
+  const [loading, withLoading] = useLoading();
   const [userData, setUserData] = useState(null);
+  const [orders, setOrders] = useState([]);
   const [editMode, setEditMode] = useState(false);
   const [editedData, setEditedData] = useState({});
-  const [userOrders, setUserOrders] = useState([]);
-
+  const [expandedOrders, setExpandedOrders] = useState({});
+  const [orderItems, setOrderItems] = useState({}); // Store items grouped by order ID
+  const [productsMap, setProductsMap] = useState({});
+  const [reviewModalOpen, setReviewModalOpen] = useState(false);
+  const [currentReviewItem, setCurrentReviewItem] = useState(null);
+  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState('');
 
   const handleGetUser = async () => {
     try {
@@ -53,11 +89,57 @@ const UserDetail = props => {
     try {
       const response = await withLoading(OrderRequest.getAllOrders());
       const filteredOrders = response?.data?.filter(order => String(order.user_id) === String(id));
-      setUserOrders(filteredOrders || ["No Orders"]);
-      console.log(userOrders);
+      setOrders(filteredOrders || []);
     } catch (error) {
       console.error("Error fetching orders:", error);
     }
+  };
+
+  const handleGetProducts = async () => {
+    try {
+      const response = await withLoading(ProductRequest.getAllProducts());
+      const productsData = response?.data || [];
+
+      // Create mapping object {id: name}
+      const productNameMap = {};
+      productsData.forEach(product => {
+        productNameMap[product.id] = product.name;
+      });
+
+      setProductsMap(productNameMap);
+      console.log("Products Map:", productNameMap);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  };
+
+  // CORRECTED: Group order items by order ID
+  const handleGetOrderItems = async () => {
+    try {
+      const response = await withLoading(OrderItemRequest.getAllOrderItems());
+      const userItems = response?.data?.filter(item => String(item.user_id) === String(id));
+
+      // Group items by order_id
+      const groupedItems = {};
+      userItems.forEach(item => {
+        if (!groupedItems[item.order_id]) {
+          groupedItems[item.order_id] = [];
+        }
+        groupedItems[item.order_id].push(item);
+      });
+
+      setOrderItems(groupedItems);
+    } catch (error) {
+      console.error("Error fetching order items:", error);
+      setOrderItems({});
+    }
+  };
+
+  const toggleOrderExpansion = (orderId) => {
+    setExpandedOrders(prev => ({
+      ...prev,
+      [orderId]: !prev[orderId]
+    }));
   };
 
   const handleEditToggle = () => {
@@ -75,9 +157,7 @@ const UserDetail = props => {
       setUserData(response);
       setCurrentUser(response);
       setEditMode(false);
-      console.log('Edited Data:', editedData, typeof editedData);
     } catch (error) {
-      console.log('Edited Data:', editedData, typeof editedData);
       console.error("Error updating user:", error);
     }
   };
@@ -85,7 +165,51 @@ const UserDetail = props => {
   useEffect(() => {
     handleGetUser();
     handleGetOrders();
+    handleGetOrderItems();
+    handleGetProducts();
   }, []);
+
+  const handleOpenReviewModal = (item) => {
+    setCurrentReviewItem(item);
+    setRating(item.rating || 0);  // Pre-populate if review exists
+    setComment(item.comment || ''); // Pre-populate if review exists
+    setReviewModalOpen(true);
+  };
+
+  const handleCloseReviewModal = () => {
+    setReviewModalOpen(false);
+    setCurrentReviewItem(null);
+    setRating(0);
+    setComment('');
+  };
+
+  const handleSubmitReview = async () => {
+    if (!currentReviewItem) return;
+
+    try {
+      // Create review payload
+      const reviewData = {
+        order_item_id: currentReviewItem.id,
+        rating: rating,
+        comment: comment
+      };
+
+      // Submit review - you'll need to implement this API call
+      await withLoading(ReviewRequest.addAReview(reviewData));
+      console.log('Review submitted:', reviewData);
+      handleCloseReviewModal();
+    } catch (error) {
+      console.error("Error submitting review:", error);
+    }
+  };
+
+  // Format currency
+  const formatCurrency = (amount) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+    }).format(amount);
+  };
 
   return (
     <Box sx={{
@@ -102,14 +226,6 @@ const UserDetail = props => {
           <Grid item xs={12} md={4}>
             <SurasaPaper>
               <Box display="flex" flexDirection="column" alignItems="center">
-                <Avatar
-                  src={userData.image || "https://placehold.co/120x120"}
-                  sx={{
-                    width: 120,
-                    height: 120,
-                    border: "3px solid #E6B325",
-                  }}
-                />
                 <Typography variant="h5" mt={2} fontWeight="bold">
                   {userData.first_name} {userData.last_name}
                 </Typography>
@@ -233,6 +349,176 @@ const UserDetail = props => {
                   </Typography>
                 </Grid>
               </Grid>
+            </SurasaPaper>
+
+            {/* Review Modal */}
+            <Dialog open={reviewModalOpen} onClose={handleCloseReviewModal}>
+              <DialogTitle>Review Product</DialogTitle>
+              <DialogContent>
+                {currentReviewItem && (
+                  <>
+                    <Box mb={2}>
+                      <Typography variant="h6" mb={1}>
+                        {productsMap[currentReviewItem.product_id] || `Product ${currentReviewItem.product_id}`}
+                      </Typography>
+                      <Rating
+                        value={rating}
+                        onChange={(event, newValue) => setRating(newValue)}
+                        size="large"
+                      />
+                    </Box>
+
+                    <TextField
+                      label="Your Review"
+                      multiline
+                      fullWidth
+                      rows={4}
+                      variant="outlined"
+                      value={comment}
+                      onChange={(e) => setComment(e.target.value)}
+                      sx={{ mt: 2 }}
+                    />
+                  </>
+                )}
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleCloseReviewModal} color="secondary">
+                  Cancel
+                </Button>
+                <Button
+                  onClick={handleSubmitReview}
+                  variant="contained"
+                  color="primary"
+                  disabled={rating === 0}
+                >
+                  Submit Review
+                </Button>
+              </DialogActions>
+            </Dialog>
+
+            {/* Orders Section */}
+            <SurasaPaper sx={{ mt: 3 }}>
+              <Typography variant="h5" fontWeight="bold" mb={3} color="#7D4A0A">
+                Order History
+              </Typography>
+
+              {orders.length > 0 ? (
+                <TableContainer>
+                  <Table>
+                    <TableHead>
+                      <TableRow sx={{ backgroundColor: '#FFEEDB' }}>
+                        <TableCell width="5%"></TableCell>
+                        <TableCell width="10%"><b>Order ID</b></TableCell>
+                        <TableCell width="20%"><b>Date</b></TableCell>
+                        <TableCell width="15%"><b>Amount</b></TableCell>
+                        <TableCell width="15%"><b>Items</b></TableCell>
+                        <TableCell width="15%"><b>Status</b></TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {orders.map(order => (
+                        <React.Fragment key={order.id}>
+                          <TableRow hover>
+                            <TableCell>
+                              <IconButton
+                                size="small"
+                                onClick={() => toggleOrderExpansion(order.id)}
+                              >
+                                {expandedOrders[order.id] ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
+                              </IconButton>
+                            </TableCell>
+                            <TableCell>#{order.id}</TableCell>
+                            <TableCell>
+                              {new Date(order.created_at).toLocaleDateString()}
+                            </TableCell>
+                            <TableCell>
+                              {formatCurrency(order.total_amount)}
+                            </TableCell>
+                            <TableCell>{order.items_count}</TableCell>
+                            <TableCell>
+                              <StatusIndicator status={order.status.toLowerCase()}>
+                                {order.status}
+                              </StatusIndicator>
+                            </TableCell>
+                          </TableRow>
+
+                          {/* Order Items Nested Table */}
+                          <TableRow>
+                            <TableCell colSpan={6} style={{ padding: 0, borderBottom: 'none' }}>
+                              <Collapse in={expandedOrders[order.id]} timeout="auto" unmountOnExit>
+                                <NestedTableContainer>
+                                  <Typography variant="subtitle1" fontWeight="bold" mb={1}>
+                                    Order Items
+                                  </Typography>
+
+                                  {orderItems[order.id] ? (
+                                    orderItems[order.id].length > 0 ? (
+                                      <TableContainer>
+                                        <Table size="small">
+                                          <TableHead>
+                                            <TableRow>
+                                              <TableCell>Product ID</TableCell>
+                                              <TableCell align="center">Quantity</TableCell>
+                                              <TableCell align="right">Price</TableCell>
+                                              <TableCell align="right">Total</TableCell>
+                                              <TableCell align="center">Review</TableCell>
+                                            </TableRow>
+                                          </TableHead>
+                                          <TableBody>
+                                            {orderItems[order.id].map(item => (
+                                              <TableRow key={item.id}>
+                                                <TableCell>
+                                                  <Box display="flex" alignItems="center">
+                                                    <Box>
+                                                      <Typography fontWeight="500">{productsMap[item.product_id] || `Product ${item.product_id}`}</Typography>
+                                                    </Box>
+                                                  </Box>
+                                                </TableCell>
+                                                <TableCell align="center">{item.quantity}</TableCell>
+                                                <TableCell align="right">{formatCurrency(item.price)}</TableCell>
+                                                <TableCell align="right">
+                                                  {formatCurrency(item.price * item.quantity)}
+                                                </TableCell>
+                                                <TableCell align="center">
+                                                  <Button
+                                                    variant="outlined"
+                                                    size="small"
+                                                    onClick={() => handleOpenReviewModal(item)}
+                                                  >
+                                                    Review
+                                                  </Button>
+                                                </TableCell>
+                                              </TableRow>
+                                            ))}
+                                          </TableBody>
+                                        </Table>
+                                      </TableContainer>
+                                    ) : (
+                                      <Typography variant="body2" textAlign="center" py={2}>
+                                        No items found for this order
+                                      </Typography>
+                                    )
+                                  ) : (
+                                    <Box textAlign="center" py={2}>
+                                      <Typography variant="body2">No items found for this order</Typography>
+                                    </Box>
+                                  )}
+                                </NestedTableContainer>
+                              </Collapse>
+                            </TableCell>
+                          </TableRow>
+                        </React.Fragment>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              ) : (
+                <Box textAlign="center" py={4}>
+                  <Typography variant="body1" color="textSecondary">
+                    No orders found for this user
+                  </Typography>
+                </Box>
+              )}
             </SurasaPaper>
           </Grid>
         </Grid>
