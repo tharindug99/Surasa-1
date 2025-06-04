@@ -28,28 +28,18 @@ const Review = (props) => {
   // };
   const handleStatusChange = async (reviewId, status) => {
     try {
-      // Correctly send an object as the payload
       const response = await withLoading(
         ReviewRequest.updateAReview(reviewId, { status })
-      ); // Pass { status }
+      );
 
-      // Assuming the API returns the updated review object in response.data or response.data.reviews
-      // Based on your Postman, it's response.data.reviews
-      if (response && response.data && response.data.reviews) {
-        props.updateReview(response.data.reviews); // Pass the full updated review object to Redux
-      } else if (response && response.data) {
-        // Or if it's directly in response.data
-        props.updateReview(response.data);
+      if (response && response.data && response.data.review) {
+        props.updateReview(response.data.review);
       } else {
-        console.error(
-          "Status update API call did not return the expected data."
-        );
-        // You might want to refetch all reviews here as a fallback
-        // await getAllReviews();
+        console.error("Status update API call did not return the expected data.");
+        await getAllReviews(); // Refetch all reviews as a fallback
       }
     } catch (error) {
       console.error("Status update failed:", error);
-      // Optionally show a toaster message for the error
     }
   };
 
