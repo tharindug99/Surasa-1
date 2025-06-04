@@ -17,9 +17,9 @@ return new class extends Migration
             $table->unsignedBigInteger('product_id'); // product_id INT NOT NULL
             $table->string('review_image')->nullable(); // review_image VARCHAR(255) NULL
             $table->integer('no_of_stars'); // no_of_stars INT NOT NULL
-            $table->string('full_name'); // full_name VARCHAR(255) NOT NULL
+            $table->string('full_name')->nullable(); // full_name VARCHAR(255) NULL
             $table->string('status')->default('pending');
-            $table->text('comment'); // comment TEXT NOT NULL
+            $table->text('comment')->nullable(); // comment TEXT NULL
             $table->timestamps(); // created_at and updated_at timestamps
 
             $table->foreign('user_id')

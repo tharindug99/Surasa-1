@@ -74,6 +74,7 @@ const UserDetail = props => {
   const [currentReviewItem, setCurrentReviewItem] = useState(null);
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
+  const [reviewImage, setReviewImage] = useState(null);
 
   const handleGetUser = async () => {
     try {
@@ -181,25 +182,34 @@ const UserDetail = props => {
     setCurrentReviewItem(null);
     setRating(0);
     setComment('');
+    setReviewImage(null);
   };
 
   const handleSubmitReview = async () => {
     if (!currentReviewItem) return;
 
     try {
-      // Create review payload
-      const reviewData = {
-        user_id: id,
-        status: "pending",
-        product_id: currentReviewItem.product_id,
-        no_of_stars: rating,
-        full_name: userData.first_name,
-        comment: comment
-      };
-      console.log('Review before submitted:', reviewData);
-      // Submit review - you'll need to implement this API call
-      await withLoading(ReviewRequest.addAReview(reviewData));
-      console.log('Review submitted:', reviewData);
+      // Create FormData object
+      const formData = new FormData();
+      
+      // Append all review data to FormData
+      formData.append('user_id', id);
+      formData.append('status', 'pending');
+      formData.append('product_id', currentReviewItem.product_id);
+      formData.append('no_of_stars', rating);
+      formData.append('full_name', userData.first_name);
+      formData.append('comment', comment);
+      
+      // If there's an image file, append it
+      if (reviewImage) {
+        formData.append('review_image', reviewImage);
+      }
+
+      console.log('Review before submitted:', Object.fromEntries(formData));
+      
+      // Submit review with FormData
+      await withLoading(ReviewRequest.addAReview(formData));
+      console.log('Review submitted successfully');
       handleCloseReviewModal();
     } catch (error) {
       console.error("Error submitting review:", error);
@@ -358,31 +368,39 @@ const UserDetail = props => {
             <Dialog open={reviewModalOpen} onClose={handleCloseReviewModal}>
               <DialogTitle>Review Product</DialogTitle>
               <DialogContent>
-                {currentReviewItem && (
-                  <>
-                    <Box mb={2}>
-                      <Typography variant="h6" mb={1}>
-                        {productsMap[currentReviewItem.product_id] || `Product ${currentReviewItem.product_id}`}
-                      </Typography>
-                      <Rating
-                        value={rating}
-                        onChange={(event, newValue) => setRating(newValue)}
-                        size="large"
-                      />
-                    </Box>
-
-                    <TextField
-                      label="Your Review"
-                      multiline
-                      fullWidth
-                      rows={4}
-                      variant="outlined"
-                      value={comment}
-                      onChange={(e) => setComment(e.target.value)}
-                      sx={{ mt: 2 }}
-                    />
-                  </>
-                )}
+                <Box sx={{ mb: 2 }}>
+                  <Typography variant="h6" gutterBottom>
+                    Rate your experience
+                  </Typography>
+                  <Rating
+                    value={rating}
+                    onChange={(event, newValue) => setRating(newValue)}
+                    precision={1}
+                  />
+                </Box>
+                <Box sx={{ mb: 2 }}>
+                  <Typography variant="h6" gutterBottom>
+                    Add a photo (optional)
+                  </Typography>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => setReviewImage(e.target.files[0])}
+                    style={{ marginBottom: '1rem' }}
+                  />
+                </Box>
+                <Box sx={{ mb: 2 }}>
+                  <Typography variant="h6" gutterBottom>
+                    Write your review
+                  </Typography>
+                  <TextareaAutosize
+                    minRows={4}
+                    placeholder="Share your experience..."
+                    value={comment}
+                    onChange={(e) => setComment(e.target.value)}
+                    style={{ width: '100%', padding: '8px' }}
+                  />
+                </Box>
               </DialogContent>
               <DialogActions>
                 <Button onClick={handleCloseReviewModal} color="secondary">

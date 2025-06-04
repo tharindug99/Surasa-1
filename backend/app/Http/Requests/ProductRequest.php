@@ -32,7 +32,7 @@ class ProductRequest extends FormRequest
         $productId = $this->route('id');
 
         // Log the request data for debugging
-        \Log::info('ProductRequest Validation:', [
+        Log::info('ProductRequest Validation:', [
             'all_data' => $this->all(),
             'has_file' => $this->hasFile('avatar'),
             'content_type' => $this->header('Content-Type'),
