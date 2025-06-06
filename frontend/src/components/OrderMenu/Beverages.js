@@ -26,7 +26,7 @@ function Beverage() {
     getAllDailyMenuItems();
   }, []);
 
-  const BeverageItems = categoryOneItems;
+  const BeverageItems = categoryOneItems.filter(item => item.category_id === 2);
 
   return (
     <div className="container mx-auto px-4 py-8">

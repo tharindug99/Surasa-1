@@ -24,7 +24,7 @@ function Food() {
     getAllDailyMenuItems();
   }, []);
 
-  const foodItems = categoryOneItems;
+  const foodItems = categoryOneItems.filter(item => item.category_id === 1);
 
   return (
     <div className="container mx-auto px-4 py-8">
