@@ -60,7 +60,6 @@ function ProductRow(props) {
             const response = await withLoading(CategoryRequest.getAllCategories());
             const categoriesData = response.data;
             setCategories(categoriesData); // Store categories in local state
-            console.log(categories);
             dispatch(setCategoriesAction(categoriesData)); // Update Redux store if needed
         } catch (error) {
             console.error(error);

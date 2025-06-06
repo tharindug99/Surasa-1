@@ -110,10 +110,10 @@ function FoodOrder() {
 
       // Create order
       const orderResponse = await OrderRequest.addAnOrder(orderPayload);
-      console.log("Order creation response:", orderResponse);
+      console.log("Order creation response:", orderResponse.data.order);
 
       // Extract the created order from the response
-      const createdOrder = orderResponse.data.dailyMenuItem;
+      const createdOrder = orderResponse.data.order;
 
       if (!createdOrder || !createdOrder.id) {
         console.error("Invalid order response structure:", orderResponse.data);
