@@ -18,14 +18,28 @@ const Review = (props) => {
     }
   };
 
+  // const handleStatusChange = async (reviewId, status) => {
+  //   try {
+  //     await withLoading(ReviewRequest.updateAReview(reviewId, status));
+  //     props.updateReview(reviewId, status); // Use updateReview here
+  //   } catch (error) {
+  //     console.error('Status update failed:', error);
+  //   }
+  // };
   const handleStatusChange = async (reviewId, status) => {
     try {
-      await withLoading(ReviewRequest.updateAReview(reviewId, status));
-      console.log(reviewId, status, "from index.js");
-      props.updateReview(reviewId, status); // Use updateReview here
-      await getAllReviews();
+      const response = await withLoading(
+        ReviewRequest.updateAReview(reviewId, { status })
+      );
+
+      if (response && response.data && response.data.review) {
+        props.updateReview(response.data.review);
+      } else {
+        console.error("Status update API call did not return the expected data.");
+        await getAllReviews(); // Refetch all reviews as a fallback
+      }
     } catch (error) {
-      console.error('Status update failed:', error);
+      console.error("Status update failed:", error);
     }
   };
 
@@ -34,7 +48,7 @@ const Review = (props) => {
       await ReviewRequest.deleteAReview(reviewId);
       await getAllReviews();
     } catch (error) {
-      console.error('Delete failed:', error);
+      console.error("Delete failed:", error);
     }
   };
 
@@ -44,7 +58,9 @@ const Review = (props) => {
 
   return (
     <>
-      {loading ? "Loading Reviews" : (
+      {loading ? (
+        "Loading Reviews"
+      ) : (
         <ReviewsTable
           rows={reviews}
           onStatusChange={handleStatusChange}
@@ -56,13 +72,14 @@ const Review = (props) => {
 };
 
 const mapStateToProps = ({ review }) => ({
-  reviews: review.reviews || []
+  reviews: review.reviews || [],
 });
+
 
 const mapDispatchToProps = (dispatch) => ({
   setReviews: (reviews) => dispatch(setReviews(reviews)),
-  updateReview: (reviewId, status) =>
-    dispatch(updateReview(reviewId, status)) // Use updateReview here
+  updateReview: (updatedReviewObject) => 
+    dispatch(updateReview(updatedReviewObject)) 
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Review);

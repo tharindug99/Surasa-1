@@ -55,10 +55,16 @@ function ReviewRow(props) {
     }
   };
 
-  const handleStatusUpdate = (id, status) => {
-    onStatusChange(review.id, status);
-    console.log(review.id, status, " From UI Table ")
-    showToaster(`Review ${status} successfully`, "success");
+  const handleStatusUpdate = async (status) => {
+    try {
+      await onStatusChange(review.id, status);
+      showToaster(`Review ${status} successfully`, "success");
+    } catch (error) {
+      showToaster(
+        error.response?.data?.message || "Failed to update review status",
+        "error"
+      );
+    }
   };
 
   return (

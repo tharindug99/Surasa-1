@@ -9,6 +9,9 @@ const ReviewRequest = {
       url: review,
       method: "post",
       data: data,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
     });
   },
 

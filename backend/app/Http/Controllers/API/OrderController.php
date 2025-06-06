@@ -35,7 +35,8 @@ class OrderController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Order created successfully.',
-            'dailyMenuItem' => $orders
+            //'dailyMenuItem' => $orders
+            'order' => $orders
         ], 201);
     }
 

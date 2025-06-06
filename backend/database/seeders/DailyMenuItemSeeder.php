@@ -17,10 +17,13 @@ class DailyMenuItemSeeder extends Seeder
         $products = Product::all();
         $products->each(function($product) {
             DailyMenuItem::factory()->count(3)->create([
-                'product_id' => $product->id
+                'product_id' => $product->id,
+                'category_id' => $product->category_id,
+                
             ])->each(function($dailyMenuItem) use ($product) {
                 $dailyMenuItem->name = $product->name;
                 $dailyMenuItem->price = $product->price;
+                
                 $dailyMenuItem->save();
                 $dailyMenuItem->product()->associate($product);
         });
