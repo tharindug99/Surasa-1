@@ -78,7 +78,7 @@ class UserController extends Controller
             'phone_num' => 'nullable|string|max:20|unique:users,phone_num,' . $id,
             'password' => 'nullable|string|min:8',
             'loyalty_points' => 'nullable|integer|min:0',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            //'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
 
         $validator = Validator::make($request->all(), $rules);
