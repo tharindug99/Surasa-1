@@ -55,28 +55,28 @@ class ProductController extends Controller
     //     ], 201);
     // }
 
-public function store(ProductRequest $request)
-{
-    $category = Category::find($request->category_id);
-    if (!$category) {
-        return response()->json(['error' => 'Category not found'], 404);
-    }
+    public function store(ProductRequest $request)
+    {
+        $category = Category::find($request->category_id);
+        if (!$category) {
+            return response()->json(['error' => 'Category not found'], 404);
+        }
 
-    $product = new Product();
-    $product->name = $request->name;
-    $product->description = $request->description;
-    $product->category_id = $category->id;
-    $product->price = $request->price;
+        $product = new Product();
+        $product->name = $request->name;
+        $product->description = $request->description;
+        $product->category_id = $category->id;
+        $product->price = $request->price;
 
-    if ($request->hasFile('avatar')) {
-        $avatar = $request->file('avatar');
-        $filename = time() . '.' . $avatar->getClientOriginalExtension();
-        $avatar->storeAs('public/products', $filename);
-        // Store ONLY FILENAME (not full URL)
-        $product->avatar = $filename;
-    }
+        if ($request->hasFile('avatar')) {
+            $avatar = $request->file('avatar');
+            $filename = time() . '.' . $avatar->getClientOriginalExtension();
+            $avatar->storeAs('public/products', $filename);
+            // Store ONLY FILENAME (not full URL)
+            $product->avatar = $filename;
+        }
 
-    $product->save();
+        $product->save();
 
         return response()->json([
             'success' => true,
@@ -87,11 +87,11 @@ public function store(ProductRequest $request)
             ]
         ], 201);
     }
-    
-        /**
-         * Update the specified resource in storage.
-         */
-        public function update(ProductRequest $request, $id)
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(ProductRequest $request, $id)
     {
         $product = Product::find($id);
         if (!$product) {
@@ -158,5 +158,17 @@ public function store(ProductRequest $request)
             'message' => 'Product updated successfully',
             'product' => $product->fresh()
         ]);
+    }
+
+    public function destroy($id)
+    {
+        $product = Product::find($id);
+        if (!$product) {
+            return response()->json(['error' => 'product not found'], 404);
+        }
+
+        $product->delete();
+
+        return response()->json(['message' => 'product deleted']);
     }
 }
