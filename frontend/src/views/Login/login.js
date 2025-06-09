@@ -57,7 +57,9 @@ const Login = (props) => {
                 localStorage.setItem('tokenType', tokenType);
                 localStorage.setItem('userId', userId);
                 localStorage.setItem('first_name', first_name);
-                const expirationTime = new Date().getTime() + expiresIn * 60 * 1000;
+                const now = Date.now();
+                const safeExpiresIn = expiresIn || 60;
+                const expirationTime = now + safeExpiresIn * 60 * 1000;
                 localStorage.setItem('tokenExpiration', expirationTime.toString());
 
                 dispatch(loginUser({ userId, token, tokenType, expiresIn, first_name }));
