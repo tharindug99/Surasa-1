@@ -19,10 +19,10 @@ const Reviews = ({ reviews, setReviews }) => {
       try {
         const response = await withLoading(ReviewRequest.getAllReviews());
         setReviews(response.data);
-        
+
       } catch (error) {
         console.error("Error fetching reviews:", error);
-        
+
       }
     };
 
@@ -37,7 +37,7 @@ const Reviews = ({ reviews, setReviews }) => {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [reviews, setReviews]);
+  }, [setReviews]);
 
   const settings = {
     dots: true,
