@@ -143,7 +143,7 @@ function FoodOrder() {
 
       setSuccess(true);
       setCart([]);
-      navigate("/");
+      navigate(`/user/${user_id}/dashboard`);
       // Reset form after successful order
       setFormData({ full_name: "", mobile_number: "", address: "" });
       setTimeout(() => setSuccess(false), 3000);
