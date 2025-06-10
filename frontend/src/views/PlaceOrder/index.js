@@ -229,7 +229,7 @@ function FoodOrder() {
                 <div key={item.id} className="flex items-center justify-between py-4 px-4 border-b">
                   <div>
                     <h3 className="font-semibold">{item.name}</h3>
-                    <p className="text-gray-600">${item.price} × {item.quantity}</p>
+                    <p className="text-gray-600">LKR {item.price} × {item.quantity}</p>
                   </div>
                   <div className="flex items-center">
                     <button
@@ -257,7 +257,7 @@ function FoodOrder() {
               <div className="mt-6 pt-4 border-t">
                 <div className="flex justify-between font-bold text-xl">
                   <span>Total:</span>
-                  <span>${totalPrice.toFixed(2)}</span>
+                  <span>LKR {totalPrice.toFixed(2)}</span>
                 </div>
               </div>
             </div>
