@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { GiHamburgerMenu } from "react-icons/gi";
 import Button from "@mui/material/Button";
 import { yellow } from "@mui/material/colors";
-
+import { scroller } from "react-scroll";
 import logo from "../../../../src/assets/images/Surasa Logo.png";
 import { logoutUser } from "../../../redux/actions";
 import UserRequest from "../../../services/Requests/User";
@@ -149,6 +149,18 @@ const Header = () => {
             </>
         );
 
+    const handleScrollOrNavigate = (id) => {
+        if (location.pathname === "/") {
+            scroller.scrollTo(id, {
+                smooth: true,
+                duration: 500,
+                offset: -70,
+            });
+        } else {
+            navigate("/", { state: { scrollToId: id } });
+        }
+    };
+
     return (
         <div
             className={`bg-NavBarBG ${isScrolled
@@ -157,9 +169,10 @@ const Header = () => {
                 }`}
         >
             <nav className="flex justify-between items-center w-full h-[60px] px-[12px] md:px-[20px]">
-                <div className="flex">
+                <div onClick={() => handleScrollOrNavigate("home")} className="cursor-pointer">
                     <img className="h-[50px] w-[50px]" src={logo} alt="Surasa Logo" />
                 </div>
+
 
                 <ul className="hidden lg:flex ml-24 space-x-4">
                     <li>{renderNavLink("home", "Home")}</li>
