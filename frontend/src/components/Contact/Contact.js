@@ -190,22 +190,23 @@ const Contact = () => {
               ></iframe>
             </div>
           </section>
+          {/* Toaster for notifications */}
+          {showToaster && (
+            <Toaster
+              message={toasterMessage}
+              type={toasterType}
+              onClose={() => setShowToaster(false)}
+              style={{
+                position: 'fixed',
+                top: '20px',
+                right: '20px',
+                zIndex: 9999
+              }}
+            />
+          )}
         </div>
 
-        {/* Toaster for notifications */}
-        {showToaster && (
-          <Toaster
-            message={toasterMessage}
-            type={toasterType}
-            onClose={() => setShowToaster(false)}
-            style={{
-              position: 'fixed',
-              top: '20px',
-              right: '20px',
-              zIndex: 9999
-            }}
-          />
-        )}
+
       </section>
     </>
   );

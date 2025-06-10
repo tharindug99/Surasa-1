@@ -4,6 +4,7 @@ import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import eventImg from "../../assets/vectors/Events.png";
 import BookingRequest from "services/Requests/Booking";
+import Toaster from "../../components/Toaster/Toaster";
 
 const localizer = momentLocalizer(moment);
 
@@ -20,6 +21,9 @@ function Booking(props) {
   const [eventInfo, setEventInfo] = useState(null);
   const [bookedEvents, setBookedEvents] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false); // Added submitting state
+  const [showToaster, setShowToaster] = useState(false);
+  const [toasterMessage, setToasterMessage] = useState("");
+  const [toasterType, setToasterType] = useState("success");
 
   //Fetch The bookings
   useEffect(() => {
@@ -77,7 +81,9 @@ function Booking(props) {
       await BookingRequest.addABooking(bookingData);
 
       setConfirmationMessage("Booking confirmed successfully!");
-
+      setToasterMessage("Your message has been sent successfully!");
+      setToasterType("success");
+      setShowToaster(true);
       // Reset form fields
       setFullName("");
       setContactNumber("");
@@ -92,6 +98,9 @@ function Booking(props) {
     } catch (error) {
       console.error("Booking failed:", error);
       setConfirmationMessage("Booking failed. Please try again.");
+      setToasterMessage("Failed to send message. Please try again.");
+      setToasterType("error");
+      setShowToaster(true);
     } finally {
       setIsSubmitting(false); // End submission
     }
@@ -304,6 +313,19 @@ function Booking(props) {
           )}
         </div>
       </div>
+      {showToaster && (
+        <Toaster
+          message={toasterMessage}
+          type={toasterType}
+          onClose={() => setShowToaster(false)}
+          style={{
+            position: 'fixed',
+            top: '20px',
+            right: '20px',
+            zIndex: 9999
+          }}
+        />
+      )}
     </div>
   );
 }
