@@ -43,11 +43,8 @@ function Booking(props) {
   // Format bookedEvents into the required format for react-big-calendar
   const formattedEvents = bookedEvents.map((event) => ({
     id: event.id,
-    title: event.event_name,
     start: new Date(event.start_time),
     end: new Date(event.end_time),
-    faculty: event.faculty,
-    createdAt: moment(event.created_at).format("YYYY-MM-DD HH:mm:ss"),
   }));
 
   const handleBooking = async (e) => {
@@ -148,7 +145,7 @@ function Booking(props) {
           <Calendar
             className="p-10 bg-white bg-opacity-75 border-2"
             localizer={localizer}
-            events={formattedEvents}
+            // events={formattedEvents}
             selectable
             min={new Date().setHours(8, 0, 0)}
             max={new Date().setHours(18, 0, 0)}
