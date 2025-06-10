@@ -130,7 +130,7 @@ function Booking(props) {
 
   return (
     <div
-      className="bg-cover bg-center min-h-screen h-screen my-10"
+      className="bg-cover bg-center my-10"
       style={{ backgroundImage: `url(${eventImg})` }}
     >
       <div className="text-center p-6 items-center justify-center pb-20">
