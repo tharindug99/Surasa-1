@@ -1,5 +1,7 @@
 {
     "githubPullRequests.ignoredPullRequestBranches": [
         "master"
-    ]
+    ],
+    "appService.defaultWebAppToDeploy": "/subscriptions/9944b657-cb41-460f-a2a8-c52cd4435b90/resourceGroups/SurasaNew/providers/Microsoft.Web/sites/surasa-backend",
+    "appService.deploySubpath": "backend"
 }
