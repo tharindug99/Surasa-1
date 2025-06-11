@@ -43,7 +43,7 @@ function Beverage() {
           1280: { slidesPerView: 4 },
         }}
       >
-        {BeverageItems.map((item) => (
+        {/* {BeverageItems.map((item) => (
           <SwiperSlide key={item.id}>
             <div className="bg-white rounded-lg shadow-md overflow-hidden h-[30rem] border-brown-800 border-1">
               <div className="flex justify-center items-center p-4">
@@ -64,6 +64,33 @@ function Beverage() {
                 <span className="inline-block bg-yellow-300 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">
                   ⭐ {item.rating || 4.5}
                 </span>
+              </div>
+            </div>
+          </SwiperSlide>
+        ))} */}
+        {BeverageItems.map((item) => (
+          <SwiperSlide key={item.id}>
+            <div className="bg-white my-5 justify-between rounded-lg items-center shadow-md overflow-hidden h-[30rem] flex flex-col">
+              <div className="flex justify-center items-center">
+                <img
+                  className="h-44 w-44 object-cover rounded-lg my-2"
+                  src={item.image}
+                  alt={item.name}
+                />
+              </div>
+              <div className="px-6 py-4 flex-grow w-full">
+                <div className="font-bold text-xl mb-2">{item.name}</div>
+                <p className="text-gray-700 h-4 text-base">{item.description}</p>
+              </div>
+              <div className="px-6 pt-4 pb-2 w-full">
+                <div className="flex justify-between items-center">
+                  <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">
+                    LKR {item.price}
+                  </span>
+                  <span className="inline-block bg-yellow-300 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">
+                    ⭐ {item.rating || 4.5}
+                  </span>
+                </div>
               </div>
             </div>
           </SwiperSlide>

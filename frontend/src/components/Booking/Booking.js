@@ -4,6 +4,7 @@ import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import eventImg from "../../assets/vectors/Events.png";
 import BookingRequest from "services/Requests/Booking";
+import Toaster from "../../components/Toaster/Toaster";
 
 const localizer = momentLocalizer(moment);
 
@@ -15,10 +16,14 @@ function Booking(props) {
   const [faculty, setFaculty] = useState("");
   const [status, setStatus] = useState("Pending");
   const [selectedSlot, setSelectedSlot] = useState(null);
+  const [eventName, setEventName] = useState("");
   const [confirmationMessage, setConfirmationMessage] = useState("");
   const [eventInfo, setEventInfo] = useState(null);
   const [bookedEvents, setBookedEvents] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false); // Added submitting state
+  const [showToaster, setShowToaster] = useState(false);
+  const [toasterMessage, setToasterMessage] = useState("");
+  const [toasterType, setToasterType] = useState("success");
 
   //Fetch The bookings
   useEffect(() => {
@@ -42,11 +47,8 @@ function Booking(props) {
   // Format bookedEvents into the required format for react-big-calendar
   const formattedEvents = bookedEvents.map((event) => ({
     id: event.id,
-    title: event.event_name,
     start: new Date(event.start_time),
     end: new Date(event.end_time),
-    faculty: event.faculty,
-    createdAt: moment(event.created_at).format("YYYY-MM-DD HH:mm:ss"),
   }));
 
   const handleBooking = async (e) => {
@@ -71,7 +73,7 @@ function Booking(props) {
         email,
         faculty,
         status,
-        event_name: `Booking by ${fullName}`,
+        event_name: eventName,
         start_time: startTime, // Use formatted time
         end_time: endTime,     // Use formatted time
       };
@@ -79,12 +81,15 @@ function Booking(props) {
       await BookingRequest.addABooking(bookingData);
 
       setConfirmationMessage("Booking confirmed successfully!");
-
+      setToasterMessage("Your message has been sent successfully!");
+      setToasterType("success");
+      setShowToaster(true);
       // Reset form fields
       setFullName("");
       setContactNumber("");
       setEmail("");
       setFaculty("");
+      setEventName("");
       setSelectedSlot(null);
 
       // Refresh bookings
@@ -93,6 +98,9 @@ function Booking(props) {
     } catch (error) {
       console.error("Booking failed:", error);
       setConfirmationMessage("Booking failed. Please try again.");
+      setToasterMessage("Failed to send message. Please try again.");
+      setToasterType("error");
+      setShowToaster(true);
     } finally {
       setIsSubmitting(false); // End submission
     }
@@ -128,7 +136,7 @@ function Booking(props) {
 
   return (
     <div
-      className="bg-cover bg-center min-h-screen h-screen py-28"
+      className="bg-cover bg-center my-10"
       style={{ backgroundImage: `url(${eventImg})` }}
     >
       <div className="text-center p-6 items-center justify-center pb-20">
@@ -140,13 +148,13 @@ function Booking(props) {
 
       <div
         id="booking"
-        className="booking-container px-10 flex flex-col md:flex-row items-center pb-20"
+        className="booking-container flex flex-col md:flex-row items-center pb-20 min-h-screen"
       >
         <div className="w-full md:w-1/2 md:pr-4">
           <Calendar
             className="p-10 bg-white bg-opacity-75 border-2"
             localizer={localizer}
-            events={formattedEvents}
+            // events={formattedEvents}
             selectable
             min={new Date().setHours(8, 0, 0)}
             max={new Date().setHours(18, 0, 0)}
@@ -187,11 +195,48 @@ function Booking(props) {
             }}
           />
         </div>
-        <div className="w-full md:w-1/2 md:pl-4 bg-white bg-opacity-75 p-4 rounded-lg">
+
+        <div className="w-full md:w-1/2 md:pl-4 bg-white bg-opacity-75 p-4 rounded-lg ">
           <h2 className="text-2xl font-semibold mb-4">Booking</h2>
           <form onSubmit={handleBooking} className="booking-form">
             <label className="block mb-2">
-              Full Name:
+              Event Name
+              <input
+                type="text"
+                value={eventName}
+                onChange={(e) => setEventName(e.target.value)}
+                required
+                className="block w-full px-3 py-2 mt-1 border border-SurasaBrown rounded focus:outline-none focus:ring-2 focus:ring-SurasaYellow"
+              />
+            </label>
+            <label className="block mb-2">
+              Start Date & Time:
+              <input
+                type="datetime-local"
+                onChange={(e) =>
+                  setSelectedSlot((prev) => ({
+                    ...prev,
+                    start: new Date(e.target.value),
+                  }))
+                }
+                className="block w-full px-3 py-2 mt-1 border border-SurasaBrown rounded focus:outline-none focus:ring-2 focus:ring-SurasaYellow"
+              />
+            </label>
+            <label className="block mb-2">
+              End Date & Time:
+              <input
+                type="datetime-local"
+                onChange={(e) =>
+                  setSelectedSlot((prev) => ({
+                    ...prev,
+                    end: new Date(e.target.value),
+                  }))
+                }
+                className="block w-full px-3 py-2 mt-1 border border-SurasaBrown rounded focus:outline-none focus:ring-2 focus:ring-SurasaYellow"
+              />
+            </label>
+            <label className="block mb-2">
+              Full Name
               <input
                 type="text"
                 value={fullName}
@@ -201,7 +246,7 @@ function Booking(props) {
               />
             </label>
             <label className="block mb-2">
-              Contact Number:
+              Contact Number
               <input
                 type="tel"
                 value={contactNumber}
@@ -268,6 +313,19 @@ function Booking(props) {
           )}
         </div>
       </div>
+      {showToaster && (
+        <Toaster
+          message={toasterMessage}
+          type={toasterType}
+          onClose={() => setShowToaster(false)}
+          style={{
+            position: 'fixed',
+            top: '20px',
+            right: '20px',
+            zIndex: 9999
+          }}
+        />
+      )}
     </div>
   );
 }

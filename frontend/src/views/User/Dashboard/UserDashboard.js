@@ -408,6 +408,7 @@ const UserDetail = props => {
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
                     style={{ width: '100%', padding: '8px' }}
+                    required
                   />
                 </Box>
               </DialogContent>
