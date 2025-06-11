@@ -31,7 +31,7 @@ function Toaster({ message, type, onClose }) {
     return () => clearTimeout(timer);
   }, [onClose]);
   return (
-    <div className="fixed bottom-0 right-0 mb-4 mr-4 rounded-md shadow-md transition-opacity duration-500 opacity-100 flex items-center">
+    <div className="fixed bottom-0 right-0 rounded-md shadow-md transition-opacity duration-500 opacity-100 flex items-center z-100">
       {type === "error" ? (
         <ErrorToaster message={message} onClose={onClose} />
       ) : (

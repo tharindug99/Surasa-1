@@ -26,11 +26,11 @@ UserRequest.getAUser = (id) => {
     });
 };
 
-UserRequest.updateAUser = (params) => {
+UserRequest.updateAUser = (id, data) => {
     return fetch({
-        url: user,
+        url: `${user}/${id}`,
         method: "put",
-        params: params,
+        data: data,
     });
 };
 

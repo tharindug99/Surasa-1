@@ -31,6 +31,7 @@ const Review = (props) => {
       const response = await withLoading(
         ReviewRequest.updateAReview(reviewId, { status })
       );
+      console.log("Status update response:", response);
 
       if (response && response.data && response.data.review) {
         props.updateReview(response.data.review);
@@ -40,6 +41,9 @@ const Review = (props) => {
       }
     } catch (error) {
       console.error("Status update failed:", error);
+      console.error("Error details:", error.response ? error.response.data : error.message);
+      console.error("Review ID:", reviewId);
+      console.error("Status attempted:", status);
     }
   };
 
@@ -54,7 +58,7 @@ const Review = (props) => {
 
   useEffect(() => {
     if (reviews?.length < 1) getAllReviews();
-  }, []); // Empty dependency array to run only once
+  }, []);
 
   return (
     <>
@@ -78,8 +82,8 @@ const mapStateToProps = ({ review }) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   setReviews: (reviews) => dispatch(setReviews(reviews)),
-  updateReview: (updatedReviewObject) => 
-    dispatch(updateReview(updatedReviewObject)) 
+  updateReview: (updatedReviewObject) =>
+    dispatch(updateReview(updatedReviewObject))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Review);

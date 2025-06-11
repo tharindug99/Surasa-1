@@ -154,12 +154,21 @@ const UserDetail = props => {
 
   const handleSave = async () => {
     try {
-      const response = await withLoading(UserRequest.updateAUser(id, editedData));
+      const payload = typeof editedData === 'object' && editedData !== null
+        ? editedData
+        : {};
+
+      const response = await withLoading(
+        UserRequest.updateAUser(id, payload)  // Pass the validated object
+      );
+
       setUserData(response);
       setCurrentUser(response);
       setEditMode(false);
+      handleGetUser();  // Refresh user data after update
     } catch (error) {
       console.error("Error updating user:", error);
+      console.error("EditedData value:", editedData);  // Log the problematic value
     }
   };
 
@@ -191,7 +200,7 @@ const UserDetail = props => {
     try {
       // Create FormData object
       const formData = new FormData();
-      
+
       // Append all review data to FormData
       formData.append('user_id', id);
       formData.append('status', 'pending');
@@ -199,14 +208,14 @@ const UserDetail = props => {
       formData.append('no_of_stars', rating);
       formData.append('full_name', userData.first_name);
       formData.append('comment', comment);
-      
+
       // If there's an image file, append it
       if (reviewImage) {
         formData.append('review_image', reviewImage);
       }
 
       console.log('Review before submitted:', Object.fromEntries(formData));
-      
+
       // Submit review with FormData
       await withLoading(ReviewRequest.addAReview(formData));
       console.log('Review submitted successfully');
@@ -220,7 +229,7 @@ const UserDetail = props => {
   const formatCurrency = (amount) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
-      currency: 'USD',
+      currency: 'LKR',
     }).format(amount);
   };
 
@@ -399,6 +408,7 @@ const UserDetail = props => {
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
                     style={{ width: '100%', padding: '8px' }}
+                    required
                   />
                 </Box>
               </DialogContent>

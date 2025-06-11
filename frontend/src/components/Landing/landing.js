@@ -55,7 +55,7 @@ const Landing = () => {
               </div>
             </div>
             <ScrollLink to="menu" smooth={false} duration={100} offset={-70}>
-              <Button
+              {/* <Button
               onClick={handleOrderNowClick}
                 size="large"
                 disableElevation
@@ -74,7 +74,7 @@ const Landing = () => {
                 }}
               >
                 Order Now
-              </Button>
+              </Button> */}
             </ScrollLink>
           </div>
 

@@ -19,10 +19,10 @@ const Reviews = ({ reviews, setReviews }) => {
       try {
         const response = await withLoading(ReviewRequest.getAllReviews());
         setReviews(response.data);
-        
+
       } catch (error) {
         console.error("Error fetching reviews:", error);
-        
+
       }
     };
 
@@ -37,7 +37,7 @@ const Reviews = ({ reviews, setReviews }) => {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [reviews, setReviews]);
+  }, [setReviews]);
 
   const settings = {
     dots: true,
@@ -59,9 +59,11 @@ const Reviews = ({ reviews, setReviews }) => {
   };
 
   return (
-    <div className="my-28 container mx-auto h-screen relative items-center justify-center">
+    <div className="mt-2 lg:mt-30 md:mt-22 sm:mt-11 pt-18 container relative h-screen items-center justify-center w-full"
+    // style={{ backgroundImage: `url(${ReviewImg})` }}
+    >
       <div className="flex my-10 justify-center">
-        <img src={ReviewImg} alt="Reviews" className="w-1/2" />
+        <img src={ReviewImg} alt="Reviews" className="w-1/2 my-auto -z-10" />
       </div>
       <h2 className="text-3xl font-semibold my-6 text-center">
         What Our Customers have to say...

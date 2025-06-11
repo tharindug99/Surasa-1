@@ -2,13 +2,15 @@ import React, { useEffect, useState } from "react";
 import DailyMenuItemRequest from "services/Requests/DailyMenuItem";
 import OrderRequest from "services/Requests/Order";
 import OrderItemRequest from "services/Requests/OrderItem";
-
+import { useNavigate } from "react-router-dom";
 // Swiper imports
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import { yellow } from "@mui/material/colors";
 
 function FoodOrder() {
 
@@ -16,6 +18,7 @@ function FoodOrder() {
   const user_id = localStorage.getItem("userId");
   const authToken = localStorage.getItem("authToken");
   const userName = localStorage.getItem("first_name");
+  const navigate = useNavigate();
 
   const [categoryOneItems, setCategoryOneItems] = useState([]);
   const [cart, setCart] = useState([]);
@@ -110,10 +113,10 @@ function FoodOrder() {
 
       // Create order
       const orderResponse = await OrderRequest.addAnOrder(orderPayload);
-      console.log("Order creation response:", orderResponse);
+      console.log("Order creation response:", orderResponse.data.order);
 
       // Extract the created order from the response
-      const createdOrder = orderResponse.data.dailyMenuItem;
+      const createdOrder = orderResponse.data.order;
 
       if (!createdOrder || !createdOrder.id) {
         console.error("Invalid order response structure:", orderResponse.data);
@@ -140,6 +143,7 @@ function FoodOrder() {
 
       setSuccess(true);
       setCart([]);
+      navigate(`/user/${user_id}/dashboard`);
       // Reset form after successful order
       setFormData({ full_name: "", mobile_number: "", address: "" });
       setTimeout(() => setSuccess(false), 3000);
@@ -155,10 +159,10 @@ function FoodOrder() {
   const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container py-8">
       {/* Food Items Slider */}
-      <div className="mb-12">
-        <h2 className="text-3xl font-bold text-center mb-8">Today's Specials</h2>
+      <div className="mb-12 bg-gray-100 items-center justify-center px-5 w-full rounded-md">
+        <h2 className="text-3xl font-bold text-center mb-8 p-4">Today's Specials</h2>
         <Swiper
           modules={[Navigation, Pagination]}
           spaceBetween={20}
@@ -174,34 +178,38 @@ function FoodOrder() {
         >
           {foodItems.map((item) => (
             <SwiperSlide key={item.id}>
-              <div className="bg-white rounded-lg shadow-md overflow-hidden h-[30rem] border-brown-800 border-1">
-                <div className="flex justify-center items-center p-4">
+              <div className="bg-white my-5 justify-between rounded-lg items-center shadow-md overflow-hidden h-[30rem] flex flex-col"> {/* Removed border, added flex-col */}
+                <div className="flex justify-center items-center">
                   <img
-                    className="h-32 w-32 object-cover rounded-lg"
+                    className="h-44 w-44 object-cover rounded-lg my-2"
                     src={item.image}
                     alt={item.name}
                   />
                 </div>
-                <div className="px-6 py-4 h-[12rem]">
+                <div className="px-6 py-4 flex-grow"> {/* Added flex-grow for better spacing */}
                   <div className="font-bold text-xl mb-2">{item.name}</div>
-                  <p className="text-gray-700 text-base">{item.description}</p>
+                  <p className="text-gray-700 text-base h-8">{item.description}</p>
                 </div>
-                <div className="px-6 pt-4 pb-2">
+                <div className="px-6 pt-4 pb-2 items-center flex justify-between">
                   <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">
-                    ${item.price}
+                    LKR {item.price}
                   </span>
                   <span className="inline-block bg-yellow-300 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">
                     ⭐ {item.rating || 4.5}
                   </span>
+                  <span className=" rounded-full ">
+                    <AddShoppingCartIcon onClick={() => addToCart(item)} sx={{ cursor: "pointer", color: yellow[800] }} />
+                  </span>
+
                 </div>
-                <div className="p-4">
+                {/* <div className="p-4">
                   <button
                     onClick={() => addToCart(item)}
                     className="w-full bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg transition"
                   >
                     Add to Cart
                   </button>
-                </div>
+                </div> */}
               </div>
             </SwiperSlide>
           ))}
@@ -211,17 +219,17 @@ function FoodOrder() {
       {/* Order Section */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Cart Items */}
-        <div className="lg:col-span-2">
-          <h2 className="text-2xl font-bold mb-4">Your Order</h2>
+        <div className="lg:col-span-2 bg-gray-100 rounded-md">
+          <h2 className="text-2xl font-bold mb-2 px-5 pt-5 ">Your Order</h2>
           {cart.length === 0 ? (
-            <p className="text-gray-500">Your cart is empty</p>
+            <p className="text-red-400 mb-2 px-5 pt-5">Your cart is empty</p>
           ) : (
-            <div className="bg-white rounded-lg shadow-md p-6">
+            <div className="bg-white rounded-lg shadow-md p-6 mx-4">
               {cart.map(item => (
-                <div key={item.id} className="flex items-center justify-between py-4 border-b">
+                <div key={item.id} className="flex items-center justify-between py-4 px-4 border-b">
                   <div>
                     <h3 className="font-semibold">{item.name}</h3>
-                    <p className="text-gray-600">${item.price} × {item.quantity}</p>
+                    <p className="text-gray-600">LKR {item.price} × {item.quantity}</p>
                   </div>
                   <div className="flex items-center">
                     <button
@@ -249,7 +257,7 @@ function FoodOrder() {
               <div className="mt-6 pt-4 border-t">
                 <div className="flex justify-between font-bold text-xl">
                   <span>Total:</span>
-                  <span>${totalPrice.toFixed(2)}</span>
+                  <span>LKR {totalPrice.toFixed(2)}</span>
                 </div>
               </div>
             </div>

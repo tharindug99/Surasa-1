@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import Food from "./Food";
 import Beverages from "./Beverages";
 import { Button } from "@mui/material";
+import { brown, yellow, white } from "@mui/material/colors";
+import isAuthenticated from "auth/userAuth";
 
 const Section = styled.div`
   height: 100vh;
@@ -17,8 +19,19 @@ function Tabs() {
   const navigate = useNavigate();
 
   const handleOrderNowClick = () => {
-    navigate("/place-order");
+    if (isAuthenticated()) {
+      navigate("/place-order");
+    } else {
+      localStorage.removeItem("authToken");
+      localStorage.removeItem("tokenExpiration");
+      localStorage.removeItem("userId");
+      localStorage.removeItem("first_name");
+      navigate("/login");
+    }
   };
+
+
+
 
   return (
     <section>
@@ -103,12 +116,32 @@ function Tabs() {
           {activeTab === "Food" && <Food />}
           {activeTab === "Beverages" && <Beverages />}
           <div className="flex justify-center mt-8">
-            <button
+            {/* <button
               onClick={handleOrderNowClick}
               className="px-6 py-3 mb-20 bg-SurasaBrown text-white font-semibold rounded-lg shadow-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-opacity-75"
             >
               Order Now !!
-            </button>
+            </button> */}
+            <Button
+              onClick={handleOrderNowClick}
+              size="large"
+              disableElevation
+              variant="contained"
+              sx={{
+                bgcolor: brown[700],
+                paddingTop: 2,
+                paddingBottom: 2,
+                paddingX: 4,
+                "&:hover": {
+                  bgcolor: "transparent",
+                  borderWidth: 2,
+                  borderColor: brown[800],
+                  color: yellow[800],
+                },
+              }}
+            >
+              Order Now
+            </Button>
           </div>
         </div>
       </div>
