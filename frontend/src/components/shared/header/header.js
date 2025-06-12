@@ -4,7 +4,7 @@ import { Link as ScrollLink } from "react-scroll";
 import { useDispatch, useSelector } from "react-redux";
 import { GiHamburgerMenu } from "react-icons/gi";
 import Button from "@mui/material/Button";
-import { yellow } from "@mui/material/colors";
+import { yellow, red } from "@mui/material/colors";
 import { scroller } from "react-scroll";
 import logo from "../../../../src/assets/images/Surasa Logo.png";
 import { logoutUser } from "../../../redux/actions";
@@ -101,10 +101,12 @@ const Header = () => {
                     disableElevation
                     variant="outlined"
                     sx={{
-                        borderColor: yellow[700],
-                        color: yellow[700],
+                        borderColor: red[500],
+                        color: "black",
+                        bgcolor: red[500],
                         "&:hover": {
-                            bgcolor: yellow[700],
+                            bgcolor: red[700],
+                            borderColor: red[700],
                             color: "white",
                         },
                     }}
@@ -122,9 +124,10 @@ const Header = () => {
                     onClick={() => navigate("/register")}
                     sx={{
                         bgcolor: yellow[700],
+                        borderColor: yellow[800],
                         "&:hover": {
                             bgcolor: "transparent",
-                            borderColor: yellow[800],
+                            borderColor: yellow[600],
                             color: yellow[800],
                         },
                     }}
@@ -140,6 +143,7 @@ const Header = () => {
                         "&:hover": {
                             bgcolor: yellow[700],
                             color: "white",
+                            borderColor: yellow[700]
                         },
                     }}
                     onClick={() => navigate("/login")}
@@ -192,7 +196,13 @@ const Header = () => {
                             <ul className="flex flex-col space-y-2 items-center">
                                 {userInfo && (
                                     <>
-                                        <li>Welcome back, {userInfo}</li>
+                                        {/* <li>Welcome back, {userInfo}</li> */}
+                                        <li
+                                            className="profile-button cursor-pointer text-blue-600"
+                                            onClick={handleProfileClick}
+                                        >
+                                            Profile
+                                        </li>
 
                                         <li
                                             className="logout-button cursor-pointer text-red-600"
