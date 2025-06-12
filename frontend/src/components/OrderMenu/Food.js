@@ -41,31 +41,7 @@ function Food() {
           1280: { slidesPerView: 4 },
         }}
       >
-        {/* {foodItems.map((item) => (
-          <SwiperSlide key={item.id}>
-            <div className="bg-white rounded-lg shadow-md overflow-hidden h-[30rem] border-brown-800 border-1">
-              <div className="flex justify-center items-center p-4">
-                <img
-                  className="h-32 w-32 object-cover rounded-lg"
-                  src={item.image}
-                  alt={item.name}
-                />
-              </div>
-              <div className="px-6 py-4 h-[12rem]">
-                <div className="font-bold text-xl mb-2">{item.name}</div>
-                <p className="text-gray-700 text-base">{item.description}</p>
-              </div>
-              <div className="px-6 pt-4 pb-2 bottom-4">
-                <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">
-                  ${item.price}
-                </span>
-                <span className="inline-block bg-yellow-300 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">
-                  ⭐ {item.rating || 4.5}
-                </span>
-              </div>
-            </div>
-          </SwiperSlide>
-        ))} */}
+
         {foodItems.map((item) => (
           <SwiperSlide key={item.id}>
             <div className="bg-white my-5 justify-between rounded-lg items-center shadow-md overflow-hidden h-[30rem] flex flex-col">

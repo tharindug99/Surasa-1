@@ -463,7 +463,7 @@ const UserDetail = props => {
                               {new Date(order.created_at).toLocaleDateString()}
                             </TableCell>
                             <TableCell>
-                              {formatCurrency(order.total_amount)}
+                              {formatCurrency(order.price)}
                             </TableCell>
                             <TableCell>{order.items_count}</TableCell>
                             <TableCell>
