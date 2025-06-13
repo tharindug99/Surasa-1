@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ReviewRequest;
+use App\Models\Order;
 use App\Models\Review;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
@@ -28,7 +29,7 @@ class ReviewController extends Controller
     {
         try {
             $validated = $request->validated();
-            
+
             Log::info('Review submission data:', [
                 'validated_data' => $validated,
                 'has_file' => $request->hasFile('review_image'),
@@ -39,6 +40,7 @@ class ReviewController extends Controller
             $review->user_id = $validated['user_id'];
             $review->product_id = $validated['product_id'];
             $review->no_of_stars = $validated['no_of_stars'];
+            $review->order_id = $validated['order_id'];
             $review->status = $validated['status'] ?? 'pending';
             $review->full_name = $validated['full_name'] ?? null;
             $review->comment = $validated['comment'] ?? null;
@@ -54,7 +56,7 @@ class ReviewController extends Controller
 
                     // Generate a unique filename
                     $filename = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
-                    
+
                     // Ensure the directory exists
                     $path = storage_path('app/public/reviews');
                     if (!file_exists($path)) {
@@ -64,7 +66,7 @@ class ReviewController extends Controller
                     // Store the image
                     $image->storeAs('public/reviews', $filename);
                     $review->review_image = $filename;
-                    
+
                     Log::info('Image stored successfully:', ['filename' => $filename]);
                 } catch (\Exception $e) {
                     Log::error('Error storing image: ' . $e->getMessage());
@@ -80,11 +82,10 @@ class ReviewController extends Controller
                 'message' => 'Review created successfully.',
                 'review' => $review
             ], 201);
-
         } catch (\Exception $e) {
             Log::error('Error creating review: ' . $e->getMessage());
             Log::error($e->getTraceAsString());
-            
+
             return response()->json([
                 'success' => false,
                 'message' => 'Error creating review: ' . $e->getMessage()
@@ -98,8 +99,8 @@ class ReviewController extends Controller
     public function show(string $id)
     {
         // Eager load relationships if needed
-        // $review = Review::with(['user', 'product'])->find($id);
-        $review = Review::find($id);
+        $review = Review::with(['user', 'product', 'order'])->find($id);
+        //$review = Review::find($id);
 
         if (!$review) {
             return response()->json(['error' => 'Review not found'], 404);
@@ -131,6 +132,9 @@ class ReviewController extends Controller
         }
         if (array_key_exists('no_of_stars', $validated)) {
             $review->no_of_stars = $validated['no_of_stars'];
+        }
+        if (array_key_exists('order_id', $validated)) { // Handle order_id update
+            $review->order_id = $validated['order_id'];
         }
         if (array_key_exists('status', $validated)) {
             $review->status = $validated['status'];

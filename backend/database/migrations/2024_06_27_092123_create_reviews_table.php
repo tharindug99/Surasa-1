@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('reviews', function (Blueprint $table) {
             $table->id(); // id INT AUTO_INCREMENT PRIMARY KEY
             $table->unsignedBigInteger('user_id'); // user_id INT NOT NULL
+            $table->unsignedBigInteger('order_id'); // Added order_id
             $table->unsignedBigInteger('product_id'); // product_id INT NOT NULL
             $table->string('review_image')->nullable(); // review_image VARCHAR(255) NULL
             $table->integer('no_of_stars'); // no_of_stars INT NOT NULL
@@ -33,6 +34,12 @@ return new class extends Migration
                 ->on('products')
                 ->onDelete('cascade') // Cascade on delete
                 ->onUpdate('cascade'); // Cascade on update
+
+            $table->foreign('order_id') // Added foreign key for order_id
+                ->references('id')
+                ->on('orders')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
         });
     }
 
@@ -42,6 +49,5 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('reviews');
-
     }
 };
