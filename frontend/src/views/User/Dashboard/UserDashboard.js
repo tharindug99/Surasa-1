@@ -19,6 +19,9 @@ import {
   CheckCircle, Edit, Save, Cancel,
   KeyboardArrowDown, KeyboardArrowUp
 } from "@mui/icons-material";
+import { brown, yellow, white } from "@mui/material/colors";
+import isAuthenticated from "auth/userAuth";
+import { useNavigate } from "react-router-dom";
 
 // Styled components
 const SurasaPaper = styled(Paper)(({ theme }) => ({
@@ -75,6 +78,8 @@ const UserDetail = props => {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
   const [reviewImage, setReviewImage] = useState(null);
+  const [isReviewSubmitted, setIsReviewSubmitted] = useState(false);
+  const navigate = useNavigate();
 
   const handleGetUser = async () => {
     try {
@@ -142,7 +147,17 @@ const UserDetail = props => {
       [orderId]: !prev[orderId]
     }));
   };
-
+  const handleOrderNowClick = () => {
+    if (isAuthenticated()) {
+      navigate("/place-order");
+    } else {
+      localStorage.removeItem("authToken");
+      localStorage.removeItem("tokenExpiration");
+      localStorage.removeItem("userId");
+      localStorage.removeItem("first_name");
+      navigate("/login");
+    }
+  };
   const handleEditToggle = () => {
     setEditMode(!editMode);
     setEditedData(userData);
@@ -219,6 +234,7 @@ const UserDetail = props => {
       // Submit review with FormData
       await withLoading(ReviewRequest.addAReview(formData));
       console.log('Review submitted successfully');
+      setIsReviewSubmitted(true);
       handleCloseReviewModal();
     } catch (error) {
       console.error("Error submitting review:", error);
@@ -278,6 +294,39 @@ const UserDetail = props => {
                 </Typography>
               </Box>
             </SurasaPaper>
+
+            <SurasaPaper
+              sx={{
+                mt: 3,
+                display: "flex",         // Make it a flex container
+                justifyContent: "center", // Horizontally center the button
+                alignItems: "center",     // Vertically center if needed
+              }}
+            >
+              <Button
+                onClick={handleOrderNowClick}
+                size="large"
+                disableElevation
+                variant="contained"
+                sx={{
+                  width: "100%",
+                  bgcolor: brown[700],
+                  paddingTop: 2,
+                  paddingBottom: 2,
+                  paddingX: 4,
+                  "&:hover": {
+                    bgcolor: "transparent",
+                    borderWidth: 2,
+                    borderColor: brown[800],
+                    color: yellow[800],
+                  },
+                }}
+              >
+                Order Now
+              </Button>
+            </SurasaPaper>
+
+
           </Grid>
 
           {/* Editable Form Section */}
@@ -442,13 +491,13 @@ const UserDetail = props => {
                         <TableCell width="10%"><b>Order ID</b></TableCell>
                         <TableCell width="20%"><b>Date</b></TableCell>
                         <TableCell width="15%"><b>Amount</b></TableCell>
-                        <TableCell width="15%"><b>Items</b></TableCell>
                         <TableCell width="15%"><b>Status</b></TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
                       {orders.map(order => (
                         <React.Fragment key={order.id}>
+                          {console.log("Order:", order.status)}
                           <TableRow hover>
                             <TableCell>
                               <IconButton
@@ -458,14 +507,13 @@ const UserDetail = props => {
                                 {expandedOrders[order.id] ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
                               </IconButton>
                             </TableCell>
-                            <TableCell>#{order.id}</TableCell>
+                            <TableCell>{order.id}</TableCell>
                             <TableCell>
                               {new Date(order.created_at).toLocaleDateString()}
                             </TableCell>
                             <TableCell>
                               {formatCurrency(order.price)}
                             </TableCell>
-                            <TableCell>{order.items_count}</TableCell>
                             <TableCell>
                               <StatusIndicator status={order.status.toLowerCase()}>
                                 {order.status}
@@ -515,9 +563,11 @@ const UserDetail = props => {
                                                     variant="outlined"
                                                     size="small"
                                                     onClick={() => handleOpenReviewModal(item)}
+                                                    disabled={order.status !== "Completed" || isReviewSubmitted} // disables unless status is "Completed"
                                                   >
                                                     Review
                                                   </Button>
+                                                  {console.log("Order", order.status)}
                                                 </TableCell>
                                               </TableRow>
                                             ))}
