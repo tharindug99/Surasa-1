@@ -12,8 +12,9 @@ class Review extends Model
 
     protected $fillable = [
         'user_id',
+        'order_id',
         'product_id',
-        'review_image', 
+        'review_image',
         'no_of_stars',
         'full_name',
         'comment',
@@ -52,6 +53,10 @@ class Review extends Model
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+    public function order() // Added order relationship
+    {
+        return $this->belongsTo(Order::class);
     }
 
     protected static function boot()

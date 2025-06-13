@@ -36,6 +36,7 @@ class ReviewRequest extends FormRequest
 
         return [
             'user_id' => ($isCreating ? 'required' : 'sometimes|required') . '|exists:users,id',
+            'order_id' => ($isCreating ? 'required' : 'sometimes|required') . '|exists:orders,id',
             'product_id' => ($isCreating ? 'required' : 'sometimes|required') . '|exists:products,id',
             'review_image' => 'sometimes|nullable|file|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'no_of_stars' => ($isCreating ? 'required' : 'sometimes|required') . '|integer|min:1|max:5',
@@ -52,6 +53,8 @@ class ReviewRequest extends FormRequest
             'user_id.exists' => 'The selected user ID is invalid.',
             'product_id.required' => 'The product ID is required.',
             'product_id.exists' => 'The selected product ID is invalid.',
+            'order_id.required' => 'The order ID is required.', // Added message
+            'order_id.exists' => 'The selected order ID is invalid.', // Added message
 
             'review_image.file' => 'The review image must be a file.',
             'review_image.image' => 'The review image must be an image file.',

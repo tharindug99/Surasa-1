@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Product;
 use App\Models\User;
+use App\Models\Order;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -21,6 +22,7 @@ class ReviewFactory extends Factory
         return [
             'user_id' => User::factory(), // Creates a new user and assigns its id
             'product_id' => Product::factory(), // Creates a new product and assigns its id
+            'order_id' => Order::factory(),
             'review_image' => 'https://placehold.co/300x200', // Placeholder image URL
             'no_of_stars' => $this->faker->numberBetween(1, 5), // Random number of stars between 1 and 5
             'full_name' => $this->faker->name, // Generates a random full name
