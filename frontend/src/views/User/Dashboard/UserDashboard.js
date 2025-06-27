@@ -238,6 +238,7 @@ const UserDetail = props => {
       formData.append('no_of_stars', rating);
       formData.append('full_name', userData.first_name);
       formData.append('comment', comment);
+      formData.append('order_id', currentReviewItem.order_id);
 
       // If there's an image file, append it
       if (reviewImage) {
@@ -257,7 +258,23 @@ const UserDetail = props => {
   };
 
   //Check whether a product review is already submitted from ReviewRequest
-  const isReviewAlreadySubmitted = (productId) => {
+  // const isReviewAlreadySubmitted = (orderId, productId) => {
+  //   console.log("Get review length:", reviews.length);
+
+  //   if (!reviews || reviews.length === 0) {
+  //     console.log("No reviews found for this user.");
+  //     return false;
+  //   }
+
+  //   console.log("Reviews are found for this user");
+
+  //   const isSubmitted = reviews.some(review => review.product_id === productId);
+
+  //   console.log("Review already submitted:", isSubmitted);
+  //   return isSubmitted;
+  // };
+
+  const isReviewAlreadySubmitted = (orderId, productId) => {
     console.log("Get review length:", reviews.length);
 
     if (!reviews || reviews.length === 0) {
@@ -267,12 +284,16 @@ const UserDetail = props => {
 
     console.log("Reviews are found for this user");
 
-    const isSubmitted = reviews.some(review => review.product_id === productId);
-
+    // Check for a review matching BOTH orderId AND productId
+    const isSubmitted = reviews.some(review =>
+      review.order_id === orderId &&
+      review.product_id === productId
+    );
+    console.log("Order ID:", orderId);
+    console.log("Product ID:", productId);
     console.log("Review already submitted:", isSubmitted);
     return isSubmitted;
   };
-
 
   // Format currency
   const formatCurrency = (amount) => {
@@ -569,7 +590,7 @@ const UserDetail = props => {
                                         <Table size="small">
                                           <TableHead>
                                             <TableRow>
-                                              <TableCell>Product ID</TableCell>
+                                              <TableCell>Product Name</TableCell>
                                               <TableCell align="center">Quantity</TableCell>
                                               <TableCell align="right">Price</TableCell>
                                               <TableCell align="right">Total</TableCell>
@@ -592,7 +613,7 @@ const UserDetail = props => {
                                                   {formatCurrency(item.price * item.quantity)}
                                                 </TableCell>
                                                 <TableCell align="center">
-                                                  {isReviewAlreadySubmitted(item.product_id) ? (
+                                                  {isReviewAlreadySubmitted(item.order_id, item.product_id) ? (
                                                     <Typography variant="body2" color="textSecondary">
                                                       Review Submitted
                                                     </Typography>
