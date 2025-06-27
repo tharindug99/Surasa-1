@@ -79,6 +79,7 @@ const UserDetail = props => {
   const [comment, setComment] = useState('');
   const [reviewImage, setReviewImage] = useState(null);
   const [isReviewSubmitted, setIsReviewSubmitted] = useState(false);
+  const [reviews, setReviews] = useState([]);
   const navigate = useNavigate();
 
   const handleGetUser = async () => {
@@ -141,6 +142,19 @@ const UserDetail = props => {
     }
   };
 
+  // Fetch reviews
+  const handleGetReviews = async () => {
+    try {
+      const response = await withLoading(ReviewRequest.getAllReviews());
+      const userReviews = response?.data?.filter(review => String(review.user_id) === String(id));
+      console.log("User Reviews:", userReviews);
+      setReviews(userReviews || []);
+      console.log("reviews", reviews.length);
+    } catch (error) {
+      console.error("Error fetching reviews:", error);
+    }
+  };
+
   const toggleOrderExpansion = (orderId) => {
     setExpandedOrders(prev => ({
       ...prev,
@@ -192,6 +206,7 @@ const UserDetail = props => {
     handleGetOrders();
     handleGetOrderItems();
     handleGetProducts();
+    handleGetReviews();
   }, []);
 
   const handleOpenReviewModal = (item) => {
@@ -240,6 +255,24 @@ const UserDetail = props => {
       console.error("Error submitting review:", error);
     }
   };
+
+  //Check whether a product review is already submitted from ReviewRequest
+  const isReviewAlreadySubmitted = (productId) => {
+    console.log("Get review length:", reviews.length);
+
+    if (!reviews || reviews.length === 0) {
+      console.log("No reviews found for this user.");
+      return false;
+    }
+
+    console.log("Reviews are found for this user");
+
+    const isSubmitted = reviews.some(review => review.product_id === productId);
+
+    console.log("Review already submitted:", isSubmitted);
+    return isSubmitted;
+  };
+
 
   // Format currency
   const formatCurrency = (amount) => {
@@ -559,15 +592,23 @@ const UserDetail = props => {
                                                   {formatCurrency(item.price * item.quantity)}
                                                 </TableCell>
                                                 <TableCell align="center">
-                                                  <Button
-                                                    variant="outlined"
-                                                    size="small"
-                                                    onClick={() => handleOpenReviewModal(item)}
-                                                    disabled={order.status !== "Completed" || isReviewSubmitted} // disables unless status is "Completed"
-                                                  >
-                                                    Review
-                                                  </Button>
-                                                  {console.log("Order", order.status)}
+                                                  {isReviewAlreadySubmitted(item.product_id) ? (
+                                                    <Typography variant="body2" color="textSecondary">
+                                                      Review Submitted
+                                                    </Typography>
+                                                  ) : (
+                                                    <Button
+                                                      variant="outlined"
+                                                      size="small"
+                                                      onClick={() => handleOpenReviewModal(item)}
+                                                      disabled={order.status !== "Completed"} // disables unless status is "Completed"
+                                                    >
+                                                      Review
+                                                    </Button>
+                                                  )}
+                                                  {console.log("Order ID", order.id)}
+                                                  {console.log("Item ID", item.product_id)}
+                                                  {console.log("isReviewAlreadySubmitted", isReviewAlreadySubmitted(order.id, item.product_id))}
                                                 </TableCell>
                                               </TableRow>
                                             ))}

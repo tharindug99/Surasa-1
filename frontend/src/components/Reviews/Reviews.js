@@ -60,7 +60,6 @@ const Reviews = ({ reviews, setReviews }) => {
 
   return (
     <div className="mt-2 lg:mt-30 md:mt-22 sm:mt-11 pt-18 container relative h-screen items-center justify-center w-full"
-    // style={{ backgroundImage: `url(${ReviewImg})` }}
     >
       <div className="flex my-10 justify-center">
         <img src={ReviewImg} alt="Reviews" className="w-1/2 my-auto -z-10" />
@@ -70,29 +69,55 @@ const Reviews = ({ reviews, setReviews }) => {
       </h2>
       <Slider {...settings}>
         {reviews &&
-          reviews.map((review) => (
-            <div key={review.id}>
-              <div className="bg-white p-4 ml-5 h-full my-4 rounded-lg shadow-md w-4/5">
-                <div className="flex items-center justify-between mb-2">
-                  <div className="font-semibold">{review.full_name}</div>
-                  <div className="flex items-center">
-                    {Array.from({ length: review.no_of_stars }, (_, index) => (
-                      <Star key={index} sx={{ color: "#FFD700" }} />
-                    ))}
+          reviews.filter(review => review.status === "approved")
+            .map((review) => (
+              <div key={review.id}>
+
+                <div className="bg-white p-4 ml-5 my-4 rounded-lg shadow-md w-4/5 h-64 flex flex-col relative overflow-hidden">
+                  {/* Decorative corner elements */}
+                  <div className="absolute top-0 right-0 w-16 h-16 -mt-4 -mr-4 bg-yellow-100 rounded-full opacity-30"></div>
+                  <div className="absolute bottom-0 left-0 w-8 h-8 -mb-2 -ml-2 bg-yellow-100 rounded-full opacity-30"></div>
+
+                  {/* Top section with stars and date */}
+                  <div className="flex justify-between items-start mb-3">
+                    <div className="flex">
+                      {Array.from({ length: review.no_of_stars }, (_, index) => (
+                        <Star key={index} sx={{ color: "#FFD700", fontSize: "1.25rem" }} />
+                      ))}
+                    </div>
+                    <p className="text-gray-500 text-sm">
+                      {format(new Date(review.created_at), "do MMM yyyy")}
+                    </p>
+                  </div>
+
+                  {/* Content with image and comment */}
+                  <div className="flex flex-1 gap-4 overflow-hidden">
+                    {/* Square image container */}
+                    <div className="flex-shrink-0 w-32 h-32 bg-gray-100 rounded-lg overflow-hidden border-2 border-yellow-100">
+                      <img
+                        src={review.review_image}
+                        alt="Review"
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+
+                    {/* Comment section */}
+                    <div className="flex-1 flex flex-col">
+                      <div className=" p-3 flex-1 overflow-y-auto">
+                        <p className="text-yellow-900 italic font-serif text-[24px] leading-relaxed text-justify">
+                          {`"${review.comment}"`}
+                        </p>
+                      </div>
+
+                      {/* Decorative quote marks */}
+                      <div className="absolute top-1/2 right-6 text-yellow-200 text-7xl font-serif -translate-y-1/2 -z-10">
+                        "
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <img
-                  src={review.review_image}
-                  alt={review.full_name}
-                  className="w-full h-32 object-cover rounded-md mb-2"
-                />
-                <p className="text-black">{review.comment}</p>
-                <p className="text-gray-500">
-                  Posted on {format(new Date(review.created_at), "do MMM yyyy")}
-                </p>
               </div>
-            </div>
-          ))}
+            ))}
       </Slider>
       {loading && <p>Loading reviews...</p>}
     </div>

@@ -26,11 +26,11 @@ OrderItemRequest.getAnOrderItem = (id) => {
   });
 };
 
-OrderItemRequest.updateAnOrderItem = (id, orderItemData) => {
+OrderItemRequest.updateAnOrderItem = (params) => {
   return fetch({
-    url: `${orderitem}/${id}`,
+    url: orderitem,
     method: "put",
-    data: orderItemData // Send complete validated object
+    params: params
   });
 };
 
