@@ -29,6 +29,17 @@ function OrderRow(props) {
     const [toasterMessage, setToasterMessage] = useState("");
     const [toasterType, setToasterType] = useState("error");
 
+    const formatCurrency = (amount) => {
+        const num = parseFloat(amount);
+        if (isNaN(num)) {
+            return `LKR ${amount}`;
+        }
+        return `LKR ${num.toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        })}`;
+    };
+
     const handleStatusChange = async (event) => {
         const newStatus = event.target.value;
         try {
@@ -76,7 +87,7 @@ function OrderRow(props) {
                 <TableCell align="right">{row.full_name}</TableCell>
                 <TableCell align="right">{row.mobile_number}</TableCell>
                 <TableCell align="right">{row.order_time}</TableCell>
-                <TableCell align="right">${row.total}</TableCell>
+                <TableCell align="right">{formatCurrency(row.total)}</TableCell>
                 <TableCell align="right">
                     <Select
                         value={status}
@@ -116,7 +127,10 @@ function OrderRow(props) {
                                         <TableCell>Address:</TableCell>
                                         <TableCell>{row.address}</TableCell>
                                     </TableRow>
-                                    {/* Add more details as needed */}
+                                    <TableRow>
+                                        <TableCell>Total Order Price:</TableCell>
+                                        <TableCell>{formatCurrency(row.total)}</TableCell>
+                                    </TableRow>
                                 </TableBody>
                             </Table>
                             {/* Products Section */}
@@ -138,9 +152,9 @@ function OrderRow(props) {
                                         orderItems.map((item) => (
                                             <TableRow key={item.id}>
                                                 <TableCell>{item.product_id}</TableCell>
-                                                <TableCell align="right">LKR {item.price}</TableCell>
+                                                <TableCell align="right">{formatCurrency(item.price)}</TableCell>
                                                 <TableCell align="right">{item.quantity}</TableCell>
-                                                <TableCell align="right">LKR {item.total_cost}</TableCell>
+                                                <TableCell align="right">{formatCurrency(item.total_cost)}</TableCell>
                                                 <TableCell align="right">
                                                     {new Date(item.created_at).toLocaleString()}
                                                 </TableCell>
