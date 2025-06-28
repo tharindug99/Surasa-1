@@ -19,6 +19,9 @@ import {
   CheckCircle, Edit, Save, Cancel,
   KeyboardArrowDown, KeyboardArrowUp
 } from "@mui/icons-material";
+import { brown, yellow, white } from "@mui/material/colors";
+import isAuthenticated from "auth/userAuth";
+import { useNavigate } from "react-router-dom";
 
 // Styled components
 const SurasaPaper = styled(Paper)(({ theme }) => ({
@@ -75,6 +78,9 @@ const UserDetail = props => {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState('');
   const [reviewImage, setReviewImage] = useState(null);
+  const [isReviewSubmitted, setIsReviewSubmitted] = useState(false);
+  const [reviews, setReviews] = useState([]);
+  const navigate = useNavigate();
 
   const handleGetUser = async () => {
     try {
@@ -136,13 +142,36 @@ const UserDetail = props => {
     }
   };
 
+  // Fetch reviews
+  const handleGetReviews = async () => {
+    try {
+      const response = await withLoading(ReviewRequest.getAllReviews());
+      const userReviews = response?.data?.filter(review => String(review.user_id) === String(id));
+      console.log("User Reviews:", userReviews);
+      setReviews(userReviews || []);
+      console.log("reviews", reviews.length);
+    } catch (error) {
+      console.error("Error fetching reviews:", error);
+    }
+  };
+
   const toggleOrderExpansion = (orderId) => {
     setExpandedOrders(prev => ({
       ...prev,
       [orderId]: !prev[orderId]
     }));
   };
-
+  const handleOrderNowClick = () => {
+    if (isAuthenticated()) {
+      navigate("/place-order");
+    } else {
+      localStorage.removeItem("authToken");
+      localStorage.removeItem("tokenExpiration");
+      localStorage.removeItem("userId");
+      localStorage.removeItem("first_name");
+      navigate("/login");
+    }
+  };
   const handleEditToggle = () => {
     setEditMode(!editMode);
     setEditedData(userData);
@@ -177,6 +206,7 @@ const UserDetail = props => {
     handleGetOrders();
     handleGetOrderItems();
     handleGetProducts();
+    handleGetReviews();
   }, []);
 
   const handleOpenReviewModal = (item) => {
@@ -208,6 +238,7 @@ const UserDetail = props => {
       formData.append('no_of_stars', rating);
       formData.append('full_name', userData.first_name);
       formData.append('comment', comment);
+      formData.append('order_id', currentReviewItem.order_id);
 
       // If there's an image file, append it
       if (reviewImage) {
@@ -219,10 +250,49 @@ const UserDetail = props => {
       // Submit review with FormData
       await withLoading(ReviewRequest.addAReview(formData));
       console.log('Review submitted successfully');
+      setIsReviewSubmitted(true);
       handleCloseReviewModal();
     } catch (error) {
       console.error("Error submitting review:", error);
     }
+  };
+
+  //Check whether a product review is already submitted from ReviewRequest
+  // const isReviewAlreadySubmitted = (orderId, productId) => {
+  //   console.log("Get review length:", reviews.length);
+
+  //   if (!reviews || reviews.length === 0) {
+  //     console.log("No reviews found for this user.");
+  //     return false;
+  //   }
+
+  //   console.log("Reviews are found for this user");
+
+  //   const isSubmitted = reviews.some(review => review.product_id === productId);
+
+  //   console.log("Review already submitted:", isSubmitted);
+  //   return isSubmitted;
+  // };
+
+  const isReviewAlreadySubmitted = (orderId, productId) => {
+    console.log("Get review length:", reviews.length);
+
+    if (!reviews || reviews.length === 0) {
+      console.log("No reviews found for this user.");
+      return false;
+    }
+
+    console.log("Reviews are found for this user");
+
+    // Check for a review matching BOTH orderId AND productId
+    const isSubmitted = reviews.some(review =>
+      review.order_id === orderId &&
+      review.product_id === productId
+    );
+    console.log("Order ID:", orderId);
+    console.log("Product ID:", productId);
+    console.log("Review already submitted:", isSubmitted);
+    return isSubmitted;
   };
 
   // Format currency
@@ -278,6 +348,39 @@ const UserDetail = props => {
                 </Typography>
               </Box>
             </SurasaPaper>
+
+            <SurasaPaper
+              sx={{
+                mt: 3,
+                display: "flex",         // Make it a flex container
+                justifyContent: "center", // Horizontally center the button
+                alignItems: "center",     // Vertically center if needed
+              }}
+            >
+              <Button
+                onClick={handleOrderNowClick}
+                size="large"
+                disableElevation
+                variant="contained"
+                sx={{
+                  width: "100%",
+                  bgcolor: brown[700],
+                  paddingTop: 2,
+                  paddingBottom: 2,
+                  paddingX: 4,
+                  "&:hover": {
+                    bgcolor: "transparent",
+                    borderWidth: 2,
+                    borderColor: brown[800],
+                    color: yellow[800],
+                  },
+                }}
+              >
+                Order Now
+              </Button>
+            </SurasaPaper>
+
+
           </Grid>
 
           {/* Editable Form Section */}
@@ -442,13 +545,13 @@ const UserDetail = props => {
                         <TableCell width="10%"><b>Order ID</b></TableCell>
                         <TableCell width="20%"><b>Date</b></TableCell>
                         <TableCell width="15%"><b>Amount</b></TableCell>
-                        <TableCell width="15%"><b>Items</b></TableCell>
                         <TableCell width="15%"><b>Status</b></TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
                       {orders.map(order => (
                         <React.Fragment key={order.id}>
+                          {console.log("Order:", order.status)}
                           <TableRow hover>
                             <TableCell>
                               <IconButton
@@ -458,14 +561,13 @@ const UserDetail = props => {
                                 {expandedOrders[order.id] ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
                               </IconButton>
                             </TableCell>
-                            <TableCell>#{order.id}</TableCell>
+                            <TableCell>{order.id}</TableCell>
                             <TableCell>
                               {new Date(order.created_at).toLocaleDateString()}
                             </TableCell>
                             <TableCell>
-                              {formatCurrency(order.total_amount)}
+                              {formatCurrency(order.price)}
                             </TableCell>
-                            <TableCell>{order.items_count}</TableCell>
                             <TableCell>
                               <StatusIndicator status={order.status.toLowerCase()}>
                                 {order.status}
@@ -488,7 +590,7 @@ const UserDetail = props => {
                                         <Table size="small">
                                           <TableHead>
                                             <TableRow>
-                                              <TableCell>Product ID</TableCell>
+                                              <TableCell>Product Name</TableCell>
                                               <TableCell align="center">Quantity</TableCell>
                                               <TableCell align="right">Price</TableCell>
                                               <TableCell align="right">Total</TableCell>
@@ -511,13 +613,23 @@ const UserDetail = props => {
                                                   {formatCurrency(item.price * item.quantity)}
                                                 </TableCell>
                                                 <TableCell align="center">
-                                                  <Button
-                                                    variant="outlined"
-                                                    size="small"
-                                                    onClick={() => handleOpenReviewModal(item)}
-                                                  >
-                                                    Review
-                                                  </Button>
+                                                  {isReviewAlreadySubmitted(item.order_id, item.product_id) ? (
+                                                    <Typography variant="body2" color="textSecondary">
+                                                      Review Submitted
+                                                    </Typography>
+                                                  ) : (
+                                                    <Button
+                                                      variant="outlined"
+                                                      size="small"
+                                                      onClick={() => handleOpenReviewModal(item)}
+                                                      disabled={order.status !== "Completed"} // disables unless status is "Completed"
+                                                    >
+                                                      Review
+                                                    </Button>
+                                                  )}
+                                                  {console.log("Order ID", order.id)}
+                                                  {console.log("Item ID", item.product_id)}
+                                                  {console.log("isReviewAlreadySubmitted", isReviewAlreadySubmitted(order.id, item.product_id))}
                                                 </TableCell>
                                               </TableRow>
                                             ))}

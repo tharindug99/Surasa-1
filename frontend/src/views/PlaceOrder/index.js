@@ -130,7 +130,7 @@ function FoodOrder() {
       const orderItemPromises = cart.map(item =>
         OrderItemRequest.addAnOrderItem({
           order_id: orderId,
-          product_id: item.id,
+          product_id: item.product_id,
           price: item.price,
           quantity: item.quantity,
           total_cost: item.price * item.quantity,

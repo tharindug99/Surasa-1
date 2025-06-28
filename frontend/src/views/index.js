@@ -19,12 +19,12 @@ import UserDashboard from "./User/Dashboard/UserDashboard";
 import OrderItem from "./OrderItem";
 import PlaceOrder from "../views/PlaceOrder/index";
 import DashBoard from "./Dashboard/index";
-
+import { useState } from "react";
 import AdminLogin from "./Admin/AdminLogin";
 import ForgotAdminPassword from "./Admin/ForgotAdminPassword";
 
 import AdminProtectedRoute from "components/Protected Routes/AdminProtectedRoutes";
-
+import LoadingScreen from "./Loader/LoadingScreen";
 import Register from "./Register";
 
 const Views = () => {
@@ -32,6 +32,11 @@ const Views = () => {
 
   const shouldRenderHeader = !location.pathname.startsWith("/admin/dashboard");
   const shouldRenderFooter = !location.pathname.startsWith("/admin/dashboard");
+  // const [isLoading, setIsLoading] = useState(true);
+  // if (isLoading) {
+  //   return <LoadingScreen />;
+  // }
+  // setIsLoading(false);
 
   return (
     <>
@@ -63,6 +68,8 @@ const Views = () => {
         </AdminProtectedRoute>} />
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin/reset-password" element={<ForgotAdminPassword />} />
+
+        <Route path="*" element={<NotFound />} />
 
       </Routes>
 
