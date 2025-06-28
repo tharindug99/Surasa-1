@@ -26,6 +26,7 @@ const User = () => {
   const users = useSelector((state) => state.user.users);
   const [loading, withLoading] = useLoading();
   const [modalOpen, setModalOpen] = useState(false);
+  const [deleteConfirmModalOpen, setDeleteConfirmModalOpen] = useState(false);
   const [userModalOpen, setUserModalOpen] = useState(false);
   const [currentUserId, setCurrentUserId] = useState(null);
   const [isAddingPoints, setIsAddingPoints] = useState(true);
@@ -36,6 +37,8 @@ const User = () => {
   // Modal Handlers
   const handleUserOpenModal = () => setUserModalOpen(true);
   const handleUserCloseModal = () => setUserModalOpen(false);
+  const handleDeleteConfirmOpen = () => setDeleteConfirmModalOpen(true);
+  const handleDeleteConfirmClose = () => setDeleteConfirmModalOpen(false);
 
   const [modalData, setModalData] = useState({
     first_name: '',
@@ -89,11 +92,23 @@ const User = () => {
     setModalOpen(true);
   };
 
-  const handleDeleteUser = async (userId) => {
+  const handleConfirmDelete = async () => {
+    await handleDeleteUser();
+    setDeleteConfirmModalOpen(false);
+    setCurrentUserId(null);
+  };
+
+  const handleDeleteClick = (userId) => {
+    setCurrentUserId(userId);
+    setDeleteConfirmModalOpen(true);
+  };
+
+  const handleDeleteUser = async () => {
     try {
-      await UserRequest.deleteAUser(userId);
-      dispatch(removeUser(userId));
-      // Refresh the user list after deletion
+      if (!currentUserId) return;
+
+      await UserRequest.deleteAUser(currentUserId);
+      dispatch(removeUser(currentUserId));
       await getAllUsers();
       setToasterMessage('User deleted successfully');
       setToasterType('success');
@@ -163,7 +178,7 @@ const User = () => {
             <CollapsibleTable
               rows={users}
               handleOpenModal={handleOpenModal}
-              onDeleteUser={handleDeleteUser}
+              onDeleteUser={handleDeleteClick}
             />
           </div>
 
@@ -278,6 +293,32 @@ const User = () => {
                     </button>
                   </div>
                 </form>
+              </div>
+            </div>
+          )}
+
+          {deleteConfirmModalOpen && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+              <div className="bg-white p-8 rounded-md shadow-lg w-full max-w-md">
+                <h2 className="text-2xl font-semibold mb-4 text-black">Confirm Delete</h2>
+                <p className="mb-6">Are you sure you want to delete this user? This action cannot be undone.</p>
+                <div className="flex justify-end space-x-4">
+                  <button
+                    onClick={() => {
+                      setDeleteConfirmModalOpen(false);
+                      setCurrentUserId(null);
+                    }}
+                    className="px-4 py-2 text-gray-600 hover:text-gray-800 font-medium"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleConfirmDelete}
+                    className="px-4 py-2 bg-red-500 text-white font-medium rounded hover:bg-red-600"
+                  >
+                    Delete User
+                  </button>
+                </div>
               </div>
             </div>
           )}
