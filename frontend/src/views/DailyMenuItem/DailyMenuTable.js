@@ -125,6 +125,7 @@ function DailyMenuItemRow(props) {
             console.log("Updated Item:", updatedItem.data);
             setEditOpen(false);
             showToaster("Menu item updated successfully", "success");
+            getAllDailyMenuItems();
         } catch (error) {
             showToaster(
                 error.response?.data?.error || "Failed to update item",
@@ -148,6 +149,19 @@ function DailyMenuItemRow(props) {
         }
     };
 
+    const getAllDailyMenuItems = async () => {
+        try {
+            const response = await withLoading(DailyMenuItemRequest.getAllDailyMenuItem());
+            const dailyMenuItemsData = response?.data || [];
+            console.log("Daily Menu Items Data:", dailyMenuItemsData);
+            // Update the Redux store or local state if needed
+            dispatch(dailyMenuItemsData(dailyMenuItemsData)); // Uncomment if you have a Redux action
+
+        } catch (error) {
+            console.error("Error fetching daily menu items:", error);
+        }
+    };
+
     const formatDate = (dateString) => {
         const date = new Date(dateString);
         return isNaN(date) ? 'N/A' : date.toLocaleDateString();
@@ -159,6 +173,7 @@ function DailyMenuItemRow(props) {
             onDelete(dailyMenuItem.id);
             showToaster("Menu item deleted successfully", "success");
             setDeleteModalOpen(false);
+            getAllDailyMenuItems();
         } catch (error) {
             showToaster(
                 error.response?.data?.error || "Failed to delete item",
@@ -198,7 +213,7 @@ function DailyMenuItemRow(props) {
                     )}
                 </TableCell>
                 <TableCell align="right">
-                    {dailyMenuItem.price ? `$${dailyMenuItem.price}` : "N/A"}
+                    {dailyMenuItem.price ? `LKR ${dailyMenuItem.price}` : "N/A"}
                 </TableCell>
                 <TableCell align="right">{formatDate(dailyMenuItem.date)}</TableCell>
                 <TableCell align="right">

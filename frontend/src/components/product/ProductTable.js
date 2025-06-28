@@ -62,7 +62,7 @@ function ProductRow(props) {
         message: "",
         type: "success",
     });
-    
+
     const getAllCategories = async () => {
         try {
             const response = await withLoading(CategoryRequest.getAllCategories());
@@ -73,6 +73,7 @@ function ProductRow(props) {
             console.error(error);
         }
     };
+    
     const handleCloseToaster = () => {
         setToaster(prev => ({ ...prev, open: false }));
     };
@@ -231,7 +232,7 @@ function ProductRow(props) {
                 )}</TableCell>
                 <TableCell align="right">{product.category?.name}</TableCell>
                 <TableCell align="right">
-                    {product.price ? `$${product.price}` : "N/A"}
+                    {product.price ? `LKR ${product.price}` : "N/A"}
                 </TableCell>
                 <TableCell align="right">
                     <Button
@@ -277,7 +278,7 @@ function ProductRow(props) {
                                         <TableCell>{product.description || "No description available"}</TableCell>
                                     </TableRow>
                                     <TableRow>
-                                        <TableCell>Category ID:</TableCell>
+                                        <TableCell>Category</TableCell>
                                         <TableCell>{product.category?.name}</TableCell>
                                     </TableRow>
                                 </TableBody>
