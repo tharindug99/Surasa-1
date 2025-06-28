@@ -38,6 +38,13 @@ function ProductRow(props) {
     const [editedProduct, setEditedProduct] = React.useState({ ...product });
     const [categories, setCategories] = useState([]);
     const [loading, withLoading] = useLoading();
+    // Add this state variable at the top of ProductRow
+    const [deleteModalOpen, setDeleteModalOpen] = React.useState(false);
+
+    // Replace the existing handleDelete function with this:
+    const handleDeleteClick = () => {
+        setDeleteModalOpen(true);
+    };
 
     useEffect(() => {
         setEditedProduct({ ...product });
@@ -55,6 +62,7 @@ function ProductRow(props) {
         message: "",
         type: "success",
     });
+    
     const getAllCategories = async () => {
         try {
             const response = await withLoading(CategoryRequest.getAllCategories());
@@ -178,6 +186,21 @@ function ProductRow(props) {
             });
     };
 
+    const handleConfirmDelete = async () => {
+        try {
+            await ProductRequest.deleteAProduct(product.id);
+            onDelete(product.id);
+            showToaster("Product deleted successfully", "success");
+            setDeleteModalOpen(false);
+        } catch (error) {
+            showToaster(
+                error.response?.data?.error || "Failed to delete product",
+                "error"
+            );
+            setDeleteModalOpen(false);
+        }
+    };
+
 
     return (
         <React.Fragment>
@@ -215,7 +238,7 @@ function ProductRow(props) {
                         variant="contained"
                         color="error"
                         size="small"
-                        onClick={handleDelete}
+                        onClick={handleDeleteClick}
                         sx={{ mr: 1 }}
                     >
                         Delete
@@ -334,6 +357,28 @@ function ProductRow(props) {
                     <Button onClick={() => setEditOpen(false)}>Cancel</Button>
                     <Button onClick={handleEditSubmit} color="primary" variant="contained">
                         Save Changes
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
+            <Dialog open={deleteModalOpen} onClose={() => setDeleteModalOpen(false)}>
+                <DialogTitle>Confirm Delete</DialogTitle>
+                <DialogContent>
+                    <Typography variant="body1" sx={{ mt: 2 }}>
+                        Are you sure you want to delete the product "{product.name}"?
+                    </Typography>
+                    <Typography variant="body2" color="error" sx={{ mt: 1 }}>
+                        This action cannot be undone.
+                    </Typography>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setDeleteModalOpen(false)}>Cancel</Button>
+                    <Button
+                        onClick={handleConfirmDelete}
+                        color="error"
+                        variant="contained"
+                    >
+                        Delete
                     </Button>
                 </DialogActions>
             </Dialog>

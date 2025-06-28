@@ -37,6 +37,13 @@ function DailyMenuItemRow(props) {
     const [editOpen, setEditOpen] = React.useState(false);
     const [editedItem, setEditedItem] = React.useState({ ...dailyMenuItem });
     const [categories, setCategories] = useState([]);
+    // Add this state variable at the top of DailyMenuItemRow
+    const [deleteModalOpen, setDeleteModalOpen] = React.useState(false);
+
+    // Replace the existing handleDelete function with this:
+    const handleDeleteClick = () => {
+        setDeleteModalOpen(true);
+    };
 
     const [toaster, setToaster] = React.useState({
         open: false,
@@ -48,6 +55,10 @@ function DailyMenuItemRow(props) {
         setEditedItem({ ...dailyMenuItem });
     }, [dailyMenuItem]);
 
+    useEffect(() => {
+        getAllCategories();
+    }, [])
+
     const handleCloseToaster = () => {
         setToaster(prev => ({ ...prev, open: false }));
     };
@@ -56,30 +67,60 @@ function DailyMenuItemRow(props) {
         setToaster({ open: true, message, type });
     };
 
-    const handleDelete = async () => {
-        try {
-            await DailyMenuItemRequest.deleteADailyMenuItem(dailyMenuItem.id);
-            onDelete(dailyMenuItem.id);
-            showToaster("Menu item deleted successfully", "success");
-        } catch (error) {
-            showToaster(
-                error.response?.data?.error || "Failed to delete item",
-                "error"
-            );
-        }
-    };
+    // const handleDelete = async () => {
+    //     try {
+    //         await DailyMenuItemRequest.deleteADailyMenuItem(dailyMenuItem.id);
+    //         onDelete(dailyMenuItem.id);
+    //         showToaster("Menu item deleted successfully", "success");
+    //     } catch (error) {
+    //         showToaster(
+    //             error.response?.data?.error || "Failed to delete item",
+    //             "error"
+    //         );
+    //     }
+    // };
 
     const handleEditClick = () => {
         setEditedItem({ ...dailyMenuItem });
         setEditOpen(true);
     };
 
+    //     try {
+    //         const updatedItem = await DailyMenuItemRequest.updateADailyMenuItem(
+    //             dailyMenuItem.id,
+    //             editedItem
+    //         );
+    //         if (editedItem.category_id) {
+    //             formData.append('category_id', editedItem.category_id);
+    //         }
+    //         onUpdate(updatedItem.data);
+    //         console.log("Updated Item:", updatedItem.data);
+    //         setEditOpen(false);
+    //         showToaster("Menu item updated successfully", "success");
+    //     } catch (error) {
+    //         showToaster(
+    //             error.response?.data?.error || "Failed to update item",
+    //             "error"
+    //         );
+    //     }
+    // };
+
     const handleEditSubmit = async () => {
         try {
+            // Prepare the payload, mapping category to category_id if needed
+            const payload = {
+                ...editedItem,
+                category_id: editedItem.category || editedItem.category_id,
+            };
+
+            // Remove 'category' if present (to avoid confusion in backend)
+            delete payload.category;
+
             const updatedItem = await DailyMenuItemRequest.updateADailyMenuItem(
                 dailyMenuItem.id,
-                editedItem
+                payload
             );
+
             onUpdate(updatedItem.data);
             console.log("Updated Item:", updatedItem.data);
             setEditOpen(false);
@@ -110,6 +151,21 @@ function DailyMenuItemRow(props) {
     const formatDate = (dateString) => {
         const date = new Date(dateString);
         return isNaN(date) ? 'N/A' : date.toLocaleDateString();
+    };
+
+    const handleConfirmDelete = async () => {
+        try {
+            await DailyMenuItemRequest.deleteADailyMenuItem(dailyMenuItem.id);
+            onDelete(dailyMenuItem.id);
+            showToaster("Menu item deleted successfully", "success");
+            setDeleteModalOpen(false);
+        } catch (error) {
+            showToaster(
+                error.response?.data?.error || "Failed to delete item",
+                "error"
+            );
+            setDeleteModalOpen(false);
+        }
     };
 
     return (
@@ -150,7 +206,7 @@ function DailyMenuItemRow(props) {
                         variant="contained"
                         color="error"
                         size="small"
-                        onClick={handleDelete}
+                        onClick={handleDeleteClick}
                         sx={{ mr: 1 }}
                     >
                         Delete
@@ -208,12 +264,12 @@ function DailyMenuItemRow(props) {
                         margin="dense"
                         label="Category"
                         fullWidth
-                        value={editedItem.category}
-                        onChange={(e) => handleFieldChange("category", e.target.value)}
+                        value={editedItem.category_id}
+                        onChange={(e) => handleFieldChange("category_id", e.target.value)}
                         sx={{ mt: 2 }}
                     >
                         {categories.map((category) => (
-                            <MenuItem key={category.id} value={category.id}>
+                            <MenuItem key={category} value={category.id}>
                                 {category.name}
                             </MenuItem>
                         ))}
@@ -241,6 +297,28 @@ function DailyMenuItemRow(props) {
                     <Button onClick={() => setEditOpen(false)}>Cancel</Button>
                     <Button onClick={handleEditSubmit} color="primary" variant="contained">
                         Save Changes
+                    </Button>
+                </DialogActions>
+            </Dialog>
+
+            <Dialog open={deleteModalOpen} onClose={() => setDeleteModalOpen(false)}>
+                <DialogTitle>Confirm Delete</DialogTitle>
+                <DialogContent>
+                    <Typography variant="body1" sx={{ mt: 2 }}>
+                        Are you sure you want to delete "{dailyMenuItem.name}"?
+                    </Typography>
+                    <Typography variant="body2" color="error" sx={{ mt: 1 }}>
+                        This will permanently remove this menu item.
+                    </Typography>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setDeleteModalOpen(false)}>Cancel</Button>
+                    <Button
+                        onClick={handleConfirmDelete}
+                        color="error"
+                        variant="contained"
+                    >
+                        Delete
                     </Button>
                 </DialogActions>
             </Dialog>

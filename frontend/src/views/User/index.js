@@ -14,6 +14,7 @@ import Fab from "@mui/material/Fab";
 import AddIcon from "@mui/icons-material/Add";
 import { styled } from "@mui/material/styles";
 import Toaster from "../../components/Toaster/Toaster";
+import { Button, Dialog, DialogTitle, DialogContent, Typography, DialogActions } from "@mui/material";
 
 const FloatingButton = styled(Fab)({
   position: "fixed",
@@ -297,7 +298,7 @@ const User = () => {
             </div>
           )}
 
-          {deleteConfirmModalOpen && (
+          {/* {deleteConfirmModalOpen && (
             <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
               <div className="bg-white p-8 rounded-md shadow-lg w-full max-w-md">
                 <h2 className="text-2xl font-semibold mb-4 text-black">Confirm Delete</h2>
@@ -321,7 +322,29 @@ const User = () => {
                 </div>
               </div>
             </div>
-          )}
+          )} */}
+
+          <Dialog open={deleteConfirmModalOpen} onClose={() => setDeleteConfirmModalOpen(false)}>
+            <DialogTitle>Confirm Delete</DialogTitle>
+            <DialogContent>
+              <Typography variant="body1" sx={{ mt: 2 }}>
+                Are you sure you want to delete this user?
+              </Typography>
+              <Typography variant="body2" color="error" sx={{ mt: 1 }}>
+                This action cannot be undone.
+              </Typography>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={() => setDeleteConfirmModalOpen(false)}>Cancel</Button>
+              <Button
+                onClick={handleConfirmDelete}
+                color="error"
+                variant="contained"
+              >
+                Delete User
+              </Button>
+            </DialogActions>
+          </Dialog>
         </>
       )}
     </>
