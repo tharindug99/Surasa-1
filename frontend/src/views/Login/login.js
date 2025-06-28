@@ -7,11 +7,13 @@ import UserRequest from '../../services/Requests/User';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from "../../redux/actions";
 import Toaster from "../../components/Toaster/Toaster";
+import InternalServerError from 'views/Error/500';
 
 const Login = (props) => {
     const navigate = useNavigate();
     const [showToaster, setShowToaster] = useState(false);
     const [toasterMessage, setToasterMessage] = useState("");
+    const [serverError, setServerError] = useState(false);
     const [toasterType, setToasterType] = useState("error");
     const { title } = props;
     useDocumentTitle(title);
@@ -70,14 +72,25 @@ const Login = (props) => {
                 setToasterType("error");
                 setToasterMessage(message);
                 console.error(message);
+                console.error("status", message.response?.status)
+                console.log("hii")
             }
         } catch (error) {
+            if (error.response?.status >= 500) {
+                setServerError(true);
+            }
+
             setShowToaster(true);
             setToasterType("error");
             setToasterMessage(error.response?.data?.message || "An error occurred during login.");
             console.error('An error occurred:', error);
         }
     };
+
+    // Render 500 error page if server error occurred
+    if (serverError) {
+        return <InternalServerError />;
+    }
 
     return (
         <div className="flex min-h-screen bg-gray-100">
