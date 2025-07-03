@@ -9,15 +9,26 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 function Beverage() {
-  const [categoryOneItems, setCategoryOneItems] = useState([]);
+  const [categoryOneItems, setCategoryOneItems] = useState([{}]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getAllDailyMenuItems = async () => {
       try {
         const dailyMenuItems = await DailyMenuItemRequest.getAllDailyMenuItem();
+        const today = new Date().toISOString().slice(0, 10); // "YYYY-MM-DD"
         setCategoryOneItems(dailyMenuItems?.data || []);
-        console.log(dailyMenuItems);
+        console.log("Today's date", today)
+        console.log("All Daily Menuitems", dailyMenuItems);
+        (dailyMenuItems?.data || []).forEach(item => {
+          console.log("Item ID:", item.id, "Date:", item.date);
+        });
+        const todaysItems = (dailyMenuItems?.data || []).filter(
+          item => item.date === today
+        );
+        setCategoryOneItems(todaysItems);
+        console.log(categoryOneItems);
+        console.log("Today Items", todaysItems);
       } catch (error) {
         console.error("Error fetching daily menu items:", error);
       }
@@ -25,6 +36,7 @@ function Beverage() {
 
     getAllDailyMenuItems();
   }, []);
+
 
   const BeverageItems = categoryOneItems.filter(item => item.category_id === 2);
 
@@ -42,6 +54,7 @@ function Beverage() {
           1024: { slidesPerView: 3 },
           1280: { slidesPerView: 4 },
         }}
+        centerInsufficientSlides={true}
       >
         {BeverageItems.map((item) => (
           <SwiperSlide key={item.id}>
