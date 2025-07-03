@@ -505,14 +505,31 @@ const UserDetail = props => {
                   <Typography variant="h6" gutterBottom>
                     Write your review
                   </Typography>
-                  <TextareaAutosize
+                  {/* <TextareaAutosize
                     minRows={4}
                     placeholder="Share your experience..."
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
                     style={{ width: '100%', padding: '8px' }}
                     required
-                  />
+                  /> */}
+                  <div className="relative">
+                    <TextareaAutosize
+                      minRows={4}
+                      placeholder="Share your experience..."
+                      value={comment}
+                      onChange={(e) => {
+                        if (e.target.value.length <= 80) {
+                          setComment(e.target.value);
+                        }
+                      }}
+                      style={{ width: '100%', padding: '8px', paddingBottom: '28px' }}
+                      required
+                    />
+                    <div className="absolute bottom-2 right-2 text-xs text-gray-500">
+                      {comment.length}/80
+                    </div>
+                  </div>
                 </Box>
               </DialogContent>
               <DialogActions>
