@@ -8,17 +8,50 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
+import TableSortLabel from "@mui/material/TableSortLabel"; // Added for sorting
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward"; // Sort icon
 
 const columns = [
   { id: "name", label: "Name", minWidth: 170 },
   { id: "email", label: "Email", minWidth: 170 },
   { id: "message", label: "Message", minWidth: 200 },
-  { id: "created_at", label: "Created At", minWidth: 170, align: "right" },
+  {
+    id: "created_at",
+    label: "Created At",
+    minWidth: 170,
+    align: "right",
+    sortable: true // Mark this column as sortable
+  },
 ];
 
 export default function StickyHeadTable({ rows }) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [order, setOrder] = React.useState('desc'); // 'asc' or 'desc'
+  const [orderBy, setOrderBy] = React.useState('created_at'); // Column to sort
+
+  const handleRequestSort = (property) => {
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+  };
+
+  const sortedRows = React.useMemo(() => {
+    return [...rows].sort((a, b) => {
+      // Convert to Date objects for proper date comparison
+      const dateA = new Date(a.created_at);
+      const dateB = new Date(b.created_at);
+
+      if (orderBy === 'created_at') {
+        return order === 'asc'
+          ? dateA - dateB
+          : dateB - dateA;
+      }
+
+      // Default return if not sorting by date
+      return 0;
+    });
+  }, [rows, order, orderBy]);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -41,13 +74,24 @@ export default function StickyHeadTable({ rows }) {
                   align={column.align}
                   style={{ minWidth: column.minWidth }}
                 >
-                  {column.label}
+                  {column.sortable ? (
+                    <TableSortLabel
+                      active={orderBy === column.id}
+                      direction={orderBy === column.id ? order : 'asc'}
+                      onClick={() => handleRequestSort(column.id)}
+                      IconComponent={ArrowDownwardIcon}
+                    >
+                      {column.label}
+                    </TableSortLabel>
+                  ) : (
+                    column.label
+                  )}
                 </TableCell>
               ))}
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows
+            {sortedRows
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((row) => (
                 <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
@@ -67,7 +111,7 @@ export default function StickyHeadTable({ rows }) {
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
-        count={rows.length}
+        count={sortedRows.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

@@ -325,10 +325,10 @@ const UserDetail = props => {
                   User ID: {userData.id}
                 </Typography>
 
-                <StatusBadge status="Active" sx={{ mt: 2 }}>
+                {/* <StatusBadge status="Active" sx={{ mt: 2 }}>
                   <CheckCircle sx={{ fontSize: 16, mr: 0.5 }} />
                   Verified Account
-                </StatusBadge>
+                </StatusBadge> */}
               </Box>
             </SurasaPaper>
 
