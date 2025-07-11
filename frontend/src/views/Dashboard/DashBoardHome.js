@@ -27,13 +27,15 @@ function DashboardHome() {
   const [toasterType, setToasterType] = useState("error");
   const [categories, setCategories] = useState([]);
 
-  const [modalData, setModalData] = useState({
+  const initialModalData = {
     category_id: '',
     name: '',
     price: '',
     description: '',
     avatar: ''
-  });
+  };
+
+  const [modalData, setModalData] = useState(initialModalData);
 
 
   // Fetch functions
@@ -96,7 +98,11 @@ function DashboardHome() {
 
   // Modal Handlers
   const handleOpenModal = () => setIsModalOpen(true);
-  const handleCloseModal = () => setIsModalOpen(false);
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setModalData(initialModalData); // Reset fields
+    setSelectedImage(null);         // Reset image
+  };
 
   const handleAddproduct = async () => {
     try {
@@ -119,6 +125,8 @@ function DashboardHome() {
       setToasterType('success');
       setShowToaster(true);
       setIsModalOpen(false);
+      setModalData(initialModalData); // Reset fields after add
+      setSelectedImage(null)
     } catch (error) {
       let errorMsg = "Failed to add product. Please try again.";
       if (error.response && error.response.data) {
