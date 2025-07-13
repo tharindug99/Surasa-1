@@ -7,6 +7,7 @@ import { Navigation, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import LoadingScreen from "views/Loader/LoadingScreen";
 
 function Beverage() {
   const [categoryOneItems, setCategoryOneItems] = useState([{}]);
@@ -15,6 +16,7 @@ function Beverage() {
   useEffect(() => {
     const getAllDailyMenuItems = async () => {
       try {
+        setLoading(true);
         const dailyMenuItems = await DailyMenuItemRequest.getAllDailyMenuItem();
         const today = new Date().toISOString().slice(0, 10); // "YYYY-MM-DD"
         setCategoryOneItems(dailyMenuItems?.data || []);
@@ -27,8 +29,7 @@ function Beverage() {
           item => item.date === today
         );
         setCategoryOneItems(todaysItems);
-        console.log(categoryOneItems);
-        console.log("Today Items", todaysItems);
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching daily menu items:", error);
       }
@@ -42,6 +43,7 @@ function Beverage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
+      {loading && <LoadingScreen />}
       <Swiper
         modules={[Navigation, Pagination]}
         spaceBetween={20}

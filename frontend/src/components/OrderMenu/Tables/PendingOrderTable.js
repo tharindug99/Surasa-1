@@ -137,10 +137,10 @@ function OrderRow(props) {
                             </Table>
 
                             {/* Products Section */}
-                            <Typography variant="h6" gutterBottom component="div" sx={{ mt: 2, backgroundColor: "gray" }}>
+                            <Typography variant="h6" gutterBottom component="div" sx={{ mt: 2 }}>
                                 Products
                             </Typography>
-                            <Table size="small" aria-label="products" sx={{ backgroundColor: "gray", padding: '20%' }}>
+                            <Table size="small" aria-label="products" sx={{ padding: '20%' }}>
                                 <TableHead>
                                     <TableRow>
                                         <TableCell>Product ID</TableCell>

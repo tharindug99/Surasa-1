@@ -80,7 +80,7 @@ function Booking(props) {
 
       await BookingRequest.addABooking(bookingData);
 
-      setConfirmationMessage("Booking confirmed successfully!");
+      setConfirmationMessage("Booking Request sent successfully!");
       setToasterMessage("Your message has been sent successfully!");
       setToasterType("success");
       setShowToaster(true);

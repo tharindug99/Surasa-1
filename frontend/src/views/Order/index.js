@@ -92,7 +92,7 @@ const Order = props => {
 
   return (
     <>
-      {loading ? "Loading Orders..." : <h4>Orders</h4>}
+      {loading ? "Loading Orders..." : <h4> </h4>}
 
       <OrderStatistics
         orderCount={orderCount}

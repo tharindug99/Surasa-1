@@ -116,12 +116,7 @@ function Tabs() {
           {activeTab === "Food" && <Food />}
           {activeTab === "Beverages" && <Beverages />}
           <div className="flex justify-center mt-8">
-            {/* <button
-              onClick={handleOrderNowClick}
-              className="px-6 py-3 mb-20 bg-SurasaBrown text-white font-semibold rounded-lg shadow-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:ring-opacity-75"
-            >
-              Order Now !!
-            </button> */}
+
             <Button
               onClick={handleOrderNowClick}
               size="large"
